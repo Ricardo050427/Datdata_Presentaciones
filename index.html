@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presentaciones | Datdata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf9f6;
+            --card: #ffffff;
+            --border: rgba(136, 19, 55, 0.14);
+            --wine: #881337;
+            --wine-bright: #be123c;
+            --text: #1e1115;
+            --muted: #52525b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            background: linear-gradient(135deg, #fdf8f9 0%, #fbf9f6 45%, #f5ece4 100%);
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 56px 16px;
+        }
+
+        main { max-width: 860px; margin: 0 auto; }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 36px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.85rem;
+        }
+
+        .brand img { height: 32px; }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        h1 span { color: var(--wine); }
+
+        .lead {
+            margin: 14px 0 36px;
+            font-size: 1.1rem;
+            line-height: 1.55;
+            color: var(--muted);
+        }
+
+        .classes { display: grid; gap: 16px; }
+
+        .class-card {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 22px 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 4px 20px rgba(136, 19, 55, 0.05);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .class-card:hover { transform: translateY(-3px); border-color: rgba(136, 19, 55, 0.45); }
+
+        .num {
+            flex-shrink: 0;
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: var(--wine);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .class-card h2 { font-size: 1.2rem; font-weight: 800; }
+        .class-card p { margin-top: 4px; color: var(--muted); line-height: 1.45; }
+        .go { margin-left: auto; font-weight: 700; color: var(--wine); white-space: nowrap; }
+
+        .keys {
+            margin-top: 32px;
+            font-size: 0.95rem;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        kbd {
+            font-family: inherit;
+            font-weight: 700;
+            padding: 1px 7px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--card);
+            color: var(--text);
+        }
+
+        @media (max-width: 560px) {
+            .class-card { flex-wrap: wrap; }
+            .go { margin-left: 76px; }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="brand">
+            <img src="Clase_01_Conectar_IA_Datos_en_Vivo/logo.png" alt="Datdata" />
+            Inteligencia Artificial para Analistas de Datos
+        </div>
+
+        <h1>Presentaciones del <span>curso</span></h1>
+        <p class="lead">Las clases del curso de Datdata para construir dashboards de Power BI con agentes de IA.</p>
+
+        <div class="classes">
+            <a class="class-card" href="Clase_01_Conectar_IA_Datos_en_Vivo/">
+                <span class="num">01</span>
+                <div>
+                    <h2>Cómo conectar la IA con tus datos en vivo</h2>
+                    <p>Qué es un MCP, la instalación de la Metodología 2 y las primeras demos con la ferretería.</p>
+                </div>
+                <span class="go">Abrir →</span>
+            </a>
+            <a class="class-card" href="Clase_02_Modelado_DAX_con_IA/">
+                <span class="num">02</span>
+                <div>
+                    <h2>Modelado de datos y cálculos DAX con IA</h2>
+                    <p>Talleres para que la IA modele, cree y valide medidas, y tu primera skill.</p>
+                </div>
+                <span class="go">Abrir →</span>
+            </a>
+        </div>
+
+        <p class="keys">Dentro de cada presentación: <kbd>←</kbd> <kbd>→</kbd> para avanzar, <kbd>F</kbd> pantalla completa y <kbd>O</kbd> índice de diapositivas.</p>
+    </main>
+</body>
+
+</html>

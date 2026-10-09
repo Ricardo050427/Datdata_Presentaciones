@@ -692,7 +692,6 @@
 
         /* Simulador del handshake */
 
-
         /* Consultas en lenguaje natural */
 
         /* Auditoría */
@@ -1039,41 +1038,6 @@
         .pin.emerald { background: var(--accent-emerald); }
 
         /* Esquema estrella */
-        .star-grid {
-            display: grid;
-            grid-template-columns: 1fr 440px;
-            gap: 22px;
-            align-items: center;
-        }
-
-        .ticket-art {
-            width: 100%;
-            height: 372px;
-            display: block;
-        }
-
-        .rule-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .rule-card {
-            flex-direction: row;
-            align-items: flex-start;
-            gap: 14px;
-            padding: 12px 18px;
-        }
-
-        .rule-card h3 { font-size: 1.08rem; margin-bottom: 2px; }
-
-        .rule-card p {
-            font-size: 0.98rem;
-            line-height: 1.4;
-            color: var(--text-muted);
-        }
-
-        .rule-card.warn { border-color: var(--accent-danger-border); }
 
         .star-mini {
             width: 100%;
@@ -1100,13 +1064,6 @@
         }
 
         /* Taller 3: calendario */
-        .cal-card { padding: 16px 20px 18px; gap: 10px; }
-
-        .cal-art {
-            width: 100%;
-            height: 190px;
-            display: block;
-        }
 
         .req-list {
             list-style: none;
@@ -1125,12 +1082,6 @@
         }
 
         /* Anatomía de una medida */
-        .anatomy-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 22px;
-            align-items: center;
-        }
 
         .code-card {
             background: var(--code-box-bg);
@@ -1157,9 +1108,6 @@
         }
 
         .pin-space { width: 32px; flex-shrink: 0; }
-        .tk-name { color: #fbbf24; }
-        .tk-key { color: #c4b5fd; }
-        .tk-fn { color: #6ee7b7; }
 
         .anatomy-list {
             display: flex;
@@ -1343,6 +1291,161 @@
         .quiz-card .reveal-btn { margin-top: auto; }
         .quiz-card.revealed .reveal-btn { display: none; }
         .quiz-card.revealed .quiz-answer { display: block; margin-top: auto; }
+
+        /* Prompt, MCP y skill */
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .role-card { gap: 8px; padding: 20px 22px 22px; }
+
+        .role-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .role-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+        .role-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .role-card h3 { font-size: 1.5rem; }
+
+        .role-card p {
+            font-size: 1.05rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+            flex: 1;
+        }
+
+        .role-example {
+            margin-top: 6px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--wine-base);
+        }
+
+        /* Cómo pedirle DAX a la IA */
+        .ask-grid {
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .ask-col {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .ask-box {
+            padding: 14px 18px 16px;
+            border-radius: 16px;
+            border: 1px solid;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .ask-box.bad { background: var(--accent-danger-bg); border-color: var(--accent-danger-border); }
+        .ask-box.good { background: #ffffff; border-color: var(--accent-emerald-border); box-shadow: var(--card-shadow); }
+
+        .ask-label {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .ask-box.bad .ask-label { color: var(--accent-danger); }
+        .ask-box.good .ask-label { color: var(--accent-emerald); }
+        .ask-mark { margin-right: 8px; }
+
+        .ask-text {
+            font-family: var(--font-mono);
+            font-size: 1.08rem;
+            font-weight: 600;
+            line-height: 1.75;
+            color: var(--text-heading);
+        }
+
+        .ask-note {
+            font-size: 1rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+        }
+
+        .hl1, .hl2, .hl3, .hl4 {
+            padding: 2px 4px;
+            border-radius: 5px;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+        }
+
+        .hl1 { background: rgba(180, 83, 9, 0.16); }
+        .hl2 { background: rgba(109, 40, 217, 0.14); }
+        .hl3 { background: rgba(3, 105, 161, 0.14); }
+        .hl4 { background: rgba(4, 120, 87, 0.15); }
+
+        /* Qué es una skill */
+        .skill-grid {
+            display: grid;
+            grid-template-columns: 1fr 460px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .skill-file {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .skill-path {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--wine-base);
+        }
+
+        .skill-code { gap: 7px; padding: 18px 22px; }
+        .skill-code .code-line { gap: 12px; }
+        .skill-code .code-line code { font-size: 1.02rem; }
+        .skill-code .code-line .pin { min-width: 28px; height: 28px; font-size: 0.9rem; }
+        .skill-code .pin-space { width: 28px; }
+        .sk-dim { color: #a8a29e !important; }
+
+        .skill-side {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .skill-side .value-table td:nth-child(even) { font-size: 0.95rem; }
     </style>
 </head>
 
@@ -1358,7 +1461,7 @@
     <div class="cursor-spotlight" id="spotlight"></div>
 
     <!-- ===================================================================
-         DECK CONTAINER (14 DIAPOSITIVAS • TEORÍA BREVE Y 7 TALLERES)
+         DECK CONTAINER (15 DIAPOSITIVAS • IA + POWER BI Y 7 TALLERES)
          =================================================================== -->
     <main class="deck" id="deck">
 
@@ -1382,7 +1485,7 @@
                         <span class="badge purple" style="margin-bottom: 0.9rem;">Fase 1 • Cimientos analíticos</span>
                         <h1>Modelado de datos y <span class="wine-gradient">cálculos DAX con IA</span></h1>
                         <p class="slide-subtitle">
-                            Hoy construyes tú: dejarás el modelo de la Ferretería La Tuerca Floja limpio y con 10 medidas DAX validadas, sin escribir fórmulas a mano.
+                            Ya sabes Power BI. Hoy la IA trabaja contigo sobre la Ferretería La Tuerca Floja: modelo limpio, 10 medidas validadas y tu primera skill.
                         </p>
 
                         <div class="tag-group" style="margin-top: 1.4rem;">
@@ -1392,7 +1495,7 @@
                             </div>
                             <div class="tag-card">
                                 <span class="tag-indicator" style="background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></span>
-                                <span>Calendario listo</span>
+                                <span>Tu primera skill</span>
                             </div>
                             <div class="tag-card">
                                 <span class="tag-indicator" style="background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald);"></span>
@@ -1470,24 +1573,24 @@
                     <span class="header-brand-title">Agenda • Clase 02</span>
                 </div>
                 <div class="badge-group">
-                    <span class="slide-number">02 / 14</span>
+                    <span class="slide-number">02 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
                     <h2>Hoy <span class="wine-gradient">tú construyes</span></h2>
-                    <p class="slide-subtitle">Siete talleres: al final tendrás el modelo limpio y 10 medidas comprobadas.</p>
+                    <p class="slide-subtitle">Siete talleres: al final tendrás el modelo limpio, 10 medidas comprobadas y tu primera skill.</p>
                 </div>
 
                 <ol class="agenda">
                     <li><span class="agenda-num">0</span><strong>Prepara tu modelo</strong></li>
                     <li><span class="agenda-num">1</span><strong>La IA arma la estrella</strong></li>
                     <li><span class="agenda-num">2</span><strong>Corrige la auditoría</strong></li>
-                    <li><span class="agenda-num">3</span><strong>Calendario</strong></li>
-                    <li><span class="agenda-num">4</span><strong>5 medidas base</strong></li>
-                    <li><span class="agenda-num">5</span><strong>5 medidas de tiempo</strong></li>
-                    <li><span class="agenda-num">6</span><strong>Valida antes de confiar</strong></li>
+                    <li><span class="agenda-num">3</span><strong>5 medidas base</strong></li>
+                    <li><span class="agenda-num">4</span><strong>5 medidas de tiempo</strong></li>
+                    <li><span class="agenda-num">5</span><strong>Valida antes de confiar</strong></li>
+                    <li><span class="agenda-num">6</span><strong>Crea tu primera skill</strong></li>
                 </ol>
 
                 <div>
@@ -1525,7 +1628,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">03 / 14</span>
+                    <span class="slide-number">03 / 15</span>
                 </div>
             </header>
 
@@ -1568,95 +1671,53 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 04: [TEORÍA] EL ESQUEMA ESTRELLA
-             Un ticket de la ferretería: los números son hechos, las preguntas
-             quién, qué, dónde y cuándo son dimensiones.
+             SLIDE 04: [TEORÍA] PROMPT, MCP Y SKILL: QUIÉN HACE QUÉ
              =================================================================== -->
-        <section class="slide" data-slide="4" data-type="Teoría: Esquema estrella">
+        <section class="slide" data-slide="4" data-type="Teoría: Prompt, MCP y skill">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Teoría • Modelado dimensional</span>
+                    <span class="header-brand-title">Teoría • Cómo trabaja tu agente</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">04 / 14</span>
+                    <span class="slide-number">04 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>El esquema <span class="wine-gradient">estrella</span></h2>
-                    <p class="slide-subtitle">Cada ticket lo explica: los números son hechos; el quién, qué, dónde y cuándo son dimensiones.</p>
+                    <h2>Prompt, MCP y skill: <span class="wine-gradient">quién hace qué</span></h2>
+                    <p class="slide-subtitle">Ya sabes modelar en Power BI. Lo nuevo es repartir el trabajo entre estas tres piezas.</p>
                 </div>
 
-                <div class="star-grid">
-                    <svg class="ticket-art" viewBox="0 0 600 372" fill="none" aria-hidden="true">
-                        <!-- Ticket -->
-                        <path d="M190 6 H440 V346 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 l-6.25 12 l-6.25 -12 Z" fill="#ffffff" stroke="#e7d5da" stroke-width="2" />
-                        <!-- Resaltados -->
-                        <rect x="200" y="52" width="140" height="22" rx="5" fill="rgba(4, 120, 87, 0.13)" />
-                        <rect x="200" y="78" width="158" height="22" rx="5" fill="rgba(3, 105, 161, 0.13)" />
-                        <rect x="200" y="104" width="150" height="22" rx="5" fill="rgba(109, 40, 217, 0.13)" />
-                        <rect x="200" y="146" width="138" height="74" rx="6" fill="rgba(180, 83, 9, 0.12)" />
-                        <rect x="344" y="146" width="88" height="122" rx="6" fill="rgba(136, 19, 55, 0.12)" />
-                        <g font-family="var(--font-mono)" fill="#1e1115">
-                            <text x="315" y="36" text-anchor="middle" font-size="15" font-weight="800">LA TUERCA FLOJA</text>
-                            <text x="206" y="68" font-size="14" font-weight="600">Zapopan Bodega</text>
-                            <text x="206" y="94" font-size="14" font-weight="600">15/05/2025 · 09:42</text>
-                            <text x="206" y="120" font-size="14" font-weight="600">Ana Laura Medina</text>
-                            <line x1="206" y1="136" x2="424" y2="136" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 4" />
-                            <text x="206" y="162" font-size="14" font-weight="600">Martillo de uña</text>
-                            <text x="206" y="188" font-size="14" font-weight="600">Cemento 50 kg</text>
-                            <text x="206" y="214" font-size="14" font-weight="600">Cinta de aislar</text>
-                            <g font-weight="700" font-size="14">
-                                <text x="356" y="162" text-anchor="middle">2</text><text x="424" y="162" text-anchor="end">$438</text>
-                                <text x="356" y="188" text-anchor="middle">4</text><text x="424" y="188" text-anchor="end">$1,134</text>
-                                <text x="356" y="214" text-anchor="middle">1</text><text x="424" y="214" text-anchor="end">$22</text>
-                            </g>
-                            <line x1="206" y1="232" x2="424" y2="232" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="5 4" />
-                            <text x="206" y="260" font-size="15" font-weight="800">TOTAL</text>
-                            <text x="424" y="260" text-anchor="end" font-size="15" font-weight="800">$1,594</text>
-                            <text x="315" y="300" text-anchor="middle" font-size="14" font-weight="600" fill="#71717a">¡Gracias por su compra!</text>
-                        </g>
-                        <!-- Etiquetas: dimensiones (izquierda) -->
-                        <g font-family="var(--font-sans)" font-weight="800" font-size="15" text-anchor="end">
-                            <text x="170" y="68" fill="#047857">¿Dónde? · Sucursal</text>
-                            <text x="170" y="94" fill="#0369a1">¿Cuándo? · Calendario</text>
-                            <text x="170" y="120" fill="#6d28d9">¿Quién? · Cliente</text>
-                            <text x="170" y="188" fill="#b45309">¿Qué? · Producto</text>
-                        </g>
-                        <g stroke-width="2">
-                            <line x1="174" y1="63" x2="198" y2="63" stroke="#047857" /><line x1="174" y1="89" x2="198" y2="89" stroke="#0369a1" />
-                            <line x1="174" y1="115" x2="198" y2="115" stroke="#6d28d9" /><line x1="174" y1="183" x2="198" y2="183" stroke="#b45309" />
-                        </g>
-                        <text x="85" y="232" text-anchor="middle" font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#52525b">Dimensiones:</text>
-                        <text x="85" y="252" text-anchor="middle" font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#52525b">para filtrar</text>
-                        <!-- Etiqueta: hechos (derecha) -->
-                        <path d="M446 150 H460 V264 H446" stroke="#881337" stroke-width="2.5" />
-                        <text x="470" y="196" font-family="var(--font-sans)" font-size="15" font-weight="800" fill="#881337">Hechos</text>
-                        <text x="470" y="216" font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#52525b">cantidades e</text>
-                        <text x="470" y="236" font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#52525b">importes</text>
-                    </svg>
-
-                    <div class="rule-list">
-                        <div class="card rule-card">
-                            <span class="pin wine">H</span>
-                            <div><h3>Tabla de hechos</h3><p>Lo que pasó, con números que se suman. Muchas filas: <code>FactVentas</code> tiene 105,477.</p></div>
-                        </div>
-                        <div class="card rule-card">
-                            <span class="pin cyan">D</span>
-                            <div><h3>Tablas de dimensiones</h3><p>Lo que describe y filtra. Pocas filas: 8 sucursales, 96 productos.</p></div>
-                        </div>
-                        <div class="card rule-card">
-                            <span class="pin emerald">1→*</span>
-                            <div><h3>Relaciones uno a varios</h3><p>De la dimensión a los hechos, con el filtro en una sola dirección.</p></div>
-                        </div>
-                        <div class="card rule-card warn">
-                            <span class="pin danger">!</span>
-                            <div><h3>Evita las bidireccionales</h3><p>El filtro rebota entre tablas y los totales salen ambiguos o inflados.</p></div>
-                        </div>
+                <div class="roles-grid">
+                    <div class="card role-card">
+                        <span class="role-icon cyan"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></span>
+                        <span class="role-tag">El prompt</span>
+                        <h3>La orden</h3>
+                        <p>Lo que quieres ahora. Cambia en cada conversación.</p>
+                        <span class="role-example">«Crea la medida Ventas YTD»</span>
                     </div>
+                    <div class="card role-card">
+                        <span class="role-icon wine"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6" /><path d="M15 2v6" /><path d="M6 8h12v4a6 6 0 0 1-12 0z" /><path d="M12 18v4" /></svg></span>
+                        <span class="role-tag">El MCP</span>
+                        <h3>Las manos</h3>
+                        <p>Lo que le da acceso a tu modelo de Power BI para leerlo y cambiarlo.</p>
+                        <span class="role-example">measure_operations crea la medida</span>
+                    </div>
+                    <div class="card role-card">
+                        <span class="role-icon emerald"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /><path d="M9 7h7" /><path d="M9 11h5" /></svg></span>
+                        <span class="role-tag">La skill</span>
+                        <h3>El manual</h3>
+                        <p>Cómo se hacen las cosas en tu equipo. Se escribe una vez.</p>
+                        <span class="role-example">«Toda medida va en _Medidas y se valida»</span>
+                    </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Sin skill,</strong> repites tus reglas en cada prompt. <strong>Con skill,</strong> las escribes una vez y tu agente las aplica solo. Hoy terminas creando la tuya.</span>
                 </div>
             </div>
         </section>
@@ -1668,18 +1729,18 @@
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Taller 1 • Relaciones</span>
+                    <span class="header-brand-title">Taller 1 • Relaciones y calendario</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">05 / 14</span>
+                    <span class="slide-number">05 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
                     <h2>Taller 1 · La IA arma la <span class="wine-gradient">estrella</span></h2>
-                    <p class="slide-subtitle">Sin arrastrar flechas: la IA reconoce hechos y dimensiones y crea las relaciones.</p>
+                    <p class="slide-subtitle">Ya sabes qué es una estrella. Mira cómo la IA la deduce sola a partir de los datos.</p>
                 </div>
 
                 <div class="taller-grid">
@@ -1689,9 +1750,9 @@
                                 <span>Copia y pega en tu agente</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text">Revisa las tablas del modelo que tengo abierto: dime cuáles son de hechos y cuáles de dimensiones, y crea las relaciones de un esquema estrella, de uno a varios y en una sola dirección. Si una relación ya existe, revísala en lugar de duplicarla. Explícame cada relación antes de crearla.</p>
+                            <p class="prompt-copy-text">Revisa las tablas del modelo que tengo abierto: dime cuáles son de hechos y cuáles de dimensiones, y crea las relaciones de un esquema estrella, de uno a varios y en una sola dirección. Si una relación ya existe, revísala en lugar de duplicarla. Después marca DimCalendario como tabla de fechas y ordena sus meses y días por su número. Explícame cada cambio antes de hacerlo.</p>
                         </div>
-                        <p class="stuck"><strong>¿Te pide permiso varias veces?</strong> Es normal: aprueba cada relación después de leerla. Así aprendes qué une a cada tabla.</p>
+                        <p class="stuck"><strong>¿Te pide permiso varias veces?</strong> Es normal: aprueba cada cambio después de leerlo. Así aprendes qué une a cada tabla.</p>
                     </div>
 
                     <div class="check-card">
@@ -1715,7 +1776,7 @@
                                 </g>
                             </g>
                         </svg>
-                        <p class="check-note">Todas de uno a varios y en una sola dirección. <code>FactMetas</code> se une al calendario por <code>Fecha</code>: cada meta cae el día 1 del mes.</p>
+                        <p class="check-note">Todas de uno a varios y en una sola dirección, y <code>DimCalendario</code> marcada como tabla de fechas. <code>FactMetas</code> se une por <code>Fecha</code>: cada meta cae el día 1 del mes.</p>
                     </div>
                 </div>
             </div>
@@ -1733,7 +1794,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">06 / 14</span>
+                    <span class="slide-number">06 / 15</span>
                 </div>
             </header>
 
@@ -1771,151 +1832,72 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 07: [TALLER 3] EL CALENDARIO
+             SLIDE 07: [TEORÍA] CÓMO PEDIRLE DAX A LA IA
              =================================================================== -->
-        <section class="slide" data-slide="7" data-type="Taller 3: Calendario">
+        <section class="slide" data-slide="7" data-type="Teoría: Cómo pedirle DAX a la IA">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Taller 3 • Tabla de fechas</span>
-                </div>
-                <div class="badge-group">
-                    <span class="badge gold">Taller</span>
-                    <span class="slide-number">07 / 14</span>
-                </div>
-            </header>
-
-            <div class="slide-content">
-                <div>
-                    <h2>Taller 3 · Un calendario que <span class="wine-gradient">entiende de tiempo</span></h2>
-                    <p class="slide-subtitle">Para comparar contra el año pasado, Power BI necesita un calendario completo, marcado y ordenado.</p>
-                </div>
-
-                <div class="taller-grid">
-                    <div class="card cal-card">
-                        <svg class="cal-art" viewBox="0 0 560 196" fill="none" aria-hidden="true">
-                            <!-- Desordenado -->
-                            <text x="20" y="22" font-family="var(--font-sans)" font-size="15" font-weight="800" fill="#dc2626">Sin ordenar: alfabético</text>
-                            <g fill="#fca5a5">
-                                <rect x="24" y="78" width="30" height="62" rx="4" /><rect x="64" y="60" width="30" height="80" rx="4" /><rect x="104" y="90" width="30" height="50" rx="4" />
-                                <rect x="144" y="104" width="30" height="36" rx="4" /><rect x="184" y="96" width="30" height="44" rx="4" /><rect x="224" y="70" width="30" height="70" rx="4" />
-                            </g>
-                            <g font-family="var(--font-sans)" font-size="14" font-weight="700" fill="#52525b" text-anchor="middle">
-                                <text x="39" y="160">Abr</text><text x="79" y="160">Ago</text><text x="119" y="160">Dic</text><text x="159" y="160">Ene</text><text x="199" y="160">Feb</text><text x="239" y="160">Jul</text>
-                            </g>
-                            <circle cx="248" cy="30" r="13" fill="#dc2626" />
-                            <path d="M243 25 L253 35 M253 25 L243 35" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
-                            <!-- Ordenado -->
-                            <text x="300" y="22" font-family="var(--font-sans)" font-size="15" font-weight="800" fill="#047857">Ordenado por NumeroMes</text>
-                            <g fill="#881337">
-                                <rect x="304" y="104" width="30" height="36" rx="4" /><rect x="344" y="96" width="30" height="44" rx="4" /><rect x="384" y="84" width="30" height="56" rx="4" />
-                                <rect x="424" y="78" width="30" height="62" rx="4" /><rect x="464" y="60" width="30" height="80" rx="4" /><rect x="504" y="88" width="30" height="52" rx="4" />
-                            </g>
-                            <g font-family="var(--font-sans)" font-size="14" font-weight="700" fill="#52525b" text-anchor="middle">
-                                <text x="319" y="160">Ene</text><text x="359" y="160">Feb</text><text x="399" y="160">Mar</text><text x="439" y="160">Abr</text><text x="479" y="160">May</text><text x="519" y="160">Jun</text>
-                            </g>
-                            <circle cx="540" cy="30" r="13" fill="#047857" />
-                            <polyline points="534,30 538,35 546,25" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                            <line x1="280" y1="10" x2="280" y2="170" stroke="#e7d5da" stroke-width="2" stroke-dasharray="5 5" />
-                        </svg>
-                        <ul class="req-list">
-                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span>Un día por fila, sin huecos: 1,461 días de 2023 a 2026.</li>
-                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span>Marcado como tabla de fechas.</li>
-                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span>Meses y días ordenados por su número.</li>
-                        </ul>
-                    </div>
-
-                    <div class="taller-side">
-                        <div class="prompt-copy">
-                            <div class="prompt-copy-head">
-                                <span>Copia y pega en tu agente</span>
-                                <button class="copy-prompt-btn" type="button">Copiar</button>
-                            </div>
-                            <p class="prompt-copy-text">Prepara DimCalendario para inteligencia de tiempo: márcala como tabla de fechas y ordena Mes y MesCorto por NumeroMes, MesAño por AñoMes y DiaSemana por NumeroDiaSemana.</p>
-                        </div>
-                        <div class="check-card">
-                            <span class="check-title">Lo que debes ver</span>
-                            <p class="check-note">En una gráfica de ventas por <code>Mes</code>, el eje va de enero a diciembre.</p>
-                        </div>
-                        <p class="stuck"><strong>¿Tu modelo no trae calendario?</strong> Pide: «Crea una tabla DimCalendario con DAX de 2023 a 2026, con Año, Mes en español, NumeroMes y Trimestre».</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===================================================================
-             SLIDE 08: [TEORÍA] ANATOMÍA DE UNA BUENA MEDIDA
-             =================================================================== -->
-        <section class="slide" data-slide="8" data-type="Teoría: Anatomía de una medida">
-            <header class="slide-header">
-                <div class="header-brand">
-                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Teoría • DAX</span>
+                    <span class="header-brand-title">Teoría • Prompts para DAX</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">08 / 14</span>
+                    <span class="slide-number">07 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>Anatomía de una <span class="wine-gradient">buena medida</span></h2>
-                    <p class="slide-subtitle">No necesitas escribirla, pero sí leerla: así revisas lo que hace la IA.</p>
+                    <h2>Cómo pedirle <span class="wine-gradient">DAX</span> a la IA</h2>
+                    <p class="slide-subtitle">La IA escribe DAX muy bien. Lo que no sabe es dónde, cómo y para qué lo quieres.</p>
                 </div>
 
-                <div class="anatomy-grid">
-                    <div class="code-card">
-                        <div class="code-line"><span class="pin gold">1</span><code><span class="tk-name">Margen %</span> =</code></div>
-                        <div class="code-line"><span class="pin purple">2</span><code>    <span class="tk-key">VAR</span> Venta = [Ventas]</code></div>
-                        <div class="code-line"><span class="pin-space"></span><code>    <span class="tk-key">VAR</span> Costo = [Costo]</code></div>
-                        <div class="code-line"><span class="pin cyan">3</span><code><span class="tk-key">RETURN</span></code></div>
-                        <div class="code-line"><span class="pin emerald">4</span><code>    <span class="tk-fn">DIVIDE</span> ( Venta - Costo, Venta )</code></div>
+                <div class="ask-grid">
+                    <div class="ask-col">
+                        <div class="ask-box bad">
+                            <span class="ask-label"><span class="ask-mark">✕</span>Prompt vago</span>
+                            <p class="ask-text">Hazme una medida de margen</p>
+                            <p class="ask-note">La IA adivina el nombre, la tabla, el formato y si el margen va en pesos o en porcentaje.</p>
+                        </div>
+                        <div class="ask-box good">
+                            <span class="ask-label"><span class="ask-mark">✓</span>Prompt completo</span>
+                            <p class="ask-text"><span class="hl1">Crea la medida Margen % (margen entre ventas)</span> <span class="hl2">en _Medidas, carpeta Base,</span> <span class="hl3">con formato de porcentaje y un decimal,</span> <span class="hl4">y dime su valor para 2025.</span></p>
+                        </div>
                     </div>
 
                     <div class="anatomy-list">
-                        <div class="anatomy-item"><span class="pin gold">1</span><div><strong>Un nombre claro</strong><span>Es lo que verás en los visuales.</span></div></div>
-                        <div class="anatomy-item"><span class="pin purple">2</span><div><strong>VAR guarda un resultado</strong><span>Se calcula una vez y se reutiliza: más fácil de leer.</span></div></div>
-                        <div class="anatomy-item"><span class="pin cyan">3</span><div><strong>RETURN entrega el resultado</strong><span>Todo lo de arriba son pasos intermedios.</span></div></div>
-                        <div class="anatomy-item"><span class="pin emerald">4</span><div><strong>DIVIDE en lugar de «/»</strong><span>Si se divide entre cero, devuelve vacío en vez de un error.</span></div></div>
+                        <div class="anatomy-item"><span class="pin gold">1</span><div><strong>Qué medir y con qué</strong><span>La fórmula en palabras y las columnas que usa.</span></div></div>
+                        <div class="anatomy-item"><span class="pin purple">2</span><div><strong>Dónde guardarla</strong><span>La tabla y la carpeta: así no quedan medidas sueltas.</span></div></div>
+                        <div class="anatomy-item"><span class="pin cyan">3</span><div><strong>Con qué formato</strong><span>Moneda, porcentaje, decimales.</span></div></div>
+                        <div class="anatomy-item"><span class="pin emerald">4</span><div><strong>Cómo comprobarla</strong><span>Pide un valor que conozcas: si no cuadra, lo ves al momento.</span></div></div>
                     </div>
                 </div>
 
-                <div class="mcp-pieces">
-                    <div class="mcp-piece">
-                        <span class="mcp-piece-icon wine"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-4 3 3 5-6" /></svg></span>
-                        <div><strong>Medida, no columna</strong><span>Se calcula al momento, según los filtros del visual.</span></div>
-                    </div>
-                    <div class="mcp-piece">
-                        <span class="mcp-piece-icon cyan"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg></span>
-                        <div><strong>Tabla _Medidas</strong><span>Todas las medidas juntas y en carpetas.</span></div>
-                    </div>
-                    <div class="mcp-piece">
-                        <span class="mcp-piece-icon emerald"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M9 12h6" /></svg></span>
-                        <div><strong>COALESCE ( [Ventas], 0 )</strong><span>Muestra 0 en lugar de vacío en una tarjeta.</span></div>
-                    </div>
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
+                    <span><strong>Por dentro:</strong> la IA crea la medida con <code>measure_operations</code> y la prueba con <code>dax_query_operations</code>, las herramientas del MCP de la Clase 01.</span>
                 </div>
             </div>
         </section>
 
         <!-- ===================================================================
-             SLIDE 09: [TALLER 4] LAS 5 MEDIDAS BASE
+             SLIDE 08: [TALLER 3] LAS 5 MEDIDAS BASE
              =================================================================== -->
-        <section class="slide" data-slide="9" data-type="Taller 4: 5 medidas base">
+        <section class="slide" data-slide="8" data-type="Taller 3: 5 medidas base">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Taller 4 • Medidas base</span>
+                    <span class="header-brand-title">Taller 3 • Medidas base</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">09 / 14</span>
+                    <span class="slide-number">08 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>Taller 4 · Las 5 medidas <span class="wine-gradient">base</span></h2>
+                    <h2>Taller 3 · Las 5 medidas <span class="wine-gradient">base</span></h2>
                     <p class="slide-subtitle">Una sola instrucción crea la tabla _Medidas y las cinco medidas con su formato.</p>
                 </div>
 
@@ -1946,25 +1928,25 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 10: [TEORÍA] INTELIGENCIA DE TIEMPO
+             SLIDE 09: [TEORÍA] INTELIGENCIA DE TIEMPO CON IA
              Ventas mensuales reales de la ferretería, enero a septiembre.
              =================================================================== -->
-        <section class="slide" data-slide="10" data-type="Teoría: Inteligencia de tiempo">
+        <section class="slide" data-slide="9" data-type="Teoría: Tiempo y contexto">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Teoría • Time intelligence</span>
+                    <span class="header-brand-title">Teoría • Time intelligence con IA</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">10 / 14</span>
+                    <span class="slide-number">09 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>Inteligencia de <span class="wine-gradient">tiempo</span></h2>
-                    <p class="slide-subtitle">Casi toda pregunta de negocio es «contra algo»: el año pasado, la meta o lo que va del año.</p>
+                    <h2>Tiempo: lo que la IA <span class="wine-gradient">no sabe</span></h2>
+                    <p class="slide-subtitle">Domina SAMEPERIODLASTYEAR y TOTALYTD. Lo que no conoce es tu negocio: eso se lo das tú.</p>
                 </div>
 
                 <div class="time-grid">
@@ -2002,34 +1984,38 @@
                     </div>
 
                     <div class="def-list">
-                        <div class="def-item"><code>Ventas PY</code><span>Lo vendido en el mismo periodo del año pasado.</span></div>
-                        <div class="def-item"><code>YoY %</code><span>Cuánto creciste contra el año pasado.</span></div>
-                        <div class="def-item"><code>Ventas YTD</code><span>Lo acumulado del año hasta la fecha.</span></div>
-                        <div class="def-item"><code>Ventas MTD</code><span>Lo acumulado del mes hasta la fecha.</span></div>
-                        <div class="def-item"><code>Cumplimiento %</code><span>Ventas entre la meta de <code>FactMetas</code>.</span></div>
+                        <div class="def-item"><code>Hasta dónde llegan tus datos</code><span>2026 llega a septiembre: compáralo al mismo corte.</span></div>
+                        <div class="def-item"><code>Cómo son tus metas</code><span>Son mensuales y caen el día 1: no se comparan por día.</span></div>
+                        <div class="def-item"><code>Cuándo empieza tu año</code><span>Si tu año fiscal no empieza en enero, díselo.</span></div>
+                        <div class="def-item"><code>Qué es «el año pasado»</code><span>¿El mismo periodo o el año completo? Lo decides tú.</span></div>
                     </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Prueba:</strong> en el taller 4 no le daremos este contexto a propósito. En el taller 5 verás qué pasa.</span>
                 </div>
             </div>
         </section>
 
         <!-- ===================================================================
-             SLIDE 11: [TALLER 5] LAS 5 MEDIDAS DE TIEMPO
+             SLIDE 10: [TALLER 4] LAS 5 MEDIDAS DE TIEMPO
              =================================================================== -->
-        <section class="slide" data-slide="11" data-type="Taller 5: 5 medidas de tiempo">
+        <section class="slide" data-slide="10" data-type="Taller 4: 5 medidas de tiempo">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Taller 5 • Medidas de tiempo</span>
+                    <span class="header-brand-title">Taller 4 • Medidas de tiempo</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">11 / 14</span>
+                    <span class="slide-number">10 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>Taller 5 · Las 5 medidas de <span class="wine-gradient">tiempo</span></h2>
+                    <h2>Taller 4 · Las 5 medidas de <span class="wine-gradient">tiempo</span></h2>
                     <p class="slide-subtitle">Con estas cinco ya tienes las 10 medidas de la clase.</p>
                 </div>
 
@@ -2060,25 +2046,25 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 12: [TALLER 6] VALIDA ANTES DE CONFIAR
+             SLIDE 11: [TALLER 5] VALIDA ANTES DE CONFIAR
              2026 tiene datos solo hasta septiembre: YoY y cumplimiento salen mal
              si se comparan contra el año completo.
              =================================================================== -->
-        <section class="slide" data-slide="12" data-type="Taller 6: Valida antes de confiar">
+        <section class="slide" data-slide="11" data-type="Taller 5: Valida antes de confiar">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Taller 6 • Validación</span>
+                    <span class="header-brand-title">Taller 5 • Validación</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">12 / 14</span>
+                    <span class="slide-number">11 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>Taller 6 · <span class="wine-gradient">Valida</span> antes de confiar</h2>
+                    <h2>Taller 5 · <span class="wine-gradient">Valida</span> antes de confiar</h2>
                     <p class="slide-subtitle">La IA hace lo que le pides, no siempre lo que necesitas. Una tabla de control lo descubre.</p>
                 </div>
 
@@ -2116,7 +2102,7 @@
                                 </div>
                                 <p class="prompt-copy-text">Corrige YoY % y Cumplimiento meta % para que solo comparen hasta la última fecha con ventas, y vuelve a mostrarme la tabla.</p>
                             </div>
-                            <p class="check-note">2026 queda en <strong>+5.4 %</strong> y <strong>95.8 %</strong> de la meta.</p>
+                            <p class="check-note">2026 queda en <strong>+5.4 %</strong> y <strong>95.8 %</strong> de la meta. En el taller 6 guardarás esta lección en una skill.</p>
                         </div>
                     </div>
                 </div>
@@ -2124,10 +2110,124 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 13: [RETO] RESPONDE CON TUS MEDIDAS
+             SLIDE 12: [TEORÍA] QUÉ ES UNA SKILL
+             =================================================================== -->
+        <section class="slide" data-slide="12" data-type="Teoría: Qué es una skill">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Skills</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">12 / 15</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Qué es una <span class="wine-gradient">skill</span></h2>
+                    <p class="slide-subtitle">Un archivo de texto con tus reglas, que el agente lee cuando la tarea lo necesita.</p>
+                </div>
+
+                <div class="skill-grid">
+                    <div class="skill-file">
+                        <div class="skill-path">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
+                            medidas-ferreteria / SKILL.md
+                        </div>
+<div class="code-card skill-code">
+                            <div class="code-line"><span class="pin-space"></span><code class="sk-dim">---</code></div>
+                            <div class="code-line"><span class="pin gold">1</span><code>name: medidas-ferreteria</code></div>
+                            <div class="code-line"><span class="pin purple">2</span><code>description: Reglas para crear y validar</code></div>
+                            <div class="code-line"><span class="pin-space"></span><code>  medidas DAX de la ferretería.</code></div>
+                            <div class="code-line"><span class="pin-space"></span><code class="sk-dim">---</code></div>
+                            <div class="code-line"><span class="pin cyan">3</span><code>1. Cada medida va en _Medidas, por carpeta.</code></div>
+                            <div class="code-line"><span class="pin-space"></span><code>2. Moneda en pesos; porcentajes con 1 decimal.</code></div>
+                            <div class="code-line"><span class="pin-space"></span><code>3. Divide siempre con DIVIDE.</code></div>
+                            <div class="code-line"><span class="pin-space"></span><code>4. Tiempo: compara hasta la última venta.</code></div>
+                            <div class="code-line"><span class="pin-space"></span><code>5. Al terminar, muestra una tabla de control.</code></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-side">
+                        <div class="anatomy-list">
+                            <div class="anatomy-item"><span class="pin gold">1</span><div><strong>El nombre</strong><span>Una carpeta con ese nombre y un archivo SKILL.md dentro.</span></div></div>
+                            <div class="anatomy-item"><span class="pin purple">2</span><div><strong>La descripción</strong><span>Le dice al agente cuándo usarla. Es lo más importante.</span></div></div>
+                            <div class="anatomy-item"><span class="pin cyan">3</span><div><strong>Las instrucciones</strong><span>Tus reglas, en lenguaje normal. Sin código.</span></div></div>
+                        </div>
+                        <div class="check-card">
+                            <span class="check-title">Dónde vive · sirve en los tres</span>
+                            <table class="value-table">
+                                <tr><td>Claude Code</td><td>.claude\skills</td></tr>
+                                <tr><td>Codex</td><td>.codex\skills</td></tr>
+                                <tr><td>Antigravity</td><td>.gemini\config\skills</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 13: [TALLER 6] CREA TU PRIMERA SKILL
+             =================================================================== -->
+        <section class="slide" data-slide="13" data-type="Taller 6: Crea tu primera skill">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 6 • Skills</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">13 / 15</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 6 · Crea tu primera <span class="wine-gradient">skill</span></h2>
+                    <p class="slide-subtitle">Guarda lo que aprendiste hoy para que tu agente lo aplique sin que se lo pidas.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 1 · Crea la skill</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea una skill llamada medidas-ferreteria en tu carpeta de skills. Su descripción debe decir que se use al crear o modificar medidas DAX del modelo de la ferretería. Reglas: guarda cada medida en la tabla _Medidas, en una carpeta según su tipo; usa formato de moneda o de porcentaje con un decimal; divide siempre con DIVIDE; en inteligencia de tiempo compara solo hasta la última fecha con ventas; y al terminar muestra una tabla de control por año.</p>
+                        </div>
+                        <p class="stuck"><strong>Paso 2:</strong> cierra tu agente y ábrelo de nuevo, para que cargue la skill.</p>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 3 · Pruébala con un prompt corto</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea la medida Margen % YTD</p>
+                        </div>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <ul class="req-list">
+                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span><span>La carpeta <code>medidas-ferreteria</code> con su SKILL.md</span></li>
+                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span><span>La medida en <code>_Medidas</code>, con formato de porcentaje</span></li>
+                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span><span>Una tabla de control, sin pedírsela</span></li>
+                            <li><span class="li-icon good"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span><span>2025: 27.8 % · 2026: 27.3 %</span></li>
+                        </ul>
+                        <p class="check-note">¿No aplicó las reglas? Pregúntale «¿Qué skills tienes disponibles?» para confirmar que la cargó.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 14: [RETO] RESPONDE CON TUS MEDIDAS
              Opcional: se usa si sobra tiempo.
              =================================================================== -->
-        <section class="slide" data-slide="13" data-type="Reto: Responde con tus medidas">
+        <section class="slide" data-slide="14" data-type="Reto: Responde con tus medidas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2135,7 +2235,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge emerald">Reto</span>
-                    <span class="slide-number">13 / 14</span>
+                    <span class="slide-number">14 / 15</span>
                 </div>
             </header>
 
@@ -2174,9 +2274,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 14: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             SLIDE 15: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
              =================================================================== -->
-        <section class="slide" data-slide="14" data-type="Cierre: Preguntas">
+        <section class="slide" data-slide="15" data-type="Cierre: Preguntas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2184,7 +2284,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Cierre</span>
-                    <span class="slide-number">14 / 14</span>
+                    <span class="slide-number">15 / 15</span>
                 </div>
             </header>
 
@@ -2239,7 +2339,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <span class="nav-counter" id="navCounter">01 / 14</span>
+        <span class="nav-counter" id="navCounter">01 / 15</span>
 
         <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
