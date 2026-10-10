@@ -1032,6 +1032,142 @@
             flex-shrink: 0;
         }
 
+        /* Taller 0: tarjeta que gira entre CSV y Claude */
+        .datos-flip {
+            position: relative;
+            perspective: 3600px;
+        }
+
+        .datos-inner {
+            display: grid;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.25, 1);
+        }
+
+        .datos-flip.ia .datos-inner { transform: rotateY(180deg); }
+
+        .flip-face {
+            grid-area: 1 / 1;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* La entrada anima el contenedor: en las caras pisaría el giro */
+        .slide.active .flip-face { animation: none; }
+        .slide.active .datos-flip { animation: slideElemFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both; }
+
+        .flip-face.card:hover { transform: none; }
+        .flip-face.flip-back,
+        .flip-face.flip-back:hover { transform: rotateY(180deg); }
+
+        /* El título deja sitio al selector */
+        .flip-face h3 { padding-right: 290px; }
+
+        .modo-toggle {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            z-index: 5;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            padding: 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 2px 10px rgba(136, 19, 55, 0.08);
+        }
+
+        .modo-thumb {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: calc(50% - 4px);
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--wine-base), var(--wine-bright));
+            box-shadow: 0 4px 12px var(--wine-glow-strong);
+            transition: transform 0.55s cubic-bezier(0.65, 0, 0.25, 1);
+        }
+
+        .datos-flip.ia .modo-thumb { transform: translateX(100%); }
+
+        .modo-opt {
+            position: relative;
+            z-index: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border: none;
+            background: none;
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.4s ease;
+        }
+
+        .modo-opt.activo { color: #ffffff; }
+        .modo-opt:not(.activo):hover { color: var(--wine-base); }
+
+        .modo-opt svg {
+            width: 15px;
+            height: 15px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .modo-opt[data-modo="ia"] svg { fill: currentColor; stroke-width: 1.2; }
+
+        /* Destello suave del icono al activar Claude */
+        .datos-flip.ia .modo-opt[data-modo="ia"] svg { animation: destello 0.9s ease 0.35s; }
+
+        @keyframes destello {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(20deg); }
+        }
+
+        /* La cara CSV es más corta: reparte sus pasos en la altura de la tarjeta */
+        .flip-front .step-list { flex: 1; justify-content: space-evenly; }
+        .flip-back .step-list { gap: 9px; }
+        .flip-back .prompt-copy-text { font-size: 0.95rem; }
+
+        .link-copy {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px 8px 16px;
+            background: #ffffff;
+        }
+
+        .link-copy-label {
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .link-copy .prompt-copy-text {
+            flex: 1;
+            min-width: 0;
+            font-size: 0.9rem;
+            color: var(--wine-base);
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .link-copy .prompt-copy-text:hover { text-decoration: underline; }
+
         /* Pines numerados: también admiten texto corto como «1→*» */
         .pin { min-width: 32px; width: auto; padding: 0 7px; border-radius: 16px; }
         .pin.wine { background: var(--wine-base); }
@@ -1259,38 +1395,6 @@
         }
 
         .reveal-btn:hover { background: var(--wine-bright); }
-
-        /* Reto */
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            align-items: stretch;
-        }
-
-        .quiz-card {
-            gap: 12px;
-            padding: 18px 20px 20px;
-            min-height: 250px;
-        }
-
-        .quiz-card .pin { align-self: flex-start; }
-        .quiz-card h3 { font-size: 1.2rem; line-height: 1.3; }
-
-        .quiz-answer {
-            display: none;
-            font-size: 1.05rem;
-            line-height: 1.45;
-            color: var(--text-sub);
-            padding: 10px 14px;
-            background: var(--accent-emerald-bg);
-            border-radius: 12px;
-        }
-
-        .quiz-answer strong { color: var(--accent-emerald); }
-        .quiz-card .reveal-btn { margin-top: auto; }
-        .quiz-card.revealed .reveal-btn { display: none; }
-        .quiz-card.revealed .quiz-answer { display: block; margin-top: auto; }
 
         /* Prompt, MCP y skill */
         .roles-grid {
@@ -1550,39 +1654,6 @@
 
         .pms-feedback p strong { color: var(--accent-gold); }
         .pms-feedback .reveal-btn { flex-shrink: 0; align-self: center; }
-
-        /* Juego: ¿Confías en la IA? */
-        .game-grid {
-            display: grid;
-            grid-template-columns: 1fr 400px;
-            gap: 36px;
-            align-items: center;
-        }
-
-        .game-main {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .game-steps { margin-top: 18px; gap: 16px; }
-
-        .qr-card {
-            align-items: center;
-            gap: 14px;
-            padding: 24px;
-        }
-
-        .qr-card .qr { width: 300px; height: 300px; }
-
-        .game-link {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--wine-base);
-            text-decoration: none;
-        }
-
-        .game-link:hover { text-decoration: underline; }
     </style>
 </head>
 
@@ -1598,7 +1669,7 @@
     <div class="cursor-spotlight" id="spotlight"></div>
 
     <!-- ===================================================================
-         DECK CONTAINER (17 DIAPOSITIVAS • IA + POWER BI, 7 TALLERES Y 2 JUEGOS)
+         DECK CONTAINER (15 DIAPOSITIVAS • IA + POWER BI, 7 TALLERES Y 1 JUEGO)
          =================================================================== -->
     <main class="deck" id="deck">
 
@@ -1710,7 +1781,7 @@
                     <span class="header-brand-title">Agenda • Clase 02</span>
                 </div>
                 <div class="badge-group">
-                    <span class="slide-number">02 / 17</span>
+                    <span class="slide-number">02 / 15</span>
                 </div>
             </header>
 
@@ -1765,7 +1836,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">03 / 17</span>
+                    <span class="slide-number">03 / 15</span>
                 </div>
             </header>
 
@@ -1776,14 +1847,51 @@
                 </div>
 
                 <div class="taller-grid">
-                    <div class="card steps-card">
-                        <h3>Si todavía no tienes los datos</h3>
-                        <ol class="step-list">
-                            <li><span class="step-n">1</span><div><strong>Descarga el ZIP de la ferretería</strong><span>El enlace está en el chat de la clase. Descomprímelo.</span></div></li>
-                            <li><span class="step-n">2</span><div><strong>Carga los 6 CSV en Power BI Desktop</strong><span>Inicio → Obtener datos → Texto o CSV, uno por uno → Cargar.</span></div></li>
-                            <li><span class="step-n">3</span><div><strong>Guárdalo como proyecto .pbip</strong><span>Archivo → Guardar como → Proyecto de Power BI (.pbip).</span></div></li>
-                        </ol>
-                        <p class="stuck"><strong>Si Power BI crea relaciones solo al cargar,</strong> déjalas: en el taller 1 la IA las revisa.</p>
+                    <div class="datos-flip" id="datosFlip">
+                        <div class="modo-toggle" role="group" aria-label="Cómo cargar los datos">
+                            <span class="modo-thumb" aria-hidden="true"></span>
+                            <button type="button" class="modo-opt activo" data-modo="csv" aria-pressed="true">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>
+                                CSV
+                            </button>
+                            <button type="button" class="modo-opt" data-modo="ia" aria-pressed="false">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+                                Con Claude
+                            </button>
+                        </div>
+
+                        <div class="datos-inner">
+                            <div class="card steps-card flip-face flip-front">
+                                <h3>Si todavía no tienes los datos</h3>
+                                <ol class="step-list">
+                                    <li><span class="step-n">1</span><div><strong>Descarga el ZIP de la ferretería</strong><span>El enlace está en el chat de la clase. Descomprímelo.</span></div></li>
+                                    <li><span class="step-n">2</span><div><strong>Carga los 6 CSV en Power BI Desktop</strong><span>Inicio → Obtener datos → Texto o CSV, uno por uno → Cargar.</span></div></li>
+                                    <li><span class="step-n">3</span><div><strong>Guárdalo como proyecto .pbip</strong><span>Archivo → Guardar como → Proyecto de Power BI (.pbip).</span></div></li>
+                                </ol>
+                                <p class="stuck"><strong>Si Power BI crea relaciones solo al cargar,</strong> déjalas: en el taller 1 la IA las revisa.</p>
+                            </div>
+
+                            <div class="card steps-card flip-face flip-back" aria-hidden="true">
+                                <h3>Que Claude cargue los datos</h3>
+                                <ol class="step-list">
+                                    <li><span class="step-n">1</span><div><strong>Descarga la carpeta del dataset</strong><span>Con el enlace de abajo. Drive la baja en ZIP: descomprímela.</span></div></li>
+                                    <li><span class="step-n">2</span><div><strong>Copia la ruta de la carpeta</strong><span>Explorador → clic derecho en la carpeta → Copiar como ruta de acceso.</span></div></li>
+                                    <li><span class="step-n">3</span><div><strong>Abre Power BI Desktop en blanco y pega esto en Claude</strong><span>Cambia la ruta por la tuya. Al terminar, guarda como .pbip.</span></div></li>
+                                </ol>
+                                <div class="prompt-copy">
+                                    <div class="prompt-copy-head">
+                                        <span>Prompt para Claude</span>
+                                        <button class="copy-prompt-btn" type="button">Copiar</button>
+                                    </div>
+                                    <p class="prompt-copy-text">Conéctate al Power BI Desktop que tengo abierto e importa los 6 CSV de esta carpeta tal como lo haría Obtener datos → Texto o CSV: [pega aquí tu ruta]. No revises ni limpies los archivos y no crees relaciones ni medidas: solo impórtalos.</p>
+                                </div>
+                                <div class="prompt-copy link-copy">
+                                    <span class="link-copy-label">Dataset</span>
+                                    <a class="prompt-copy-text" href="https://drive.google.com/drive/folders/15zJIGVmnCqk6L_QSR-3AJDuo5A_fNFDo?usp=sharing" target="_blank" rel="noopener">https://drive.google.com/drive/folders/15zJIGVmnCqk6L_QSR-3AJDuo5A_fNFDo?usp=sharing</a>
+                                    <button class="copy-prompt-btn" type="button">Copiar</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="taller-side">
@@ -1818,7 +1926,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">04 / 17</span>
+                    <span class="slide-number">04 / 15</span>
                 </div>
             </header>
 
@@ -1871,7 +1979,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge emerald">Juego</span>
-                    <span class="slide-number">05 / 17</span>
+                    <span class="slide-number">05 / 15</span>
                 </div>
             </header>
 
@@ -1914,7 +2022,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">06 / 17</span>
+                    <span class="slide-number">06 / 15</span>
                 </div>
             </header>
 
@@ -1975,7 +2083,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">07 / 17</span>
+                    <span class="slide-number">07 / 15</span>
                 </div>
             </header>
 
@@ -2023,7 +2131,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">08 / 17</span>
+                    <span class="slide-number">08 / 15</span>
                 </div>
             </header>
 
@@ -2072,7 +2180,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">09 / 17</span>
+                    <span class="slide-number">09 / 15</span>
                 </div>
             </header>
 
@@ -2120,7 +2228,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">10 / 17</span>
+                    <span class="slide-number">10 / 15</span>
                 </div>
             </header>
 
@@ -2190,7 +2298,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">11 / 17</span>
+                    <span class="slide-number">11 / 15</span>
                 </div>
             </header>
 
@@ -2239,7 +2347,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">12 / 17</span>
+                    <span class="slide-number">12 / 15</span>
                 </div>
             </header>
 
@@ -2301,7 +2409,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">13 / 17</span>
+                    <span class="slide-number">13 / 15</span>
                 </div>
             </header>
 
@@ -2361,7 +2469,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">14 / 17</span>
+                    <span class="slide-number">14 / 15</span>
                 </div>
             </header>
 
@@ -2405,98 +2513,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 15: [JUEGO] ¿CONFÍAS EN LA IA?
-             Juego web en el celular de cada alumno (juego/index.html).
+             SLIDE 15: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
              =================================================================== -->
-        <section class="slide" data-slide="15" data-type="Juego: ¿Confías en la IA?">
-            <header class="slide-header">
-                <div class="header-brand">
-                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Juego • Desde tu celular</span>
-                </div>
-                <div class="badge-group">
-                    <span class="badge emerald">Juego</span>
-                    <span class="slide-number">15 / 17</span>
-                </div>
-            </header>
-
-            <div class="slide-content">
-                <div class="game-grid">
-                    <div class="game-main">
-                        <h2>¿Confías en <span class="wine-gradient">la IA</span>?</h2>
-                        <p class="slide-subtitle">La IA le respondió al analista de la ferretería. Algunas respuestas son correctas; otras tienen una trampa como las de hoy.</p>
-                        <ol class="step-list game-steps">
-                            <li><span class="step-n">1</span><div><strong>Escanea el código</strong><span>Se abre en tu celular, sin instalar nada.</span></div></li>
-                            <li><span class="step-n">2</span><div><strong>Confía o sospecha</strong><span>Si sospechas, elige qué hizo mal la IA.</span></div></li>
-                            <li><span class="step-n">3</span><div><strong>Compara tu puntaje</strong><span>8 rondas con datos reales de la ferretería, hasta 16 puntos.</span></div></li>
-                        </ol>
-                    </div>
-
-                    <div class="card qr-card">
-                        <svg class="qr" viewBox="-2 -2 45 45" aria-label="Código QR del juego ¿Confías en la IA?" role="img">
-                            <rect x="-2" y="-2" width="45" height="45" fill="#ffffff" />
-                            <path fill="#1e1115" d="M0 0h7v1h-7zM8 0h1v1h-1zM10 0h3v1h-3zM15 0h4v1h-4zM23 0h1v1h-1zM25 0h2v1h-2zM32 0h1v1h-1zM34 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM14 1h1v1h-1zM18 1h2v1h-2zM21 1h2v1h-2zM25 1h2v1h-2zM29 1h1v1h-1zM31 1h2v1h-2zM34 1h1v1h-1zM40 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h1v1h-1zM16 2h1v1h-1zM20 2h1v1h-1zM22 2h2v1h-2zM25 2h3v1h-3zM31 2h1v1h-1zM34 2h1v1h-1zM36 2h3v1h-3zM40 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM10 3h1v1h-1zM12 3h4v1h-4zM18 3h3v1h-3zM23 3h2v1h-2zM26 3h1v1h-1zM29 3h2v1h-2zM32 3h1v1h-1zM34 3h1v1h-1zM36 3h3v1h-3zM40 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h2v1h-2zM11 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM19 4h1v1h-1zM21 4h1v1h-1zM27 4h5v1h-5zM34 4h1v1h-1zM36 4h3v1h-3zM40 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h2v1h-2zM12 5h1v1h-1zM14 5h1v1h-1zM17 5h2v1h-2zM20 5h1v1h-1zM23 5h1v1h-1zM26 5h1v1h-1zM30 5h1v1h-1zM34 5h1v1h-1zM40 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h7v1h-7zM10 7h6v1h-6zM19 7h2v1h-2zM25 7h4v1h-4zM30 7h2v1h-2zM0 8h1v1h-1zM3 8h8v1h-8zM12 8h1v1h-1zM14 8h4v1h-4zM22 8h1v1h-1zM26 8h1v1h-1zM28 8h2v1h-2zM31 8h3v1h-3zM36 8h1v1h-1zM38 8h3v1h-3zM3 9h3v1h-3zM7 9h1v1h-1zM9 9h1v1h-1zM13 9h2v1h-2zM16 9h2v1h-2zM19 9h1v1h-1zM21 9h1v1h-1zM23 9h2v1h-2zM26 9h2v1h-2zM30 9h2v1h-2zM33 9h1v1h-1zM35 9h2v1h-2zM40 9h1v1h-1zM4 10h4v1h-4zM9 10h4v1h-4zM14 10h1v1h-1zM22 10h3v1h-3zM26 10h2v1h-2zM29 10h1v1h-1zM33 10h2v1h-2zM36 10h1v1h-1zM38 10h1v1h-1zM7 11h1v1h-1zM9 11h1v1h-1zM12 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM19 11h2v1h-2zM22 11h3v1h-3zM27 11h6v1h-6zM35 11h3v1h-3zM39 11h1v1h-1zM0 12h1v1h-1zM2 12h2v1h-2zM5 12h2v1h-2zM10 12h1v1h-1zM12 12h1v1h-1zM19 12h2v1h-2zM23 12h1v1h-1zM27 12h2v1h-2zM32 12h1v1h-1zM34 12h2v1h-2zM2 13h2v1h-2zM9 13h3v1h-3zM13 13h1v1h-1zM15 13h2v1h-2zM18 13h2v1h-2zM21 13h2v1h-2zM24 13h2v1h-2zM28 13h1v1h-1zM30 13h1v1h-1zM33 13h2v1h-2zM36 13h3v1h-3zM40 13h1v1h-1zM1 14h2v1h-2zM5 14h2v1h-2zM9 14h2v1h-2zM12 14h2v1h-2zM17 14h2v1h-2zM25 14h2v1h-2zM28 14h8v1h-8zM37 14h4v1h-4zM0 15h1v1h-1zM2 15h4v1h-4zM8 15h3v1h-3zM15 15h1v1h-1zM19 15h1v1h-1zM24 15h1v1h-1zM27 15h1v1h-1zM30 15h2v1h-2zM33 15h1v1h-1zM35 15h1v1h-1zM38 15h2v1h-2zM1 16h1v1h-1zM3 16h5v1h-5zM10 16h2v1h-2zM16 16h1v1h-1zM19 16h1v1h-1zM21 16h5v1h-5zM29 16h1v1h-1zM33 16h1v1h-1zM39 16h1v1h-1zM1 17h2v1h-2zM5 17h1v1h-1zM7 17h2v1h-2zM15 17h2v1h-2zM18 17h1v1h-1zM20 17h1v1h-1zM22 17h1v1h-1zM25 17h1v1h-1zM27 17h1v1h-1zM31 17h1v1h-1zM33 17h1v1h-1zM36 17h3v1h-3zM0 18h4v1h-4zM5 18h4v1h-4zM10 18h2v1h-2zM14 18h2v1h-2zM19 18h6v1h-6zM27 18h1v1h-1zM31 18h1v1h-1zM35 18h2v1h-2zM40 18h1v1h-1zM0 19h3v1h-3zM5 19h1v1h-1zM8 19h1v1h-1zM10 19h3v1h-3zM17 19h4v1h-4zM22 19h1v1h-1zM26 19h3v1h-3zM33 19h2v1h-2zM36 19h1v1h-1zM38 19h2v1h-2zM0 20h1v1h-1zM4 20h3v1h-3zM10 20h1v1h-1zM13 20h4v1h-4zM21 20h2v1h-2zM24 20h3v1h-3zM30 20h1v1h-1zM32 20h1v1h-1zM34 20h1v1h-1zM37 20h1v1h-1zM40 20h1v1h-1zM0 21h1v1h-1zM2 21h2v1h-2zM5 21h1v1h-1zM7 21h1v1h-1zM9 21h2v1h-2zM12 21h2v1h-2zM18 21h2v1h-2zM23 21h1v1h-1zM25 21h2v1h-2zM29 21h3v1h-3zM34 21h3v1h-3zM1 22h1v1h-1zM5 22h4v1h-4zM11 22h2v1h-2zM14 22h1v1h-1zM17 22h1v1h-1zM23 22h1v1h-1zM25 22h1v1h-1zM27 22h4v1h-4zM33 22h1v1h-1zM37 22h2v1h-2zM3 23h1v1h-1zM5 23h1v1h-1zM7 23h1v1h-1zM10 23h1v1h-1zM12 23h1v1h-1zM14 23h6v1h-6zM22 23h1v1h-1zM24 23h1v1h-1zM26 23h1v1h-1zM28 23h2v1h-2zM33 23h1v1h-1zM37 23h1v1h-1zM0 24h2v1h-2zM3 24h2v1h-2zM6 24h1v1h-1zM8 24h4v1h-4zM13 24h3v1h-3zM19 24h2v1h-2zM22 24h2v1h-2zM26 24h2v1h-2zM31 24h2v1h-2zM34 24h2v1h-2zM37 24h3v1h-3zM1 25h3v1h-3zM7 25h1v1h-1zM12 25h2v1h-2zM16 25h3v1h-3zM22 25h4v1h-4zM27 25h2v1h-2zM30 25h1v1h-1zM32 25h1v1h-1zM34 25h3v1h-3zM38 25h2v1h-2zM4 26h1v1h-1zM6 26h2v1h-2zM9 26h1v1h-1zM11 26h2v1h-2zM15 26h1v1h-1zM17 26h1v1h-1zM19 26h1v1h-1zM21 26h1v1h-1zM27 26h1v1h-1zM30 26h3v1h-3zM34 26h1v1h-1zM36 26h2v1h-2zM40 26h1v1h-1zM1 27h2v1h-2zM4 27h1v1h-1zM7 27h4v1h-4zM12 27h3v1h-3zM16 27h1v1h-1zM18 27h2v1h-2zM22 27h1v1h-1zM26 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM33 27h3v1h-3zM37 27h2v1h-2zM0 28h3v1h-3zM5 28h3v1h-3zM9 28h1v1h-1zM13 28h1v1h-1zM16 28h1v1h-1zM19 28h1v1h-1zM22 28h4v1h-4zM27 28h2v1h-2zM31 28h2v1h-2zM35 28h1v1h-1zM37 28h1v1h-1zM40 28h1v1h-1zM0 29h6v1h-6zM7 29h1v1h-1zM9 29h2v1h-2zM13 29h1v1h-1zM18 29h1v1h-1zM22 29h2v1h-2zM25 29h1v1h-1zM28 29h1v1h-1zM31 29h2v1h-2zM36 29h4v1h-4zM0 30h2v1h-2zM3 30h7v1h-7zM11 30h2v1h-2zM19 30h1v1h-1zM21 30h1v1h-1zM24 30h2v1h-2zM27 30h1v1h-1zM31 30h1v1h-1zM33 30h1v1h-1zM36 30h2v1h-2zM40 30h1v1h-1zM0 31h2v1h-2zM3 31h1v1h-1zM5 31h1v1h-1zM7 31h2v1h-2zM13 31h2v1h-2zM19 31h2v1h-2zM23 31h1v1h-1zM25 31h2v1h-2zM31 31h1v1h-1zM34 31h1v1h-1zM38 31h2v1h-2zM0 32h5v1h-5zM6 32h4v1h-4zM13 32h1v1h-1zM17 32h1v1h-1zM19 32h3v1h-3zM23 32h2v1h-2zM26 32h3v1h-3zM31 32h8v1h-8zM40 32h1v1h-1zM8 33h1v1h-1zM10 33h2v1h-2zM13 33h2v1h-2zM16 33h1v1h-1zM18 33h1v1h-1zM21 33h3v1h-3zM26 33h2v1h-2zM29 33h4v1h-4zM36 33h1v1h-1zM38 33h2v1h-2zM0 34h7v1h-7zM8 34h2v1h-2zM11 34h3v1h-3zM17 34h2v1h-2zM22 34h2v1h-2zM26 34h3v1h-3zM32 34h1v1h-1zM34 34h1v1h-1zM36 34h2v1h-2zM0 35h1v1h-1zM6 35h1v1h-1zM8 35h1v1h-1zM10 35h2v1h-2zM13 35h2v1h-2zM16 35h2v1h-2zM21 35h4v1h-4zM26 35h1v1h-1zM30 35h3v1h-3zM36 35h2v1h-2zM40 35h1v1h-1zM0 36h1v1h-1zM2 36h3v1h-3zM6 36h1v1h-1zM8 36h6v1h-6zM16 36h6v1h-6zM23 36h1v1h-1zM25 36h2v1h-2zM28 36h2v1h-2zM31 36h7v1h-7zM39 36h1v1h-1zM0 37h1v1h-1zM2 37h3v1h-3zM6 37h1v1h-1zM8 37h2v1h-2zM11 37h4v1h-4zM16 37h2v1h-2zM23 37h1v1h-1zM25 37h1v1h-1zM27 37h2v1h-2zM30 37h1v1h-1zM32 37h1v1h-1zM35 37h1v1h-1zM37 37h3v1h-3zM0 38h1v1h-1zM2 38h3v1h-3zM6 38h1v1h-1zM11 38h2v1h-2zM14 38h1v1h-1zM18 38h3v1h-3zM25 38h1v1h-1zM27 38h4v1h-4zM33 38h1v1h-1zM35 38h2v1h-2zM40 38h1v1h-1zM0 39h1v1h-1zM6 39h1v1h-1zM9 39h4v1h-4zM15 39h1v1h-1zM17 39h1v1h-1zM20 39h1v1h-1zM26 39h1v1h-1zM33 39h2v1h-2zM36 39h1v1h-1zM38 39h1v1h-1zM40 39h1v1h-1zM0 40h7v1h-7zM8 40h2v1h-2zM11 40h2v1h-2zM14 40h1v1h-1zM18 40h1v1h-1zM20 40h1v1h-1zM23 40h1v1h-1zM25 40h3v1h-3zM31 40h3v1h-3zM36 40h1v1h-1z" />
-                        </svg>
-                        <a class="game-link" href="juego/index.html" target="_blank" rel="noopener">Abrir el juego en esta computadora →</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===================================================================
-             SLIDE 16: [RETO] RESPONDE CON TUS MEDIDAS
-             Opcional: se usa si sobra tiempo.
-             =================================================================== -->
-        <section class="slide" data-slide="16" data-type="Reto: Responde con tus medidas">
-            <header class="slide-header">
-                <div class="header-brand">
-                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Reto • Preguntas de negocio</span>
-                </div>
-                <div class="badge-group">
-                    <span class="badge emerald">Reto</span>
-                    <span class="slide-number">16 / 17</span>
-                </div>
-            </header>
-
-            <div class="slide-content">
-                <div>
-                    <h2>Reto · Responde con tus <span class="wine-gradient">medidas</span></h2>
-                    <p class="slide-subtitle">Pregúntale a tu agente en lenguaje natural. Gana quien diga primero el número correcto.</p>
-                </div>
-
-                <div class="quiz-grid">
-                    <div class="card quiz-card" id="quiz1">
-                        <span class="pin gold">1</span>
-                        <h3>¿Qué sucursal va más lejos de su meta en 2026?</h3>
-                        <button class="reveal-btn" type="button" data-target="quiz1">Revelar</button>
-                        <p class="quiz-answer"><strong>Saltillo Centro:</strong> 91.2 % al corte, seguida muy de cerca por Zapopan Bodega (91.4 %).</p>
-                    </div>
-                    <div class="card quiz-card" id="quiz2">
-                        <span class="pin purple">2</span>
-                        <h3>¿Qué categoría deja el mayor Margen % en 2025?</h3>
-                        <button class="reveal-btn" type="button" data-target="quiz2">Revelar</button>
-                        <p class="quiz-answer"><strong>Tornillería y fijación:</strong> 49.5 %. La que más vende, Materiales de construcción, deja solo 15.4 %.</p>
-                    </div>
-                    <div class="card quiz-card" id="quiz3">
-                        <span class="pin cyan">3</span>
-                        <h3>¿Qué mes vendió más en 2025?</h3>
-                        <button class="reveal-btn" type="button" data-target="quiz3">Revelar</button>
-                        <p class="quiz-answer"><strong>Mayo:</strong> $3.77 millones, seguido de abril ($3.59 millones). La primavera es la temporada fuerte.</p>
-                    </div>
-                </div>
-
-                <div class="rule-callout">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" /><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" /><path d="M4 22h16" /><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22" /><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22" /><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z" /></svg>
-                    <span><strong>Entregable de portafolio:</strong> una captura de tu modelo estrella y otra de tu tabla de control con 2026 corregido.</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===================================================================
-             SLIDE 17: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
-             =================================================================== -->
-        <section class="slide" data-slide="17" data-type="Cierre: Preguntas">
+        <section class="slide" data-slide="15" data-type="Cierre: Preguntas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2504,7 +2523,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Cierre</span>
-                    <span class="slide-number">17 / 17</span>
+                    <span class="slide-number">15 / 15</span>
                 </div>
             </header>
 
@@ -2559,7 +2578,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <span class="nav-counter" id="navCounter">01 / 17</span>
+        <span class="nav-counter" id="navCounter">01 / 15</span>
 
         <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -2749,6 +2768,30 @@
         });
 
         // ===================================================================
+        // TALLER 0: CAMBIAR ENTRE CARGA CON CSV Y CARGA CON CLAUDE
+        // ===================================================================
+        const datosFlip = document.getElementById('datosFlip');
+        if (datosFlip) {
+            const caras = { csv: datosFlip.querySelector('.flip-front'), ia: datosFlip.querySelector('.flip-back') };
+            caras.ia.inert = true;
+            datosFlip.querySelectorAll('.modo-opt').forEach((opt) => {
+                opt.addEventListener('click', () => {
+                    const modo = opt.dataset.modo;
+                    datosFlip.classList.toggle('ia', modo === 'ia');
+                    datosFlip.querySelectorAll('.modo-opt').forEach((o) => {
+                        const activo = o === opt;
+                        o.classList.toggle('activo', activo);
+                        o.setAttribute('aria-pressed', activo);
+                    });
+                    Object.entries(caras).forEach(([clave, cara]) => {
+                        cara.inert = clave !== modo;
+                        cara.setAttribute('aria-hidden', clave !== modo);
+                    });
+                });
+            });
+        }
+
+        // ===================================================================
         // TALLERES: COPIAR PROMPTS
         // ===================================================================
         document.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
@@ -2780,7 +2823,7 @@
         });
 
         // ===================================================================
-        // REVELAR RESPUESTAS (taller 6 y reto)
+        // REVELAR RESPUESTAS (talleres)
         // ===================================================================
         document.querySelectorAll('.reveal-btn[data-target]').forEach((btn) => {
             btn.addEventListener('click', () => {
