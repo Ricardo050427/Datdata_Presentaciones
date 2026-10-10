@@ -1446,6 +1446,143 @@
         }
 
         .skill-side .value-table td:nth-child(even) { font-size: 0.95rem; }
+
+        [hidden] { display: none !important; }
+
+        /* Juego: ¿Prompt, MCP o skill? */
+        .pms-game {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .pms-top {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dim);
+        }
+
+        .pms-top #pmsAciertos { color: var(--accent-emerald); }
+
+        .pms-card {
+            min-height: 132px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px 32px;
+            background: #ffffff;
+            border: 2px solid var(--card-border);
+            border-radius: 20px;
+            box-shadow: var(--card-shadow-hover);
+            text-align: center;
+        }
+
+        .pms-card p {
+            font-size: 1.85rem;
+            font-weight: 800;
+            line-height: 1.3;
+            color: var(--text-heading);
+            letter-spacing: -0.01em;
+        }
+
+        .pms-card.final p { color: var(--accent-emerald); }
+
+        .pms-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .pms-opt {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 14px 12px;
+            border-radius: 16px;
+            border: 2px solid;
+            background: #ffffff;
+            cursor: pointer;
+            transition: transform 0.15s ease, background 0.15s ease, opacity 0.2s ease;
+        }
+
+        .pms-opt strong { font-size: 1.4rem; }
+        .pms-opt span:not(.pms-k) { font-size: 0.95rem; font-weight: 600; color: var(--text-muted); }
+
+        .pms-k {
+            position: absolute;
+            top: 10px;
+            left: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--text-dim);
+        }
+
+        .pms-opt.cyan { border-color: var(--accent-cyan-border); color: var(--accent-cyan); }
+        .pms-opt.wine { border-color: rgba(136, 19, 55, 0.35); color: var(--wine-base); }
+        .pms-opt.emerald { border-color: var(--accent-emerald-border); color: var(--accent-emerald); }
+        .pms-opt:hover:not(:disabled) { transform: translateY(-3px); background: var(--wine-soft); }
+        .pms-opt:disabled { cursor: default; opacity: 0.4; }
+        .pms-opt.correcta { opacity: 1; background: var(--accent-emerald-bg); border-color: var(--accent-emerald); box-shadow: 0 0 0 3px var(--accent-emerald-border); }
+        .pms-opt.fallida { opacity: 1; background: var(--accent-danger-bg); border-color: var(--accent-danger); }
+
+        .pms-feedback {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: var(--accent-gold-bg);
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .pms-feedback p {
+            flex: 1;
+            font-size: 1.05rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .pms-feedback p strong { color: var(--accent-gold); }
+        .pms-feedback .reveal-btn { flex-shrink: 0; align-self: center; }
+
+        /* Juego: ¿Confías en la IA? */
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .game-main {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .game-steps { margin-top: 18px; gap: 16px; }
+
+        .qr-card {
+            align-items: center;
+            gap: 14px;
+            padding: 24px;
+        }
+
+        .qr-card .qr { width: 300px; height: 300px; }
+
+        .game-link {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--wine-base);
+            text-decoration: none;
+        }
+
+        .game-link:hover { text-decoration: underline; }
     </style>
 </head>
 
@@ -1461,7 +1598,7 @@
     <div class="cursor-spotlight" id="spotlight"></div>
 
     <!-- ===================================================================
-         DECK CONTAINER (15 DIAPOSITIVAS • IA + POWER BI Y 7 TALLERES)
+         DECK CONTAINER (17 DIAPOSITIVAS • IA + POWER BI, 7 TALLERES Y 2 JUEGOS)
          =================================================================== -->
     <main class="deck" id="deck">
 
@@ -1573,7 +1710,7 @@
                     <span class="header-brand-title">Agenda • Clase 02</span>
                 </div>
                 <div class="badge-group">
-                    <span class="slide-number">02 / 15</span>
+                    <span class="slide-number">02 / 17</span>
                 </div>
             </header>
 
@@ -1628,7 +1765,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">03 / 15</span>
+                    <span class="slide-number">03 / 17</span>
                 </div>
             </header>
 
@@ -1681,7 +1818,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">04 / 15</span>
+                    <span class="slide-number">04 / 17</span>
                 </div>
             </header>
 
@@ -1723,9 +1860,53 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 05: [TALLER 1] LA IA ARMA LA ESTRELLA
+             SLIDE 05: [JUEGO] ¿PROMPT, MCP O SKILL?
+             Calentamiento en grupo: el profesor lee la frase y marca la respuesta.
              =================================================================== -->
-        <section class="slide" data-slide="5" data-type="Taller 1: La IA arma la estrella">
+        <section class="slide" data-slide="5" data-type="Juego: ¿Prompt, MCP o skill?">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Juego • Calentamiento</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge emerald">Juego</span>
+                    <span class="slide-number">05 / 17</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>¿Prompt, MCP o <span class="wine-gradient">skill</span>?</h2>
+                    <p class="slide-subtitle">Escribe tu respuesta en el chat.</p>
+                </div>
+
+                <div class="pms-game">
+                    <div class="pms-top">
+                        <span id="pmsContador">Frase 1 de 9</span>
+                        <span id="pmsAciertos">Aciertos del grupo: 0</span>
+                    </div>
+                    <div class="pms-card" id="pmsTarjeta">
+                        <p id="pmsFrase"></p>
+                    </div>
+                    <div class="pms-options" id="pmsOpciones">
+                        <button class="pms-opt cyan" type="button" data-pieza="prompt"><span class="pms-k">1</span><strong>Prompt</strong><span>La orden</span></button>
+                        <button class="pms-opt wine" type="button" data-pieza="mcp"><span class="pms-k">2</span><strong>MCP</strong><span>Las manos</span></button>
+                        <button class="pms-opt emerald" type="button" data-pieza="skill"><span class="pms-k">3</span><strong>Skill</strong><span>El manual</span></button>
+                    </div>
+                    <div class="pms-feedback" id="pmsRetro" hidden>
+                        <p id="pmsExplica"></p>
+                        <button class="reveal-btn" type="button" id="pmsSiguiente">Siguiente frase</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             SLIDE 06: [TALLER 1] LA IA ARMA LA ESTRELLA
+             =================================================================== -->
+        <section class="slide" data-slide="6" data-type="Taller 1: La IA arma la estrella">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -1733,7 +1914,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">05 / 15</span>
+                    <span class="slide-number">06 / 17</span>
                 </div>
             </header>
 
@@ -1783,10 +1964,10 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 06: [TALLER 2] CORRIGE LO QUE ENCONTRÓ LA AUDITORÍA
+             SLIDE 07: [TALLER 2] CORRIGE LO QUE ENCONTRÓ LA AUDITORÍA
              Los 4 hallazgos de la Clase 01 (diapositiva 9), resueltos.
              =================================================================== -->
-        <section class="slide" data-slide="6" data-type="Taller 2: Corrige la auditoría">
+        <section class="slide" data-slide="7" data-type="Taller 2: Corrige la auditoría">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -1794,7 +1975,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">06 / 15</span>
+                    <span class="slide-number">07 / 17</span>
                 </div>
             </header>
 
@@ -1832,9 +2013,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 07: [TEORÍA] CÓMO PEDIRLE DAX A LA IA
+             SLIDE 08: [TEORÍA] CÓMO PEDIRLE DAX A LA IA
              =================================================================== -->
-        <section class="slide" data-slide="7" data-type="Teoría: Cómo pedirle DAX a la IA">
+        <section class="slide" data-slide="8" data-type="Teoría: Cómo pedirle DAX a la IA">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -1842,7 +2023,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">07 / 15</span>
+                    <span class="slide-number">08 / 17</span>
                 </div>
             </header>
 
@@ -1881,9 +2062,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 08: [TALLER 3] LAS 5 MEDIDAS BASE
+             SLIDE 09: [TALLER 3] LAS 5 MEDIDAS BASE
              =================================================================== -->
-        <section class="slide" data-slide="8" data-type="Taller 3: 5 medidas base">
+        <section class="slide" data-slide="9" data-type="Taller 3: 5 medidas base">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -1891,7 +2072,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">08 / 15</span>
+                    <span class="slide-number">09 / 17</span>
                 </div>
             </header>
 
@@ -1928,10 +2109,10 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 09: [TEORÍA] INTELIGENCIA DE TIEMPO CON IA
+             SLIDE 10: [TEORÍA] INTELIGENCIA DE TIEMPO CON IA
              Ventas mensuales reales de la ferretería, enero a septiembre.
              =================================================================== -->
-        <section class="slide" data-slide="9" data-type="Teoría: Tiempo y contexto">
+        <section class="slide" data-slide="10" data-type="Teoría: Tiempo y contexto">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -1939,7 +2120,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">09 / 15</span>
+                    <span class="slide-number">10 / 17</span>
                 </div>
             </header>
 
@@ -1999,9 +2180,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 10: [TALLER 4] LAS 5 MEDIDAS DE TIEMPO
+             SLIDE 11: [TALLER 4] LAS 5 MEDIDAS DE TIEMPO
              =================================================================== -->
-        <section class="slide" data-slide="10" data-type="Taller 4: 5 medidas de tiempo">
+        <section class="slide" data-slide="11" data-type="Taller 4: 5 medidas de tiempo">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2009,7 +2190,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">10 / 15</span>
+                    <span class="slide-number">11 / 17</span>
                 </div>
             </header>
 
@@ -2046,11 +2227,11 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 11: [TALLER 5] VALIDA ANTES DE CONFIAR
+             SLIDE 12: [TALLER 5] VALIDA ANTES DE CONFIAR
              2026 tiene datos solo hasta septiembre: YoY y cumplimiento salen mal
              si se comparan contra el año completo.
              =================================================================== -->
-        <section class="slide" data-slide="11" data-type="Taller 5: Valida antes de confiar">
+        <section class="slide" data-slide="12" data-type="Taller 5: Valida antes de confiar">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2058,7 +2239,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">11 / 15</span>
+                    <span class="slide-number">12 / 17</span>
                 </div>
             </header>
 
@@ -2110,9 +2291,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 12: [TEORÍA] QUÉ ES UNA SKILL
+             SLIDE 13: [TEORÍA] QUÉ ES UNA SKILL
              =================================================================== -->
-        <section class="slide" data-slide="12" data-type="Teoría: Qué es una skill">
+        <section class="slide" data-slide="13" data-type="Teoría: Qué es una skill">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2120,7 +2301,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">12 / 15</span>
+                    <span class="slide-number">13 / 17</span>
                 </div>
             </header>
 
@@ -2170,9 +2351,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 13: [TALLER 6] CREA TU PRIMERA SKILL
+             SLIDE 14: [TALLER 6] CREA TU PRIMERA SKILL
              =================================================================== -->
-        <section class="slide" data-slide="13" data-type="Taller 6: Crea tu primera skill">
+        <section class="slide" data-slide="14" data-type="Taller 6: Crea tu primera skill">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2180,7 +2361,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">13 / 15</span>
+                    <span class="slide-number">14 / 17</span>
                 </div>
             </header>
 
@@ -2224,10 +2405,49 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 14: [RETO] RESPONDE CON TUS MEDIDAS
+             SLIDE 15: [JUEGO] ¿CONFÍAS EN LA IA?
+             Juego web en el celular de cada alumno (juego/index.html).
+             =================================================================== -->
+        <section class="slide" data-slide="15" data-type="Juego: ¿Confías en la IA?">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Juego • Desde tu celular</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge emerald">Juego</span>
+                    <span class="slide-number">15 / 17</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="game-grid">
+                    <div class="game-main">
+                        <h2>¿Confías en <span class="wine-gradient">la IA</span>?</h2>
+                        <p class="slide-subtitle">La IA le respondió al analista de la ferretería. Algunas respuestas son correctas; otras tienen una trampa como las de hoy.</p>
+                        <ol class="step-list game-steps">
+                            <li><span class="step-n">1</span><div><strong>Escanea el código</strong><span>Se abre en tu celular, sin instalar nada.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Confía o sospecha</strong><span>Si sospechas, elige qué hizo mal la IA.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Compara tu puntaje</strong><span>8 rondas con datos reales de la ferretería, hasta 16 puntos.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="card qr-card">
+                        <svg class="qr" viewBox="-2 -2 45 45" aria-label="Código QR del juego ¿Confías en la IA?" role="img">
+                            <rect x="-2" y="-2" width="45" height="45" fill="#ffffff" />
+                            <path fill="#1e1115" d="M0 0h7v1h-7zM8 0h1v1h-1zM10 0h3v1h-3zM15 0h4v1h-4zM23 0h1v1h-1zM25 0h2v1h-2zM32 0h1v1h-1zM34 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM8 1h1v1h-1zM14 1h1v1h-1zM18 1h2v1h-2zM21 1h2v1h-2zM25 1h2v1h-2zM29 1h1v1h-1zM31 1h2v1h-2zM34 1h1v1h-1zM40 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h1v1h-1zM16 2h1v1h-1zM20 2h1v1h-1zM22 2h2v1h-2zM25 2h3v1h-3zM31 2h1v1h-1zM34 2h1v1h-1zM36 2h3v1h-3zM40 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM10 3h1v1h-1zM12 3h4v1h-4zM18 3h3v1h-3zM23 3h2v1h-2zM26 3h1v1h-1zM29 3h2v1h-2zM32 3h1v1h-1zM34 3h1v1h-1zM36 3h3v1h-3zM40 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h2v1h-2zM11 4h1v1h-1zM13 4h1v1h-1zM16 4h1v1h-1zM19 4h1v1h-1zM21 4h1v1h-1zM27 4h5v1h-5zM34 4h1v1h-1zM36 4h3v1h-3zM40 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM9 5h2v1h-2zM12 5h1v1h-1zM14 5h1v1h-1zM17 5h2v1h-2zM20 5h1v1h-1zM23 5h1v1h-1zM26 5h1v1h-1zM30 5h1v1h-1zM34 5h1v1h-1zM40 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h1v1h-1zM32 6h1v1h-1zM34 6h7v1h-7zM10 7h6v1h-6zM19 7h2v1h-2zM25 7h4v1h-4zM30 7h2v1h-2zM0 8h1v1h-1zM3 8h8v1h-8zM12 8h1v1h-1zM14 8h4v1h-4zM22 8h1v1h-1zM26 8h1v1h-1zM28 8h2v1h-2zM31 8h3v1h-3zM36 8h1v1h-1zM38 8h3v1h-3zM3 9h3v1h-3zM7 9h1v1h-1zM9 9h1v1h-1zM13 9h2v1h-2zM16 9h2v1h-2zM19 9h1v1h-1zM21 9h1v1h-1zM23 9h2v1h-2zM26 9h2v1h-2zM30 9h2v1h-2zM33 9h1v1h-1zM35 9h2v1h-2zM40 9h1v1h-1zM4 10h4v1h-4zM9 10h4v1h-4zM14 10h1v1h-1zM22 10h3v1h-3zM26 10h2v1h-2zM29 10h1v1h-1zM33 10h2v1h-2zM36 10h1v1h-1zM38 10h1v1h-1zM7 11h1v1h-1zM9 11h1v1h-1zM12 11h1v1h-1zM15 11h1v1h-1zM17 11h1v1h-1zM19 11h2v1h-2zM22 11h3v1h-3zM27 11h6v1h-6zM35 11h3v1h-3zM39 11h1v1h-1zM0 12h1v1h-1zM2 12h2v1h-2zM5 12h2v1h-2zM10 12h1v1h-1zM12 12h1v1h-1zM19 12h2v1h-2zM23 12h1v1h-1zM27 12h2v1h-2zM32 12h1v1h-1zM34 12h2v1h-2zM2 13h2v1h-2zM9 13h3v1h-3zM13 13h1v1h-1zM15 13h2v1h-2zM18 13h2v1h-2zM21 13h2v1h-2zM24 13h2v1h-2zM28 13h1v1h-1zM30 13h1v1h-1zM33 13h2v1h-2zM36 13h3v1h-3zM40 13h1v1h-1zM1 14h2v1h-2zM5 14h2v1h-2zM9 14h2v1h-2zM12 14h2v1h-2zM17 14h2v1h-2zM25 14h2v1h-2zM28 14h8v1h-8zM37 14h4v1h-4zM0 15h1v1h-1zM2 15h4v1h-4zM8 15h3v1h-3zM15 15h1v1h-1zM19 15h1v1h-1zM24 15h1v1h-1zM27 15h1v1h-1zM30 15h2v1h-2zM33 15h1v1h-1zM35 15h1v1h-1zM38 15h2v1h-2zM1 16h1v1h-1zM3 16h5v1h-5zM10 16h2v1h-2zM16 16h1v1h-1zM19 16h1v1h-1zM21 16h5v1h-5zM29 16h1v1h-1zM33 16h1v1h-1zM39 16h1v1h-1zM1 17h2v1h-2zM5 17h1v1h-1zM7 17h2v1h-2zM15 17h2v1h-2zM18 17h1v1h-1zM20 17h1v1h-1zM22 17h1v1h-1zM25 17h1v1h-1zM27 17h1v1h-1zM31 17h1v1h-1zM33 17h1v1h-1zM36 17h3v1h-3zM0 18h4v1h-4zM5 18h4v1h-4zM10 18h2v1h-2zM14 18h2v1h-2zM19 18h6v1h-6zM27 18h1v1h-1zM31 18h1v1h-1zM35 18h2v1h-2zM40 18h1v1h-1zM0 19h3v1h-3zM5 19h1v1h-1zM8 19h1v1h-1zM10 19h3v1h-3zM17 19h4v1h-4zM22 19h1v1h-1zM26 19h3v1h-3zM33 19h2v1h-2zM36 19h1v1h-1zM38 19h2v1h-2zM0 20h1v1h-1zM4 20h3v1h-3zM10 20h1v1h-1zM13 20h4v1h-4zM21 20h2v1h-2zM24 20h3v1h-3zM30 20h1v1h-1zM32 20h1v1h-1zM34 20h1v1h-1zM37 20h1v1h-1zM40 20h1v1h-1zM0 21h1v1h-1zM2 21h2v1h-2zM5 21h1v1h-1zM7 21h1v1h-1zM9 21h2v1h-2zM12 21h2v1h-2zM18 21h2v1h-2zM23 21h1v1h-1zM25 21h2v1h-2zM29 21h3v1h-3zM34 21h3v1h-3zM1 22h1v1h-1zM5 22h4v1h-4zM11 22h2v1h-2zM14 22h1v1h-1zM17 22h1v1h-1zM23 22h1v1h-1zM25 22h1v1h-1zM27 22h4v1h-4zM33 22h1v1h-1zM37 22h2v1h-2zM3 23h1v1h-1zM5 23h1v1h-1zM7 23h1v1h-1zM10 23h1v1h-1zM12 23h1v1h-1zM14 23h6v1h-6zM22 23h1v1h-1zM24 23h1v1h-1zM26 23h1v1h-1zM28 23h2v1h-2zM33 23h1v1h-1zM37 23h1v1h-1zM0 24h2v1h-2zM3 24h2v1h-2zM6 24h1v1h-1zM8 24h4v1h-4zM13 24h3v1h-3zM19 24h2v1h-2zM22 24h2v1h-2zM26 24h2v1h-2zM31 24h2v1h-2zM34 24h2v1h-2zM37 24h3v1h-3zM1 25h3v1h-3zM7 25h1v1h-1zM12 25h2v1h-2zM16 25h3v1h-3zM22 25h4v1h-4zM27 25h2v1h-2zM30 25h1v1h-1zM32 25h1v1h-1zM34 25h3v1h-3zM38 25h2v1h-2zM4 26h1v1h-1zM6 26h2v1h-2zM9 26h1v1h-1zM11 26h2v1h-2zM15 26h1v1h-1zM17 26h1v1h-1zM19 26h1v1h-1zM21 26h1v1h-1zM27 26h1v1h-1zM30 26h3v1h-3zM34 26h1v1h-1zM36 26h2v1h-2zM40 26h1v1h-1zM1 27h2v1h-2zM4 27h1v1h-1zM7 27h4v1h-4zM12 27h3v1h-3zM16 27h1v1h-1zM18 27h2v1h-2zM22 27h1v1h-1zM26 27h1v1h-1zM28 27h1v1h-1zM31 27h1v1h-1zM33 27h3v1h-3zM37 27h2v1h-2zM0 28h3v1h-3zM5 28h3v1h-3zM9 28h1v1h-1zM13 28h1v1h-1zM16 28h1v1h-1zM19 28h1v1h-1zM22 28h4v1h-4zM27 28h2v1h-2zM31 28h2v1h-2zM35 28h1v1h-1zM37 28h1v1h-1zM40 28h1v1h-1zM0 29h6v1h-6zM7 29h1v1h-1zM9 29h2v1h-2zM13 29h1v1h-1zM18 29h1v1h-1zM22 29h2v1h-2zM25 29h1v1h-1zM28 29h1v1h-1zM31 29h2v1h-2zM36 29h4v1h-4zM0 30h2v1h-2zM3 30h7v1h-7zM11 30h2v1h-2zM19 30h1v1h-1zM21 30h1v1h-1zM24 30h2v1h-2zM27 30h1v1h-1zM31 30h1v1h-1zM33 30h1v1h-1zM36 30h2v1h-2zM40 30h1v1h-1zM0 31h2v1h-2zM3 31h1v1h-1zM5 31h1v1h-1zM7 31h2v1h-2zM13 31h2v1h-2zM19 31h2v1h-2zM23 31h1v1h-1zM25 31h2v1h-2zM31 31h1v1h-1zM34 31h1v1h-1zM38 31h2v1h-2zM0 32h5v1h-5zM6 32h4v1h-4zM13 32h1v1h-1zM17 32h1v1h-1zM19 32h3v1h-3zM23 32h2v1h-2zM26 32h3v1h-3zM31 32h8v1h-8zM40 32h1v1h-1zM8 33h1v1h-1zM10 33h2v1h-2zM13 33h2v1h-2zM16 33h1v1h-1zM18 33h1v1h-1zM21 33h3v1h-3zM26 33h2v1h-2zM29 33h4v1h-4zM36 33h1v1h-1zM38 33h2v1h-2zM0 34h7v1h-7zM8 34h2v1h-2zM11 34h3v1h-3zM17 34h2v1h-2zM22 34h2v1h-2zM26 34h3v1h-3zM32 34h1v1h-1zM34 34h1v1h-1zM36 34h2v1h-2zM0 35h1v1h-1zM6 35h1v1h-1zM8 35h1v1h-1zM10 35h2v1h-2zM13 35h2v1h-2zM16 35h2v1h-2zM21 35h4v1h-4zM26 35h1v1h-1zM30 35h3v1h-3zM36 35h2v1h-2zM40 35h1v1h-1zM0 36h1v1h-1zM2 36h3v1h-3zM6 36h1v1h-1zM8 36h6v1h-6zM16 36h6v1h-6zM23 36h1v1h-1zM25 36h2v1h-2zM28 36h2v1h-2zM31 36h7v1h-7zM39 36h1v1h-1zM0 37h1v1h-1zM2 37h3v1h-3zM6 37h1v1h-1zM8 37h2v1h-2zM11 37h4v1h-4zM16 37h2v1h-2zM23 37h1v1h-1zM25 37h1v1h-1zM27 37h2v1h-2zM30 37h1v1h-1zM32 37h1v1h-1zM35 37h1v1h-1zM37 37h3v1h-3zM0 38h1v1h-1zM2 38h3v1h-3zM6 38h1v1h-1zM11 38h2v1h-2zM14 38h1v1h-1zM18 38h3v1h-3zM25 38h1v1h-1zM27 38h4v1h-4zM33 38h1v1h-1zM35 38h2v1h-2zM40 38h1v1h-1zM0 39h1v1h-1zM6 39h1v1h-1zM9 39h4v1h-4zM15 39h1v1h-1zM17 39h1v1h-1zM20 39h1v1h-1zM26 39h1v1h-1zM33 39h2v1h-2zM36 39h1v1h-1zM38 39h1v1h-1zM40 39h1v1h-1zM0 40h7v1h-7zM8 40h2v1h-2zM11 40h2v1h-2zM14 40h1v1h-1zM18 40h1v1h-1zM20 40h1v1h-1zM23 40h1v1h-1zM25 40h3v1h-3zM31 40h3v1h-3zM36 40h1v1h-1z" />
+                        </svg>
+                        <a class="game-link" href="juego/index.html" target="_blank" rel="noopener">Abrir el juego en esta computadora →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 16: [RETO] RESPONDE CON TUS MEDIDAS
              Opcional: se usa si sobra tiempo.
              =================================================================== -->
-        <section class="slide" data-slide="14" data-type="Reto: Responde con tus medidas">
+        <section class="slide" data-slide="16" data-type="Reto: Responde con tus medidas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2235,7 +2455,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge emerald">Reto</span>
-                    <span class="slide-number">14 / 15</span>
+                    <span class="slide-number">16 / 17</span>
                 </div>
             </header>
 
@@ -2274,9 +2494,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 15: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             SLIDE 17: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
              =================================================================== -->
-        <section class="slide" data-slide="15" data-type="Cierre: Preguntas">
+        <section class="slide" data-slide="17" data-type="Cierre: Preguntas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2284,7 +2504,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Cierre</span>
-                    <span class="slide-number">15 / 15</span>
+                    <span class="slide-number">17 / 17</span>
                 </div>
             </header>
 
@@ -2339,7 +2559,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <span class="nav-counter" id="navCounter">01 / 15</span>
+        <span class="nav-counter" id="navCounter">01 / 17</span>
 
         <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -2562,12 +2782,86 @@
         // ===================================================================
         // REVELAR RESPUESTAS (taller 6 y reto)
         // ===================================================================
-        document.querySelectorAll('.reveal-btn').forEach((btn) => {
+        document.querySelectorAll('.reveal-btn[data-target]').forEach((btn) => {
             btn.addEventListener('click', () => {
                 document.getElementById(btn.dataset.target).classList.add('revealed');
                 btn.blur();
             });
         });
+
+        // ===================================================================
+        // JUEGO: ¿PROMPT, MCP O SKILL? (clic o teclas 1, 2 y 3)
+        // ===================================================================
+        const pmsFrases = [
+            { t: '«Crea la medida Ventas YTD»', p: 'prompt', e: 'Es una orden concreta para este momento: eso es un <strong>prompt</strong>.' },
+            { t: 'measure_operations crea la medida en tu modelo', p: 'mcp', e: 'Es una herramienta que actúa dentro de Power BI: son las manos, el <strong>MCP</strong>.' },
+            { t: '«Toda medida va en la tabla _Medidas»', p: 'skill', e: 'Es una regla que vale para siempre: va en la <strong>skill</strong>.' },
+            { t: 'Lee las tablas y relaciones de tu Power BI Desktop', p: 'mcp', e: 'Leer el modelo abierto requiere acceso a Power BI: eso lo da el <strong>MCP</strong>.' },
+            { t: '«Dime cuántos tickets hubo en mayo»', p: 'prompt', e: 'Es una pregunta de hoy, que cambia en cada conversación: un <strong>prompt</strong>.' },
+            { t: '«Los porcentajes llevan un decimal»', p: 'skill', e: 'Es una convención del equipo: se escribe una vez en la <strong>skill</strong>.' },
+            { t: 'El conector que le da a la IA acceso a tu Power BI Desktop', p: 'mcp', e: 'Darle acceso a Power BI es justo lo que hace el <strong>MCP</strong>: sin él, la IA no puede ver tu modelo.' },
+            { t: '«Cada vez que crees una medida, muéstrame una tabla de control»', p: 'skill', e: '«Cada vez» es la pista: es una regla para todas las medidas, las de hoy y las de mañana. Va en la <strong>skill</strong>.' },
+            { t: '«Ahora hazlo solo para Puebla Angelópolis»', p: 'prompt', e: 'Es un ajuste a lo que acabas de pedir: un <strong>prompt</strong>.' },
+        ];
+        let pmsIndice = 0, pmsAciertos = 0, pmsRespondida = false;
+        const pmsOpciones = document.querySelectorAll('.pms-opt');
+
+        function pmsPintar() {
+            const f = pmsFrases[pmsIndice];
+            document.getElementById('pmsTarjeta').classList.remove('final');
+            document.getElementById('pmsFrase').textContent = f.t;
+            document.getElementById('pmsContador').textContent = `Frase ${pmsIndice + 1} de ${pmsFrases.length}`;
+            document.getElementById('pmsAciertos').textContent = `Aciertos del grupo: ${pmsAciertos}`;
+            document.getElementById('pmsRetro').hidden = true;
+            document.getElementById('pmsOpciones').hidden = false;
+            pmsOpciones.forEach((b) => { b.disabled = false; b.classList.remove('correcta', 'fallida'); });
+            pmsRespondida = false;
+        }
+
+        function pmsResponder(pieza) {
+            if (pmsRespondida || pmsIndice >= pmsFrases.length) return;
+            pmsRespondida = true;
+            const f = pmsFrases[pmsIndice];
+            const acierto = pieza === f.p;
+            if (acierto) pmsAciertos += 1;
+            pmsOpciones.forEach((b) => {
+                b.disabled = true;
+                if (b.dataset.pieza === f.p) b.classList.add('correcta');
+                else if (b.dataset.pieza === pieza) b.classList.add('fallida');
+            });
+            document.getElementById('pmsAciertos').textContent = `Aciertos del grupo: ${pmsAciertos}`;
+            document.getElementById('pmsExplica').innerHTML = (acierto ? '¡Correcto! ' : 'No. ') + f.e;
+            document.getElementById('pmsSiguiente').textContent = pmsIndice + 1 < pmsFrases.length ? 'Siguiente frase' : 'Ver resultado';
+            document.getElementById('pmsRetro').hidden = false;
+        }
+
+        function pmsSiguiente() {
+            pmsIndice += 1;
+            if (pmsIndice < pmsFrases.length) {
+                pmsPintar();
+                return;
+            }
+            // Final: resultado del grupo y opción de repetir
+            document.getElementById('pmsTarjeta').classList.add('final');
+            document.getElementById('pmsFrase').textContent = `¡Terminado! El grupo acertó ${pmsAciertos} de ${pmsFrases.length}`;
+            document.getElementById('pmsContador').textContent = 'Fin del juego';
+            document.getElementById('pmsOpciones').hidden = true;
+            document.getElementById('pmsExplica').innerHTML = '<strong>Recuerda:</strong> el prompt es la orden, el MCP son las manos y la skill es el manual.';
+            document.getElementById('pmsSiguiente').textContent = 'Jugar otra vez';
+            document.getElementById('pmsRetro').hidden = false;
+        }
+
+        pmsOpciones.forEach((b) => b.addEventListener('click', () => { pmsResponder(b.dataset.pieza); b.blur(); }));
+        document.getElementById('pmsSiguiente').addEventListener('click', (e) => {
+            if (pmsIndice >= pmsFrases.length) { pmsIndice = 0; pmsAciertos = 0; pmsPintar(); } else { pmsSiguiente(); }
+            e.currentTarget.blur();
+        });
+        window.addEventListener('keydown', (e) => {
+            if (overviewModal.classList.contains('open') || !slides[currentSlideIndex].querySelector('.pms-game')) return;
+            const pieza = { '1': 'prompt', '2': 'mcp', '3': 'skill' }[e.key];
+            if (pieza) pmsResponder(pieza);
+        });
+        pmsPintar();
 
         // Inicializar en la diapositiva de la URL (#4) o en la portada
         function slideFromHash() {

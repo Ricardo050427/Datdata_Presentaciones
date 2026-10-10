@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>¿Confías en la IA? | Datdata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fbf9f6;
+            --card: #ffffff;
+            --border: rgba(136, 19, 55, 0.14);
+            --wine: #881337;
+            --wine-dark: #4c0519;
+            --wine-soft: rgba(136, 19, 55, 0.08);
+            --text: #1e1115;
+            --sub: #334155;
+            --muted: #52525b;
+            --dim: #71717a;
+            --ok: #047857;
+            --ok-bg: rgba(5, 150, 105, 0.1);
+            --ok-border: rgba(5, 150, 105, 0.35);
+            --bad: #dc2626;
+            --bad-bg: rgba(220, 38, 38, 0.08);
+            --bad-border: rgba(220, 38, 38, 0.35);
+            --warn: #b45309;
+            --warn-bg: rgba(217, 119, 6, 0.1);
+            --claude: #D97757;
+            --shadow: 0 4px 20px rgba(136, 19, 55, 0.06);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        [hidden] { display: none !important; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+            background: linear-gradient(135deg, #fdf8f9 0%, #fbf9f6 45%, #f5ece4 100%);
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px 16px 40px;
+        }
+
+        main { max-width: 640px; margin: 0 auto; }
+
+        button { font-family: inherit; cursor: pointer; }
+
+        .top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--dim);
+        }
+
+        .top img { height: 26px; }
+        .top .score { margin-left: auto; font-family: 'JetBrains Mono', monospace; color: var(--wine); letter-spacing: 0; font-size: 0.95rem; }
+
+        .screen { display: none; }
+        .screen.on { display: block; animation: aparecer 0.35s ease both; }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        h1 {
+            font-size: clamp(2.1rem, 8vw, 2.9rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.08;
+        }
+
+        h1 span { color: var(--wine); }
+
+        .lead {
+            margin: 12px 0 22px;
+            font-size: 1.08rem;
+            line-height: 1.55;
+            color: var(--sub);
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .how { display: grid; gap: 12px; margin-bottom: 22px; }
+
+        .how li {
+            list-style: none;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            line-height: 1.45;
+            color: var(--sub);
+        }
+
+        .how b { color: var(--text); }
+
+        .num {
+            flex-shrink: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine);
+            color: #fff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 14px;
+            border: none;
+            font-size: 1.08rem;
+            font-weight: 800;
+            background: var(--wine);
+            color: #fff;
+            transition: transform 0.15s ease, background 0.15s ease;
+        }
+
+        .btn:hover { background: #9f1239; }
+        .btn:active { transform: scale(0.98); }
+        .btn.ghost { background: transparent; color: var(--wine); border: 2px solid var(--wine); }
+        .btn.ghost:hover { background: var(--wine-soft); }
+
+        .best { margin-top: 12px; text-align: center; font-size: 0.92rem; color: var(--muted); }
+
+        /* Progreso */
+        .progress {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--wine-soft);
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress div { height: 100%; width: 0; background: var(--wine); transition: width 0.35s ease; }
+
+        .round-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--dim);
+            margin-bottom: 14px;
+        }
+
+        /* Conversación */
+        .chat { display: flex; flex-direction: column; gap: 12px; margin-bottom: 18px; }
+
+        .who {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .msg {
+            padding: 14px 16px;
+            border-radius: 16px;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            max-width: 88%;
+            background: var(--wine-soft);
+            border-radius: 16px 16px 4px 16px;
+            font-weight: 600;
+        }
+
+        .msg.user .who { color: var(--wine); }
+
+        .msg.ai {
+            align-self: flex-start;
+            max-width: 94%;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px 16px 16px 4px;
+            box-shadow: var(--shadow);
+        }
+
+        .msg.ai .who { color: #9a3f1c; display: flex; align-items: center; gap: 6px; }
+
+        .spark { width: 14px; height: 14px; }
+
+        /* Decisión */
+        .decide { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .choice {
+            padding: 16px 12px;
+            border-radius: 14px;
+            border: 2px solid;
+            background: var(--card);
+            font-size: 1.08rem;
+            font-weight: 800;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .choice small { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+        .choice.trust { border-color: var(--ok-border); color: var(--ok); }
+        .choice.trust:hover { background: var(--ok-bg); }
+        .choice.doubt { border-color: rgba(217, 119, 6, 0.4); color: var(--warn); }
+        .choice.doubt:hover { background: var(--warn-bg); }
+        .choice .ico { font-size: 1.5rem; line-height: 1; }
+
+        .reasons h2 { font-size: 1.05rem; margin-bottom: 10px; }
+        .reasons .list { display: grid; gap: 10px; }
+
+        .reason {
+            text-align: left;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .reason:hover { border-color: var(--wine); background: var(--wine-soft); }
+
+        /* Resultado de la ronda */
+        .verdict {
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 1px solid;
+            margin-bottom: 14px;
+        }
+
+        .verdict.ok { background: var(--ok-bg); border-color: var(--ok-border); }
+        .verdict.bad { background: var(--bad-bg); border-color: var(--bad-border); }
+        .verdict.half { background: var(--warn-bg); border-color: rgba(217, 119, 6, 0.35); }
+
+        .verdict h2 { font-size: 1.2rem; margin-bottom: 6px; }
+        .verdict.ok h2 { color: var(--ok); }
+        .verdict.bad h2 { color: var(--bad); }
+        .verdict.half h2 { color: var(--warn); }
+
+        .verdict p { line-height: 1.5; color: var(--sub); }
+        .verdict .pts { font-family: 'JetBrains Mono', monospace; font-weight: 700; float: right; }
+
+        .lesson {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--wine);
+        }
+
+        /* Final */
+        .final { text-align: center; }
+        .final .big { font-family: 'JetBrains Mono', monospace; font-size: 3.6rem; font-weight: 700; color: var(--wine); line-height: 1; margin: 18px 0 6px; }
+        .final .rank { font-size: 1.5rem; font-weight: 800; margin-bottom: 6px; }
+        .final .msg-final { color: var(--sub); line-height: 1.5; margin-bottom: 20px; }
+
+        .learned { text-align: left; margin-bottom: 20px; }
+        .learned h2 { font-size: 1rem; margin-bottom: 10px; }
+        .learned li { list-style: none; padding: 8px 0; border-bottom: 1px solid var(--border); color: var(--sub); line-height: 1.4; }
+        .learned li:last-child { border-bottom: none; }
+
+        .stack { display: grid; gap: 10px; }
+
+        footer { margin-top: 28px; text-align: center; font-size: 0.82rem; color: var(--dim); }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="top">
+            <img src="../logo.png" alt="Datdata" />
+            <span>Clase 02 · Juego</span>
+            <span class="score" id="marcador" hidden></span>
+        </div>
+
+        <!-- Inicio -->
+        <section class="screen on" id="inicio">
+            <h1>¿Confías en <span>la IA</span>?</h1>
+            <p class="lead">Un analista de la Ferretería La Tuerca Floja le hizo preguntas a su agente de IA. Algunas respuestas son correctas; otras tienen una trampa. Tú decides.</p>
+
+            <ol class="card how">
+                <li><span class="num">1</span><span>Lee la pregunta y la <b>respuesta de la IA</b>.</span></li>
+                <li><span class="num">2</span><span>Decide: <b>¿confías</b> o <b>sospechas</b>?</span></li>
+                <li><span class="num">3</span><span>Si sospechas, elige <b>por qué</b>. Ganas 2 puntos si aciertas todo.</span></li>
+            </ol>
+
+            <button class="btn" id="empezar" type="button">Empezar · 8 rondas</button>
+            <p class="best" id="mejor"></p>
+        </section>
+
+        <!-- Ronda -->
+        <section class="screen" id="ronda">
+            <div class="progress"><div id="barra"></div></div>
+            <p class="round-label" id="etiqueta"></p>
+
+            <div class="chat">
+                <div class="msg user">
+                    <div class="who">Analista</div>
+                    <div id="pregunta"></div>
+                </div>
+                <div class="msg ai">
+                    <div class="who"><svg class="spark" viewBox="-34 -34 68 68" aria-hidden="true"><g stroke="#D97757" stroke-width="7" stroke-linecap="round"><line x1="0" y1="-28" x2="0" y2="28" /><line x1="-28" y1="0" x2="28" y2="0" /><line x1="-20" y1="-20" x2="20" y2="20" /><line x1="-20" y1="20" x2="20" y2="-20" /></g></svg>Agente de IA</div>
+                    <div id="respuesta"></div>
+                </div>
+            </div>
+
+            <div class="decide" id="decidir">
+                <button class="choice trust" type="button" data-voto="confio"><span class="ico">✓</span>Confío<small>La respuesta es correcta</small></button>
+                <button class="choice doubt" type="button" data-voto="sospecho"><span class="ico">⚠</span>Sospecho<small>Algo no cuadra</small></button>
+            </div>
+
+            <div class="reasons" id="motivos" hidden>
+                <h2>¿Qué crees que hizo mal la IA?</h2>
+                <div class="list" id="listaMotivos"></div>
+            </div>
+
+            <div id="resultado" hidden>
+                <div class="verdict" id="veredicto">
+                    <span class="pts" id="puntos"></span>
+                    <h2 id="veredictoTitulo"></h2>
+                    <p id="explicacion"></p>
+                    <span class="lesson" id="leccion" hidden></span>
+                </div>
+                <button class="btn" id="siguiente" type="button">Siguiente</button>
+            </div>
+        </section>
+
+        <!-- Final -->
+        <section class="screen final" id="final">
+            <h1>Resultado</h1>
+            <p class="big" id="total"></p>
+            <p class="rank" id="rango"></p>
+            <p class="msg-final" id="mensaje"></p>
+
+            <div class="card learned">
+                <h2>Las trampas de esta partida</h2>
+                <ul id="aprendido"></ul>
+            </div>
+
+            <div class="stack">
+                <button class="btn" id="otraVez" type="button">Jugar otra vez</button>
+            </div>
+        </section>
+
+        <footer>Datos de la Ferretería La Tuerca Floja · Curso IA para analistas de datos · Datdata</footer>
+    </main>
+
+    <script>
+        // Motivos posibles de una respuesta con trampa
+        const MOTIVOS = {
+            periodos: 'Compara periodos de distinto tamaño',
+            meta: 'Usó una meta de otro periodo',
+            renglones: 'Contó renglones en lugar de tickets',
+            suma: 'Sumó algo que no se debe sumar',
+            generico: 'Contó un registro que no es real',
+            imposible: 'El número es imposible: duplicó filas',
+            vacios: 'Trató los datos vacíos como si no existieran',
+        };
+
+        // Rondas con cifras reales del dataset (ver la guía docente)
+        const RONDAS = [
+            { q: '¿Cuánto crecimos en 2026 contra 2025?', a: '2026 cayó <b>21.3 %</b>: vendimos $26,748,960 contra $33,984,761 en 2025.', motivo: 'periodos',
+              exp: '2026 solo tiene datos hasta septiembre: compara 9 meses contra 12. Al mismo corte, 2026 crece <b>+5.4 %</b>.' },
+            { q: '¿Cómo vamos contra la meta en 2026?', a: 'Vamos al <b>71.5 %</b> de la meta de 2026, que es de $37,387,000.', motivo: 'meta',
+              exp: 'Esa meta es de todo el año, pero las ventas llegan a septiembre. Contra la meta de enero a septiembre ($27,924,000) vamos al <b>95.8 %</b>.' },
+            { q: '¿Cuál fue el ticket promedio de 2025?', a: 'Fue de <b>$1,104.80</b>: $33,984,761 entre 30,761.', motivo: 'renglones',
+              exp: 'Los 30,761 son renglones, y un ticket tiene varios. Entre los 14,616 tickets (folios únicos), el promedio es <b>$2,325.18</b>.' },
+            { q: '¿Cuántos tickets hubo en 2025?', a: 'Hubo <b>30,761</b> tickets.', motivo: 'renglones',
+              exp: 'Contó renglones de FactVentas. Los tickets son los folios únicos: <b>14,616</b>.' },
+            { q: '¿A qué precio vendimos el Martillo de uña 16 oz en 2025?', a: 'A <b>$90,094</b>: la suma de su PrecioUnitario en 2025.', motivo: 'suma',
+              exp: 'Un precio no se suma, se promedia. Se vendió en promedio a <b>$210.50</b> la pieza (su precio de lista es $219).' },
+            { q: '¿Cuántos clientes registrados tenemos?', a: 'Tenemos <b>183</b> clientes registrados.', motivo: 'generico',
+              exp: 'Uno de ellos es «Público en general», que agrupa las ventas de mostrador sin cliente. Registrados son <b>182</b>.' },
+            { q: '¿Cuánto vendió Zapopan Bodega en 2025?', a: 'Zapopan Bodega vendió <b>$96,705,824</b> en 2025.', motivo: 'imposible',
+              exp: 'Es casi el triple de lo que vendió toda la cadena ($33,984,761). La IA cruzó las ventas con las metas mensuales y repitió cada venta 12 veces. Lo real: <b>$8,058,819</b>.' },
+            { q: '¿Cuánto creció Querétaro Juriquilla en 2025?', a: 'Creció <b>160 %</b>: de $669,269 en 2024 a $1,737,552 en 2025.', motivo: 'periodos',
+              exp: 'Abrió en junio de 2024: compara 7 meses contra 12. El número es exacto, pero <b>no se puede comparar</b> con el de las demás sucursales.' },
+            { q: '¿Qué descuento promedio dimos en 2023?', a: 'En 2023 dimos <b>7.5 %</b> de descuento promedio por renglón.', motivo: 'vacios',
+              exp: 'En 2023, «sin descuento» quedó vacío, y el promedio ignoró esos 13,830 renglones. Contándolos como 0, el promedio es <b>3.2 %</b>.' },
+            { q: '¿Cuánto vendimos en 2025?', a: 'Vendimos <b>$33,984,761</b> en 2025: la suma de TotalVenta de enero a diciembre.', motivo: null,
+              exp: 'Correcto: es la suma de TotalVenta de los 12 meses de 2025.' },
+            { q: '¿Qué margen tuvimos en 2025?', a: 'El margen fue de <b>27.8 %</b>: $9,431,843 de margen sobre $33,984,761 de ventas.', motivo: null,
+              exp: 'Correcto: el margen entre las ventas, del mismo año completo.' },
+            { q: '¿Qué sucursal va peor contra su meta en 2026?', a: '<b>Saltillo Centro</b>: va al 91.2 % de su meta de enero a septiembre.', motivo: null,
+              exp: 'Correcto: compara al mismo corte. Zapopan Bodega le sigue muy de cerca, con 91.4 %.' },
+            { q: '¿Cuál fue el mejor mes de 2025?', a: '<b>Mayo</b>, con $3,773,280 en ventas.', motivo: null,
+              exp: 'Correcto: mayo fue el mejor mes, seguido de abril ($3,587,673). La primavera es la temporada fuerte.' },
+            { q: '¿Cuánto pesa Materiales de construcción en las ventas de 2025?', a: 'Es el <b>40 %</b> de las ventas de 2025, aunque deja solo 15.4 % de margen.', motivo: null,
+              exp: 'Correcto: es la categoría que más vende y la de menor margen.' },
+        ];
+
+        const RONDAS_POR_PARTIDA = 8;
+        const CONFIABLES_POR_PARTIDA = 3;
+
+        const $ = (id) => document.getElementById(id);
+        const mezclar = (arr) => {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+            return a;
+        };
+        const leerMejor = () => { try { return Number(localStorage.getItem('datdata-confias-mejor')) || 0; } catch (e) { return 0; } };
+        const guardarMejor = (n) => { try { localStorage.setItem('datdata-confias-mejor', String(n)); } catch (e) { /* sin almacenamiento */ } };
+
+        let partida = [], actual = 0, puntos = 0;
+
+        function mostrar(id) {
+            document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
+            window.scrollTo({ top: 0 });
+        }
+
+        function pintarMejor() {
+            const mejor = leerMejor();
+            $('mejor').textContent = mejor ? `Tu mejor puntaje: ${mejor} de ${RONDAS_POR_PARTIDA * 2}` : '';
+        }
+
+        function empezar() {
+            const confiables = mezclar(RONDAS.filter((r) => !r.motivo)).slice(0, CONFIABLES_POR_PARTIDA);
+            const trampas = mezclar(RONDAS.filter((r) => r.motivo)).slice(0, RONDAS_POR_PARTIDA - CONFIABLES_POR_PARTIDA);
+            partida = mezclar([...confiables, ...trampas]);
+            actual = 0;
+            puntos = 0;
+            $('marcador').hidden = false;
+            pintarRonda();
+            mostrar('ronda');
+        }
+
+        function pintarRonda() {
+            const r = partida[actual];
+            $('barra').style.width = `${(actual / partida.length) * 100}%`;
+            $('etiqueta').textContent = `Ronda ${actual + 1} de ${partida.length}`;
+            $('marcador').textContent = `${puntos} pts`;
+            $('pregunta').textContent = r.q;
+            $('respuesta').innerHTML = r.a;
+            $('decidir').hidden = false;
+            $('motivos').hidden = true;
+            $('resultado').hidden = true;
+        }
+
+        function votar(voto) {
+            const r = partida[actual];
+            $('decidir').hidden = true;
+            if (voto === 'confio') {
+                cerrarRonda(r.motivo ? 0 : 2, r.motivo ? 'Era una trampa' : '¡Bien! Era confiable');
+            } else if (!r.motivo) {
+                cerrarRonda(0, 'Era confiable');
+            } else {
+                // Sospecha correcta: ahora elige el motivo entre 4 opciones
+                const otros = mezclar(Object.keys(MOTIVOS).filter((k) => k !== r.motivo)).slice(0, 3);
+                const lista = $('listaMotivos');
+                lista.innerHTML = '';
+                mezclar([r.motivo, ...otros]).forEach((k) => {
+                    const b = document.createElement('button');
+                    b.type = 'button';
+                    b.className = 'reason';
+                    b.textContent = MOTIVOS[k];
+                    b.addEventListener('click', () => cerrarRonda(k === r.motivo ? 2 : 1, k === r.motivo ? '¡Exacto! Detectaste la trampa' : 'Bien visto, pero el motivo era otro'));
+                    lista.appendChild(b);
+                });
+                $('motivos').hidden = false;
+            }
+        }
+
+        function cerrarRonda(ganados, titulo) {
+            const r = partida[actual];
+            puntos += ganados;
+            $('marcador').textContent = `${puntos} pts`;
+            $('motivos').hidden = true;
+            const v = $('veredicto');
+            v.className = 'verdict ' + (ganados === 2 ? 'ok' : ganados === 1 ? 'half' : 'bad');
+            $('puntos').textContent = `+${ganados}`;
+            $('veredictoTitulo').textContent = titulo;
+            $('explicacion').innerHTML = r.exp;
+            $('leccion').hidden = !r.motivo;
+            if (r.motivo) $('leccion').textContent = 'Trampa · ' + MOTIVOS[r.motivo].toLowerCase();
+            $('siguiente').textContent = actual + 1 < partida.length ? 'Siguiente' : 'Ver resultado';
+            $('resultado').hidden = false;
+        }
+
+        function siguiente() {
+            actual += 1;
+            if (actual < partida.length) {
+                pintarRonda();
+                window.scrollTo({ top: 0 });
+            } else {
+                terminar();
+            }
+        }
+
+        function terminar() {
+            const max = partida.length * 2;
+            $('barra').style.width = '100%';
+            $('total').textContent = `${puntos} / ${max}`;
+            const p = puntos / max;
+            const [rango, mensaje] =
+                p >= 0.875 ? ['Auditor de IA', 'No se te escapa nada: así se trabaja con IA.'] :
+                p >= 0.625 ? ['Analista desconfiado', 'En el buen sentido: revisas antes de confiar.'] :
+                p > 0.4 ? ['Aprendiz de validación', 'Vas bien. Repasa las trampas de abajo y vuelve a jugar.'] :
+                             ['Le crees todo a la IA', 'Cuidado: la IA responde con seguridad aunque se equivoque.'];
+            $('rango').textContent = rango;
+            $('mensaje').textContent = mensaje;
+            const lista = $('aprendido');
+            lista.innerHTML = '';
+            const vistos = [...new Set(partida.filter((r) => r.motivo).map((r) => r.motivo))];
+            vistos.forEach((k) => {
+                const li = document.createElement('li');
+                li.textContent = MOTIVOS[k];
+                lista.appendChild(li);
+            });
+            if (puntos > leerMejor()) guardarMejor(puntos);
+            $('marcador').hidden = true;
+            mostrar('final');
+        }
+
+        $('empezar').addEventListener('click', empezar);
+        $('otraVez').addEventListener('click', () => { pintarMejor(); empezar(); });
+        $('siguiente').addEventListener('click', siguiente);
+        document.querySelectorAll('.choice').forEach((b) => b.addEventListener('click', () => votar(b.dataset.voto)));
+        pintarMejor();
+    </script>
+</body>
+
+</html>
