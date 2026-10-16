@@ -1,0 +1,3215 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clase 03: Visuales nativos vs. personalizados | Datdata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* === MODO CLARO (POR DEFECTO - ALABASTRO & VINO DATDATA) === */
+            --bg-deep: #fbf9f6;
+            --bg-surface: #f4efe9;
+            --slide-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(253, 249, 246, 0.95) 45%, rgba(248, 240, 235, 0.92) 100%);
+            --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --card-bg-hover: linear-gradient(135deg, #ffffff 0%, rgba(255, 250, 246, 0.98) 50%, rgba(252, 240, 233, 0.95) 100%);
+            --card-border: rgba(136, 19, 55, 0.14);
+            --card-border-hover: rgba(136, 19, 55, 0.45);
+            --card-shadow: 0 4px 20px rgba(136, 19, 55, 0.05);
+            --card-shadow-hover: 0 14px 32px rgba(136, 19, 55, 0.10);
+
+            --deck-shadow: 0 30px 70px -15px rgba(76, 5, 25, 0.09), 0 0 50px -10px rgba(136, 19, 55, 0.05);
+
+            --wine-base: #881337;
+            --wine-dark: #4c0519;
+            --wine-bright: #be123c;
+            --wine-light: #9f1239;
+            --wine-soft: rgba(136, 19, 55, 0.08);
+            --wine-glow: rgba(136, 19, 55, 0.14);
+            --wine-glow-strong: rgba(136, 19, 55, 0.26);
+
+            --accent-gold: #b45309;
+            --accent-gold-bg: rgba(217, 119, 6, 0.1);
+            --accent-gold-border: rgba(217, 119, 6, 0.3);
+
+            --accent-emerald: #047857;
+            --accent-emerald-bg: rgba(5, 150, 105, 0.1);
+            --accent-emerald-border: rgba(5, 150, 105, 0.3);
+
+            --accent-purple: #6d28d9;
+            --accent-purple-bg: rgba(109, 40, 217, 0.1);
+            --accent-purple-border: rgba(109, 40, 217, 0.3);
+
+            --accent-cyan: #0369a1;
+            --accent-cyan-bg: rgba(2, 132, 199, 0.1);
+            --accent-cyan-border: rgba(2, 132, 199, 0.3);
+
+            --accent-danger: #dc2626;
+            --accent-danger-bg: rgba(220, 38, 38, 0.1);
+            --accent-danger-border: rgba(220, 38, 38, 0.3);
+
+            --text-main: #0f172a;
+            --text-heading: #1e1115;
+            --text-sub: #334155;
+            --text-muted: #52525b;
+            --text-dim: #71717a;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Hover & Spotlight */
+            --spotlight-size: 750px;
+            --spotlight-core-opacity: 0.11;
+            --spotlight-color: #881337;
+
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-border: rgba(136, 19, 55, 0.2);
+            --nav-shadow: 0 10px 30px rgba(136, 19, 55, 0.12);
+            --code-box-bg: #18090e;
+            --code-box-border: rgba(136, 19, 55, 0.4);
+            --tag-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --tag-card-border: rgba(136, 19, 55, 0.15);
+            --tag-card-shadow: 0 4px 14px rgba(136, 19, 55, 0.06);
+            --toggle-bg: linear-gradient(135deg, #f7f1ea 0%, #f1e9e0 100%);
+
+            /* Color de Claude: el coral para dibujos, el tono oscuro para texto legible */
+            --claude-coral: #D97757;
+            --claude-ink: #9a3f1c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 6% 8%, rgba(136, 19, 55, 0.08) 0%, transparent 42%),
+                radial-gradient(circle at 94% 92%, rgba(180, 83, 9, 0.06) 0%, transparent 46%),
+                linear-gradient(135deg, #fdf8f9 0%, #fbf9f6 45%, #f5ece4 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Cursor Spotlight */
+        .cursor-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--spotlight-size);
+            height: var(--spotlight-size);
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(136, 19, 55, var(--spotlight-core-opacity)) 0%,
+                    rgba(190, 18, 60, calc(var(--spotlight-core-opacity) * 0.5)) 40%,
+                    transparent 72%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            transition: opacity 0.3s ease;
+            filter: blur(28px);
+            opacity: 0;
+        }
+
+        /* Top Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 5px;
+            background: var(--wine-soft);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--wine-dark), var(--wine-base), var(--wine-bright));
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 12px var(--wine-glow);
+        }
+
+        /* LIENZO FIJO 1280×720 (16:9). Todo se diseña en estos píxeles lógicos
+           y el script lo escala con `zoom` para llenar la ventana: a 1920×1080
+           el factor es 1.5, así que 16px lógicos se ven como 24px en pantalla.
+           Lo que ves es exactamente lo que ve la audiencia al compartir pantalla. */
+        .deck {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        /* SLIDE CONTRACT */
+        .slide {
+            position: absolute;
+            inset: 10px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.97) translateY(14px);
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.45s;
+            padding: 22px 40px 26px;
+            border-radius: 24px;
+            background: var(--slide-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--deck-shadow);
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--wine-base), transparent);
+            opacity: 0.8;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            z-index: 10;
+        }
+
+        /* Staggered Animations */
+
+        .slide.active .slide-header,
+        .slide.active h1,
+        .slide.active h2,
+        .slide.active .slide-subtitle,
+        .slide.active .card {
+            animation: slideElemFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .slide.active .card:nth-child(1) { animation-delay: 0.05s; }
+        .slide.active .card:nth-child(2) { animation-delay: 0.10s; }
+        .slide.active .card:nth-child(3) { animation-delay: 0.15s; }
+        .slide.active .card:nth-child(4) { animation-delay: 0.20s; }
+
+        @keyframes slideElemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-brand img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-brand-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 11px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            border: 1px solid rgba(136, 19, 55, 0.2);
+            box-shadow: 0 2px 6px rgba(136, 19, 55, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        .badge.gold {
+            background: var(--accent-gold-bg);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold-border);
+        }
+
+        .badge.emerald {
+            background: var(--accent-emerald-bg);
+            color: var(--accent-emerald);
+            border-color: var(--accent-emerald-border);
+        }
+
+        .badge.purple {
+            background: var(--accent-purple-bg);
+            color: var(--accent-purple);
+            border-color: var(--accent-purple-border);
+        }
+
+        .badge.cyan {
+            background: var(--accent-cyan-bg);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan-border);
+        }
+
+        /* Slide Content Area */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+            gap: 1rem;
+        }
+
+        /* Typography — tamaños en píxeles lógicos del lienzo (×1.5 en pantalla 1080p).
+           Mínimo legible al compartir pantalla: 0.84rem (≈20px reales). */
+        h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.035em;
+            color: var(--text-heading);
+        }
+
+        h2 {
+            font-size: 2.625rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--text-heading);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .wine-gradient {
+            background: linear-gradient(135deg, var(--text-heading) 20%, var(--wine-base) 70%, var(--wine-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            max-width: 1040px;
+            line-height: 1.45;
+            margin-top: 0.4rem;
+            font-weight: 450;
+        }
+
+        /* Layout Grids */
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-border-hover);
+            box-shadow: var(--card-shadow-hover);
+            background: var(--card-bg-hover);
+        }
+
+        /* Tag Cards */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .tag-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 1px solid var(--tag-card-border);
+            background: var(--tag-card-bg);
+            box-shadow: var(--tag-card-shadow);
+            color: var(--text-main);
+        }
+
+        .tag-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .flow-dash {
+            stroke-dasharray: 6 6;
+            animation: flowAnimation 1.4s linear infinite;
+        }
+
+        @keyframes flowAnimation {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+
+/* Interactive Simulator & Stepper */
+
+        /* Número de diapositiva (en la cabecera, junto al tipo Teoría / Práctica) */
+        .slide-number {
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--wine-base);
+            background: var(--wine-soft);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Navigation Dock — oculto por defecto para que no tape contenido en la
+           transmisión; aparece al acercar el ratón al borde inferior. */
+        .nav-dock {
+            position: fixed;
+            bottom: 16px;
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            box-shadow: var(--nav-shadow);
+            border-radius: 999px;
+            padding: 6px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        body.dock-visible .nav-dock {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            transform: scale(1.1);
+        }
+
+        .nav-counter {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        /* Overview Modal ('O' Key) */
+        .overview-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 1, 4, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px clamp(20px, 4vw, 60px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overview-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            overflow-y: auto;
+            padding-bottom: 30px;
+        }
+
+        .overview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .overview-card:hover {
+            background: rgba(244, 63, 94, 0.18);
+            border-color: #f43f5e;
+            transform: translateY(-3px);
+        }
+
+        .overview-card .num {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #fb7185;
+            font-weight: 700;
+        }
+
+        .overview-card .name {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .overview-card .type {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        /* ===================================================================
+           ILUSTRACIONES — estilo común
+           Escenas planas con los colores de la marca, trazos gruesos y pocas
+           palabras. Los viewBox de los SVG miden lo mismo que su caja en el
+           lienzo, así que font-size dentro del SVG = píxeles lógicos (mín. 14).
+           =================================================================== */
+
+        .rule-callout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+        }
+
+        .rule-callout strong {
+            color: var(--accent-gold);
+        }
+
+        /* Código en línea dentro de hallazgos y respuestas del chat */
+
+        /* Portada */
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .cover-art {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cover-art svg {
+            width: 470px;
+            height: 412px;
+            display: block;
+        }
+
+        .cover-art figcaption {
+            font-size: 1.05rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .cover-art figcaption strong {
+            color: var(--wine-base);
+        }
+
+        /* Antes / ahora */
+
+        /* ¿Qué es un MCP? */
+
+        .mcp-pieces {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .mcp-piece {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .mcp-piece strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .mcp-piece span:not(.mcp-piece-icon) {
+            display: block;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .mcp-piece-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mcp-piece-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .mcp-piece-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .mcp-piece-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+/* Modos de trabajo */
+
+        /* Simulador del handshake */
+
+        /* Consultas en lenguaje natural */
+
+        /* Auditoría */
+
+        .pin {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pin.gold { background: var(--accent-gold); }
+        .pin.purple { background: var(--accent-purple); }
+
+        /* Solución de problemas */
+
+/* Instalación con una frase */
+
+        .prompt-copy {
+            background: var(--wine-soft);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px 16px 14px;
+        }
+
+        .prompt-copy-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .copy-prompt-btn {
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+            padding: 5px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--wine-base);
+            background: #ffffff;
+            color: var(--wine-base);
+            cursor: pointer;
+        }
+
+        .copy-prompt-btn:hover { background: var(--wine-base); color: #ffffff; }
+        .copy-prompt-btn.copiado { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+
+        .prompt-copy-text {
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: var(--text-heading);
+            overflow-wrap: anywhere;
+        }
+
+        /* Verificación en la caja de herramientas */
+
+        .pin.cyan { background: var(--accent-cyan); }
+
+        /* Cierre */
+        .closing-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .closing-main {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .closing-art {
+            width: 260px;
+            height: 130px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .closing-title {
+            font-size: 5rem;
+            line-height: 1.05;
+        }
+
+        .linkedin-card {
+            align-items: center;
+            gap: 14px;
+            padding: 22px 24px;
+        }
+
+        .linkedin-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            align-self: stretch;
+        }
+
+        .linkedin-head strong {
+            display: block;
+            font-size: 1.3rem;
+            color: var(--text-heading);
+        }
+
+        .linkedin-head span {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .qr {
+            width: 250px;
+            height: 250px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .linkedin-url {
+            font-size: 0.86rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .next-class {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        /* ===================== CLASE 02 ===================== */
+
+        /* Agenda */
+        .agenda {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .agenda li {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 14px 14px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--accent-gold);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .agenda strong {
+            font-size: 1.05rem;
+            line-height: 1.25;
+            color: var(--text-heading);
+            flex: 1;
+        }
+
+        .agenda-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .how-title {
+            margin-bottom: 10px;
+            color: var(--text-sub);
+        }
+
+        .how-grid { grid-template-columns: repeat(4, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Talleres */
+        .taller-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .taller-main,
+        .taller-side {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .prompt-copy-text { font-size: 1rem; line-height: 1.5; }
+
+        .stuck {
+            padding: 10px 14px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .stuck strong { color: var(--accent-gold); }
+
+        .check-card {
+            padding: 14px 18px 16px;
+            background: var(--accent-emerald-bg);
+            border: 1px solid var(--accent-emerald-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .check-title {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-emerald);
+        }
+
+        .check-note {
+            font-size: 1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.92em;
+            font-weight: 600;
+            color: var(--wine-base);
+        }
+
+        .value-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .value-table td {
+            padding: 5px 4px;
+            border-bottom: 1px solid var(--accent-emerald-border);
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .value-table td:nth-child(even) {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--text-heading);
+            padding-right: 14px;
+        }
+
+        .value-table tr:last-child td { border-bottom: none; }
+        .value-table.big { font-size: 1.12rem; }
+        .value-table.big td { padding: 8px 4px; }
+
+        /* Taller 0: pasos */
+        .steps-card { padding: 18px 22px; gap: 12px; }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .step-list strong,
+        .anatomy-item strong {
+            display: block;
+            font-size: 1.08rem;
+            color: var(--text-heading);
+        }
+
+        .step-list span:not(.step-n),
+        .anatomy-item span:not(.pin) {
+            display: block;
+            font-size: 0.98rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .step-n {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Taller 0: tarjeta que gira entre CSV y Claude */
+
+        /* La entrada anima el contenedor: en las caras pisaría el giro */
+
+        /* El título deja sitio al selector */
+
+        /* Destello suave del icono al activar Claude */
+
+        @keyframes destello {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(20deg); }
+        }
+
+        /* La cara CSV es más corta: reparte sus pasos en la altura de la tarjeta */
+
+        /* Pines numerados: también admiten texto corto como «1→*» */
+        .pin { min-width: 32px; width: auto; padding: 0 7px; border-radius: 16px; }
+        .pin.wine { background: var(--wine-base); }
+        .pin.emerald { background: var(--accent-emerald); }
+
+        /* Esquema estrella */
+
+        /* Taller 2: hallazgos y correcciones */
+
+        /* Taller 3: calendario */
+
+        /* Anatomía de una medida */
+
+        .anatomy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .anatomy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        /* Inteligencia de tiempo */
+
+        /* Taller 6: tabla de control y revelado */
+
+        .reveal-btn {
+            align-self: flex-start;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 22px;
+            border-radius: 10px;
+            border: none;
+            background: var(--wine-base);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .reveal-btn:hover { background: var(--wine-bright); }
+
+        /* Prompt, MCP y skill */
+
+        .role-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .role-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+        /* Cómo pedirle DAX a la IA */
+
+        /* Qué es una skill */
+
+        [hidden] { display: none !important; }
+
+        /* Juego: ¿Prompt, MCP o skill? */
+
+        /* ===================== CLASE 03 ===================== */
+
+        /* Agenda de seis talleres */
+        .agenda.seis { grid-template-columns: repeat(6, 1fr); }
+
+        .agenda-gain {
+            font-size: 0.92rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .how-grid.tres { grid-template-columns: repeat(3, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Maquetas de Power BI: tarjeta KPI en HTML (paleta por defecto de la skill) */
+        .kpi-mock {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 18px;
+            background: #ffffff;
+            border: 1.5px solid #e0d6f5;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(102, 51, 153, 0.08);
+        }
+
+        .k-lbl {
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #9B59B6;
+        }
+
+        .k-val {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #3D0080;
+        }
+
+        .k-badge {
+            align-self: flex-start;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.92rem;
+            font-weight: 800;
+        }
+
+        .k-badge.up { background: #e6f9f0; color: #1a7a4a; }
+        .k-badge.down { background: #fce8ec; color: #c0142d; }
+
+        .kpi-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .kpi-pair .k-val { font-size: 1.6rem; }
+
+        /* Tarjeta nativa de Power BI */
+        .native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 18px 10px;
+            background: #ffffff;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .n-val { font-size: 1.85rem; font-weight: 600; color: #252423; }
+        .n-lbl { font-size: 0.95rem; color: #605e5c; }
+
+        /* Nativo vs. personalizado */
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .vs-col { gap: 12px; padding: 18px 22px 20px; }
+
+        .vs-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .vs-tag.custom { color: var(--wine-base); }
+
+        .vs-mock {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .vs-mock svg { width: 100%; height: 130px; display: block; }
+        .vs-mock .k-val { font-size: 1.6rem; }
+
+        .vs-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .vs-list li {
+            display: flex;
+            gap: 10px;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            color: var(--text-sub);
+        }
+
+        .vs-ok, .vs-no { font-weight: 800; width: 16px; flex-shrink: 0; }
+        .vs-ok { color: var(--accent-emerald); }
+        .vs-no { color: var(--accent-danger); }
+
+        /* Dos caminos para entregar un visual */
+        .route-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .route-card { gap: 12px; padding: 18px 22px 20px; }
+        .route-card h3 { font-size: 1.5rem; }
+
+        .route-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .route-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .route-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        .route-who {
+            min-width: 82px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .route-who.ia { background: var(--wine-soft); color: var(--wine-base); }
+        .route-who.mcp { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .route-who.pbi { background: var(--accent-purple-bg); color: var(--accent-purple); }
+        .route-who.tu { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .route-foot {
+            padding: 9px 14px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            color: var(--text-sub);
+        }
+
+        .route-foot.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .route-foot.good strong { color: var(--accent-emerald); }
+        .route-foot.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .route-foot.warn strong { color: var(--accent-gold); }
+
+        .skill-chip {
+            align-self: flex-start;
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--wine-base);
+        }
+
+        /* Juego de dos opciones */
+
+        /* Talleres */
+        .tip {
+            padding: 9px 14px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .tip strong { color: var(--accent-purple); }
+        .check-note strong { color: var(--text-heading); }
+
+        .t3-chart { width: 100%; height: 180px; display: block; }
+
+        .nw { white-space: nowrap; }
+        .filtro-table td { font-size: 0.98rem; }
+        .filtro-table td:first-child { width: 128px; color: var(--text-heading); font-weight: 800; line-height: 1.3; }
+        .filtro-table td:nth-child(even) { font-family: var(--font-sans); font-weight: 700; padding-right: 4px; white-space: nowrap; }
+
+        .notar-table td:first-child { color: var(--text-heading); font-weight: 800; width: 90px; }
+        .notar-table td:nth-child(even) { text-align: left; font-family: var(--font-sans); font-weight: 600; color: var(--text-sub); }
+
+        /* Capas de Deneb */
+        .anat-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .anat-chart { padding: 10px 14px; }
+        .anat-chart svg { width: 100%; height: 300px; display: block; }
+
+        /* Tú eres sus ojos */
+        .eyes-strip svg { width: 100%; height: 156px; display: block; }
+
+        /* Antes de entregar */
+        .limits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .limit-card {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 22px;
+        }
+
+        .limit-card .role-icon { margin-bottom: 0; flex-shrink: 0; }
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+        .limit-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
+
+        .limit-card p {
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        /* ===== Juego: la prueba de los 5 segundos ===== */
+        .j5-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        @keyframes j5Salta {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.18) rotate(-3deg); }
+            100% { transform: scale(1); }
+        }
+
+        .j5-stage {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+            height: 448px;
+            padding: 20px 22px;
+            background: #ffffff;
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow-hover);
+            overflow: hidden;
+        }
+
+        .j5-stage::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 20%, rgba(136, 19, 55, 0.07), transparent 45%);
+            pointer-events: none;
+        }
+
+        .j5-stage.urgente { animation: j5Late 0.5s ease-in-out infinite alternate; }
+
+        @keyframes j5Late {
+            from { box-shadow: var(--card-shadow-hover); border-color: var(--card-border); }
+            to { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.12), var(--card-shadow-hover); border-color: rgba(220, 38, 38, 0.5); }
+        }
+
+        .j5-main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .j5-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            border-left: 2px dashed #f1e7ea;
+            padding-left: 18px;
+        }
+
+        /* Anillo de cuenta regresiva */
+        .j5-ring { position: relative; width: 160px; height: 160px; }
+        .j5-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+        .j5-ring-bg { fill: none; stroke: #f4ecef; stroke-width: 12; }
+
+        .j5-ring-fg {
+            fill: none;
+            stroke: var(--wine-base);
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 414.69;
+            stroke-dashoffset: 0;
+        }
+
+        .j5-ring.urgente .j5-ring-fg { stroke: var(--accent-danger); }
+
+        .j5-num {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .j5-ring.urgente .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien .j5-ring-fg { stroke: var(--accent-emerald); }
+        .j5-ring.bien .j5-num { color: var(--accent-emerald); }
+        .j5-ring.mal .j5-ring-fg { stroke: var(--accent-danger); }
+        .j5-ring.mal .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien, .j5-ring.mal { animation: j5Salta 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-num.tic { animation: j5Tic 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        @keyframes j5Tic {
+            0% { transform: scale(1.5); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .j5-tag {
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            text-align: center;
+        }
+
+        .j5-tag.nativo { background: rgba(17, 141, 255, 0.1); color: #0b6bcb; }
+        .j5-tag.personalizado { background: rgba(106, 13, 173, 0.1); color: #6A0DAD; }
+
+        .j5-dots { display: flex; gap: 8px; }
+        .j5-ronda { font-family: var(--font-mono); font-size: 0.86rem; font-weight: 700; color: var(--text-dim); }
+        .j5-tag { white-space: nowrap; }
+
+        .j5-dots i {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background: #eadfe3;
+            transition: width 0.35s ease, background 0.35s ease;
+        }
+
+        .j5-dots i.actual { width: 30px; background: var(--wine-base); }
+        .j5-dots i.hecho.nativo { background: #118DFF; }
+        .j5-dots i.hecho.personalizado { background: #6A0DAD; }
+
+        /* Intro */
+        .j5-intro { display: flex; flex-direction: column; gap: 22px; animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .j5-intro h3 { font-size: 2.3rem; line-height: 1.15; letter-spacing: -0.02em; }
+
+        .j5-pasos { display: flex; gap: 14px; }
+
+        .j5-paso {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--wine-soft);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-paso:nth-child(2) { animation-delay: 0.1s; }
+        .j5-paso:nth-child(3) { animation-delay: 0.2s; }
+
+        .j5-paso b {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .j5-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--wine-dark), var(--wine-base) 55%, var(--wine-bright));
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 26px var(--wine-glow-strong);
+            transition: transform 0.2s ease;
+        }
+
+        .j5-btn:hover { transform: translateY(-3px) scale(1.03); }
+        .j5-btn.pulso { animation: j5Pulso 1.6s ease-in-out infinite; }
+        .j5-btn kbd { font-family: var(--font-mono); font-size: 0.85rem; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.2); }
+
+        @keyframes j5Pulso {
+            0%, 100% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 0 rgba(190, 18, 60, 0.35); }
+            50% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 14px rgba(190, 18, 60, 0); }
+        }
+
+        @keyframes j5Sube {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Visuales (caja fija 760 × 330) */
+        .j5-vis {
+            width: 760px;
+            height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .j5-vis > svg { width: 760px; height: 330px; display: block; }
+        .j5-ver { align-self: center; border-radius: 16px; overflow: hidden; border: 1px solid #ece7f3; box-shadow: 0 18px 40px rgba(76, 5, 25, 0.12); animation: j5Entra 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+        @keyframes j5Entra {
+            from { opacity: 0; transform: scale(0.82) rotate(-1.5deg); filter: blur(10px); }
+            to { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+        }
+
+        .j5-native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 40px 70px;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .j5-nv { font-size: 4.4rem; font-weight: 600; color: #252423; line-height: 1.1; }
+        .j5-nl { font-size: 1.3rem; color: #605e5c; }
+
+        .j5-kpi {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 30px 46px;
+            background: #ffffff;
+            border: 2px solid #e0d6f5;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(102, 51, 153, 0.14);
+        }
+
+        .j5-kpi .k-lbl { font-size: 1.1rem; }
+        .j5-kpi .k-val { font-size: 4.4rem; }
+        .j5-kpi .k-badge { font-size: 1.25rem; padding: 6px 16px; }
+
+        .j5-table {
+            width: 560px;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', var(--font-sans);
+            font-size: 1rem;
+            color: #252423;
+        }
+
+        .j5-table th, .j5-table td { padding: 4px 10px; text-align: right; }
+        .j5-table th:first-child, .j5-table td:first-child { text-align: left; }
+        .j5-table th { font-weight: 700; border-bottom: 2px solid #c8c6c4; }
+        .j5-table tbody td { border-bottom: 1px solid #edebe9; }
+        .j5-table tfoot td { font-weight: 700; border-top: 2px solid #c8c6c4; }
+
+        /* Cortina */
+        .j5-curtain {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(110deg, var(--wine-dark), var(--wine-base) 50%, var(--wine-bright));
+            transform: translateX(-102%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .j5-curtain span {
+            font-size: 4.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .j5-curtain.corre { animation: j5Cortina 1s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+        @keyframes j5Cortina {
+            0% { transform: translateX(-102%); }
+            40%, 60% { transform: translateX(0); }
+            100% { transform: translateX(102%); }
+        }
+
+        /* Pregunta y respuesta */
+        .j5-q {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-heading);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-opts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .j5-opt {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 76px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border: 2px solid var(--card-border);
+            background: #ffffff;
+            box-shadow: var(--card-shadow);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: left;
+            cursor: pointer;
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: transform 0.18s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+        }
+
+        .j5-opt:nth-child(1) { animation-delay: 0.12s; }
+        .j5-opt:nth-child(2) { animation-delay: 0.22s; }
+        .j5-opt:nth-child(3) { animation-delay: 0.32s; }
+        .j5-opt:hover:not(:disabled) { transform: translateY(-4px); border-color: var(--wine-base); background: var(--wine-soft); }
+        .j5-opt:disabled { cursor: default; }
+
+        .j5-opt kbd {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--wine-base);
+        }
+
+        .j5-opt.ok { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); box-shadow: 0 0 0 5px var(--accent-emerald-border); animation: j5Brilla 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-opt.ok kbd { background: var(--accent-emerald); color: #ffffff; }
+        .j5-opt.mal { background: var(--accent-danger-bg); border-color: var(--accent-danger); animation: j5Tiembla 0.5s ease; }
+        .j5-opt.apagada { opacity: 0.35; }
+
+        @keyframes j5Brilla {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes j5Tiembla {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(9px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .j5-confeti {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 14px;
+            border-radius: 3px;
+            pointer-events: none;
+            animation: j5Confeti 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes j5Confeti {
+            from { transform: translate(-50%, -50%) rotate(0); opacity: 1; }
+            to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)); opacity: 0; }
+        }
+
+        .j5-resp-q { font-size: 1.35rem; animation: none; }
+        .j5-resp .j5-opts { margin-top: 12px; }
+        .j5-resp .j5-opt { min-height: 60px; font-size: 1.1rem; animation: none; }
+
+        .j5-explica {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            background: var(--accent-gold-bg);
+            border-left: 5px solid var(--accent-gold);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+        }
+
+        .j5-thumb {
+            width: 380px;
+            height: 165px;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #ece7f3;
+            background: #ffffff;
+        }
+
+        .j5-thumb .j5-vis { transform: scale(0.5); transform-origin: top left; }
+
+        .j5-explica-txt { display: flex; flex-direction: column; gap: 12px; }
+        .j5-explica p { font-size: 1.08rem; line-height: 1.45; color: var(--text-sub); }
+        .j5-explica p strong { color: var(--accent-gold); }
+        .j5-explica .j5-btn { font-size: 1.05rem; padding: 10px 22px; }
+
+        /* Final: cada nativo junto a su versión personalizada */
+        .j5-stage.final { grid-template-columns: 1fr; }
+        .j5-stage.final .j5-side { display: none; }
+
+        .j5-comp { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+
+        .j5-comp-head {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            animation: j5Sube 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-comp-head h3 { font-size: 1.75rem; letter-spacing: -0.02em; }
+        .j5-comp-hint { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-dim); }
+        .j5-comp-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-pares {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .j5-par {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 8px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: transform 0.25s ease, background 0.25s ease;
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(var(--d) * 0.12s + 0.1s);
+        }
+
+        .j5-par:hover { transform: translateY(-5px); background: var(--wine-soft); }
+        .j5-par:hover .j5-mini.personalizado { box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.25), 0 14px 30px rgba(106, 13, 173, 0.18); }
+
+        .j5-par-q {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: center;
+        }
+
+        .j5-mini {
+            position: relative;
+            width: 320px;
+            height: 139px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06);
+            transition: box-shadow 0.25s ease;
+        }
+
+        .j5-mini .j5-vis { transform: scale(0.421); transform-origin: top left; }
+
+        .j5-fila { display: flex; gap: 6px; align-items: stretch; }
+
+        .j5-vtag {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #ffffff;
+        }
+
+        .j5-vtag.nativo { background: #118DFF; }
+        .j5-vtag.personalizado { background: #6A0DAD; }
+        .j5-fila:has(.personalizado) { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) both; animation-delay: calc(var(--d) * 0.12s + 0.55s); }
+        .j5-mini.personalizado { border-color: rgba(106, 13, 173, 0.3); }
+
+        @keyframes j5Revela {
+            0% { opacity: 0; transform: translateY(34px) scale(0.86); }
+            60% { opacity: 1; box-shadow: 0 0 0 8px rgba(106, 13, 173, 0.22); }
+            100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06); }
+        }
+
+        .j5-mtag {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 1;
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .j5-mtag.nativo { background: #118DFF; }
+        .j5-mtag.personalizado { background: #6A0DAD; }
+
+        /* Par en grande */
+        .j5-zoom {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 22px;
+            animation: j5Entra 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-zoom-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+        .j5-zoom-head h3 { font-size: 1.6rem; letter-spacing: -0.02em; }
+        .j5-zoom-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-zoom-par { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+        .j5-zoom-col { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+        .j5-zoom-col .j5-mtag { position: static; font-size: 0.95rem; padding: 4px 14px; }
+
+        .j5-big {
+            width: 502px;
+            height: 218px;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 12px 30px rgba(76, 5, 25, 0.1);
+        }
+
+        .j5-big .j5-vis { transform: scale(0.6605); transform-origin: top left; }
+        .j5-zoom-col:last-child .j5-big { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both; }
+
+        .j5-zoom-nota {
+            font-size: 1.1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .j5-zoom-nota strong { color: var(--wine-base); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .j5-stage *, .j5-stage { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Top Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Cursor Spotlight -->
+    <div class="cursor-spotlight" id="spotlight"></div>
+
+    <!-- ===================================================================
+         DECK CONTAINER (14 DIAPOSITIVAS • VISUALES CON IA, 6 TALLERES Y 1 JUEGO)
+         =================================================================== -->
+    <main class="deck" id="deck">
+
+        <!-- ===================================================================
+             SLIDE 01: [PORTADA] VISUALES NATIVOS VS. PERSONALIZADOS
+             =================================================================== -->
+        <section class="slide active" data-slide="1" data-type="Portada">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Programa Oficial Datdata • 2026</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Clase 03 de 10</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="cover-grid">
+                    <div>
+                        <span class="badge purple" style="margin-bottom: 0.9rem;">Fase 2 • Diseño visual</span>
+                        <h1>Visuales nativos vs. <span class="wine-gradient">personalizados</span></h1>
+                        <p class="slide-subtitle">
+                            Tus medidas ya funcionan. Hoy la IA las convierte en tarjetas KPI y gráficas que los visuales nativos no logran.
+                        </p>
+
+                        <div class="tag-group" style="margin-top: 1.4rem;">
+                            <div class="tag-card">
+                                <span class="tag-indicator" style="background: var(--wine-base); box-shadow: 0 0 8px var(--wine-base);"></span>
+                                <span>Tarjetas KPI en HTML</span>
+                            </div>
+                            <div class="tag-card">
+                                <span class="tag-indicator" style="background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></span>
+                                <span>Gráfica con Deneb</span>
+                            </div>
+                            <div class="tag-card">
+                                <span class="tag-indicator" style="background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald);"></span>
+                                <span>Filtro de pills</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <figure class="cover-art">
+                        <svg viewBox="0 0 470 412" fill="none" aria-hidden="true">
+                            <circle cx="236" cy="206" r="190" fill="rgba(136, 19, 55, 0.045)" />
+                            <!-- Lienzo de Power BI -->
+                            <rect x="18" y="30" width="436" height="340" rx="16" fill="#ffffff" stroke="#e4dcef" stroke-width="2.5" />
+                            <path d="M18 46 a16 16 0 0 1 16 -16 h404 a16 16 0 0 1 16 16 v14 h-436 Z" fill="#f6f2fb" />
+                            <circle cx="38" cy="45" r="4.5" fill="#d8cfe6" /><circle cx="53" cy="45" r="4.5" fill="#d8cfe6" /><circle cx="68" cy="45" r="4.5" fill="#d8cfe6" />
+                            <text x="88" y="50" font-family="var(--font-sans)" font-size="14" font-weight="700" fill="#71717a">La Tuerca Floja · Ventas</text>
+                            <!-- Filtro de pills -->
+                            <g font-family="var(--font-sans)" font-size="14" font-weight="700" text-anchor="middle">
+                                <rect x="34" y="74" width="66" height="28" rx="14" fill="#6A0DAD" /><text x="67" y="93" fill="#ffffff">2025</text>
+                                <rect x="108" y="74" width="72" height="28" rx="14" fill="#ffffff" stroke="#d8cfe6" stroke-width="2" /><text x="144" y="93" fill="#3D0080">Mes</text>
+                                <rect x="188" y="74" width="98" height="28" rx="14" fill="#ffffff" stroke="#d8cfe6" stroke-width="2" /><text x="237" y="93" fill="#3D0080">Sucursal</text>
+                            </g>
+                            <!-- Tarjetas KPI -->
+                            <g font-family="var(--font-sans)">
+                                <rect x="34" y="116" width="196" height="92" rx="12" fill="#ffffff" stroke="#e0d6f5" stroke-width="2" />
+                                <text x="50" y="140" font-size="14" font-weight="800" fill="#9B59B6" letter-spacing="0.5">VENTAS</text>
+                                <text x="50" y="170" font-size="26" font-weight="800" fill="#3D0080">$33.98 M</text>
+                                <rect x="50" y="178" width="92" height="22" rx="11" fill="#e6f9f0" /><text x="96" y="194" font-size="14" font-weight="800" fill="#1a7a4a" text-anchor="middle">▲ 15.3 %</text>
+                                <rect x="242" y="116" width="196" height="92" rx="12" fill="#ffffff" stroke="#e0d6f5" stroke-width="2" />
+                                <text x="258" y="140" font-size="14" font-weight="800" fill="#9B59B6" letter-spacing="0.5">MARGEN</text>
+                                <text x="258" y="170" font-size="26" font-weight="800" fill="#3D0080">27.8 %</text>
+                                <rect x="258" y="178" width="100" height="22" rx="11" fill="#e6f9f0" /><text x="308" y="194" font-size="14" font-weight="800" fill="#1a7a4a" text-anchor="middle">▲ 0.3 pts</text>
+                            </g>
+                            <!-- Gráfica Deneb -->
+                            <defs><linearGradient id="gPortada" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A0DAD" stop-opacity="0.42" /><stop offset="1" stop-color="#6A0DAD" stop-opacity="0.02" /></linearGradient></defs><line x1="46" y1="328" x2="426" y2="328" stroke="#e4dcef" stroke-width="2" /><path d="M46 299.5 L80.5 292.6 L115.1 272.2 L149.6 253.4 L184.2 247.6 L218.7 278.7 L253.3 284.2 L287.8 289.7 L322.4 287.5 L356.9 277.1 L391.5 278.4 L426 275.1 L426 328 L46 328 Z" fill="url(#gPortada)" /><path d="M46 299.5 L80.5 292.6 L115.1 272.2 L149.6 253.4 L184.2 247.6 L218.7 278.7 L253.3 284.2 L287.8 289.7 L322.4 287.5 L356.9 277.1 L391.5 278.4 L426 275.1" stroke="#6A0DAD" stroke-width="3" fill="none" stroke-linejoin="round" /><circle cx="80.5" cy="292.6" r="3.5" fill="#6A0DAD" /><circle cx="115.1" cy="272.2" r="3.5" fill="#6A0DAD" /><circle cx="149.6" cy="253.4" r="3.5" fill="#6A0DAD" /><circle cx="218.7" cy="278.7" r="3.5" fill="#6A0DAD" /><circle cx="253.3" cy="284.2" r="3.5" fill="#6A0DAD" /><circle cx="287.8" cy="289.7" r="3.5" fill="#6A0DAD" /><circle cx="322.4" cy="287.5" r="3.5" fill="#6A0DAD" /><circle cx="356.9" cy="277.1" r="3.5" fill="#6A0DAD" /><circle cx="391.5" cy="278.4" r="3.5" fill="#6A0DAD" /><circle cx="426" cy="275.1" r="3.5" fill="#6A0DAD" /><circle cx="184.2" cy="247.6" r="7" fill="#27AE60" stroke="#ffffff" stroke-width="2" /><circle cx="46" cy="299.5" r="7" fill="#ffffff" stroke="#E74C3C" stroke-width="3" /><text x="184.2" y="233.6" text-anchor="middle" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#1a7a4a">PEAK</text><text x="42" y="323.5" text-anchor="start" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#c0142d">LOW</text><g font-family="var(--font-sans)" font-size="14" font-weight="600" fill="#71717a" text-anchor="middle"><text x="46" y="348" text-anchor="start">Ene</text><text x="115.1" y="348">Mar</text><text x="184.2" y="348">May</text><text x="253.3" y="348">Jul</text><text x="322.4" y="348">Sep</text><text x="391.5" y="348">Nov</text></g>
+                            <!-- La IA -->
+                            <circle cx="436" cy="34" r="27" fill="#881337" stroke="#ffffff" stroke-width="3" />
+                            <text x="436" y="41" text-anchor="middle" font-family="var(--font-sans)" font-size="19" font-weight="800" fill="#ffffff">IA</text>
+                            <path d="M394 18 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 Z" fill="#fda4af" />
+                            <path d="M30 392 l2 6 l6 2 l-6 2 l-2 6 l-2 -6 l-6 -2 l6 -2 Z" fill="#fda4af" />
+                        </svg>
+                        <figcaption>La IA escribe el código; <strong>tú decides</strong> cómo se ve.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 02: [AGENDA] HOY TU REPORTE CAMBIA DE CARA
+             Seis talleres y cómo se reparte el trabajo en cada uno.
+             =================================================================== -->
+        <section class="slide" data-slide="2" data-type="Agenda">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Agenda • Clase 03</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge ">Agenda</span>
+                    <span class="slide-number">02 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Hoy tu reporte <span class="wine-gradient">cambia de cara</span></h2>
+                    <p class="slide-subtitle">Al final tendrás 2 tarjetas KPI, una gráfica Deneb y un filtro de pills que lo mueve todo.</p>
+                </div>
+
+                <ol class="agenda seis">
+                    <li><span class="agenda-num">0</span><strong>Prepara tu lienzo</strong><span class="agenda-gain">Instala HTML Content y Deneb</span></li>
+                    <li><span class="agenda-num">1</span><strong>Tu primera tarjeta KPI</strong><span class="agenda-gain">Ventas con badge ▲▼</span></li>
+                    <li><span class="agenda-num">2</span><strong>Una segunda, igual</strong><span class="agenda-gain">Margen con el mismo estilo</span></li>
+                    <li><span class="agenda-num">3</span><strong>Tendencia con Deneb</strong><span class="agenda-gain">Área, PEAK y LOW</span></li>
+                    <li><span class="agenda-num">4</span><strong>Filtro de pills</strong><span class="agenda-gain">Todo responde a un clic</span></li>
+                    <li><span class="agenda-num">5</span><strong>Tú eres sus ojos</strong><span class="agenda-gain">Mejora con una captura</span></li>
+                </ol>
+
+                <div>
+                    <h3 class="how-title">Así funciona cada taller</h3>
+                    <div class="mcp-pieces how-grid tres">
+                        <div class="mcp-piece">
+                            <span class="mcp-piece-icon wine"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg></span>
+                            <div><strong>1. La IA escribe</strong><span>Copia el prompt: tu agente crea la medida o la spec.</span></div>
+                        </div>
+                        <div class="mcp-piece">
+                            <span class="mcp-piece-icon gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5" /><path d="M14 10V4a2 2 0 0 0-4 0v6" /><path d="M10 10.5V6a2 2 0 0 0-4 0v8" /><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" /></svg></span>
+                            <div><strong>2. Tú lo montas</strong><span>Insertas el visual en Power BI y arrastras los campos.</span></div>
+                        </div>
+                        <div class="mcp-piece">
+                            <span class="mcp-piece-icon emerald"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12" /></svg></span>
+                            <div><strong>3. Compara</strong><span>Con el recuadro «Lo que debes ver».</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 03: [TALLER 0] PREPARA TU LIENZO
+             =================================================================== -->
+        <section class="slide" data-slide="3" data-type="Taller 0: Prepara tu lienzo">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 0 • Preparación</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">03 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 0 · Prepara tu <span class="wine-gradient">lienzo</span></h2>
+                    <p class="slide-subtitle">Trabajas sobre el modelo de la Clase 02, con sus 10 medidas.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="card steps-card">
+                        <h3>Antes de empezar</h3>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Abre tu proyecto de la Clase 02</strong><span>El .pbip de la ferretería, con la tabla _Medidas.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Instala HTML Content y Deneb</strong><span>Visualizaciones → … → Obtener más objetos visuales → busca cada uno → Agregar.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Crea la página «Clase 03» con un segmentador de Año</strong><span>Elige 2025: así comparas con «Lo que debes ver».</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿No te deja agregar visuales?</strong> Tu organización puede bloquear los de AppSource: pídele a TI que habilite HTML Content y Deneb.</p>
+                    </div>
+
+                    <div class="taller-side">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 4 · Comprueba tus medidas</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Conéctate al modelo de Power BI que tengo abierto y dime el valor de Ventas, YoY % y Margen % para 2025.</p>
+                        </div>
+                        <div class="check-card">
+                            <span class="check-title">Lo que debes ver · 2025</span>
+                            <table class="value-table big">
+                                <tr><td>Ventas</td><td>$33,984,761</td></tr>
+                                <tr><td>YoY %</td><td>15.3 %</td></tr>
+                                <tr><td>Margen %</td><td>27.8 %</td></tr>
+                            </table>
+                            <p class="check-note">¿Te falta alguna? Pídele a tu agente que la cree, como en la Clase 02.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 04: [TEORÍA] MISMO DATO, DOS HISTORIAS
+             Nativo vs. personalizado: cuándo conviene cada uno.
+             =================================================================== -->
+        <section class="slide" data-slide="4" data-type="Teoría: Nativo vs. personalizado">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Nativo vs. personalizado</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">04 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Mismo dato, <span class="wine-gradient">dos historias</span></h2>
+                    <p class="slide-subtitle">La gerencia decide en segundos si un reporte le sirve. El diseño también comunica.</p>
+                </div>
+
+                <div class="vs-grid">
+                    <div class="card vs-col">
+                        <span class="vs-tag">Visual nativo</span>
+                        <div class="vs-mock">
+                            <div class="native-card"><span class="n-val">$33.98 M</span><span class="n-lbl">Ventas</span></div>
+                            <svg viewBox="0 0 330 130" fill="none" aria-hidden="true"><g stroke="#e5e7eb" stroke-width="1.5"><line x1="6" y1="10" x2="324" y2="10" /><line x1="6" y1="40.7" x2="324" y2="40.7" /><line x1="6" y1="71.3" x2="324" y2="71.3" /><line x1="6" y1="102" x2="324" y2="102" /></g><path d="M6 74.6 L34.9 68.1 L63.8 48.5 L92.7 30.5 L121.6 24.9 L150.5 54.8 L179.5 60 L208.4 65.3 L237.3 63.1 L266.2 53.2 L295.1 54.4 L324 51.3" stroke="#118DFF" stroke-width="2.5" fill="none" /><g font-family="'Segoe UI', var(--font-sans)" font-size="14" fill="#605e5c" text-anchor="middle"><text x="6" y="122" text-anchor="start">Ene</text><text x="63.8" y="122">Mar</text><text x="121.6" y="122">May</text><text x="179.5" y="122">Jul</text><text x="237.3" y="122">Sep</text><text x="295.1" y="122">Nov</text></g></svg>
+                        </div>
+                        <ul class="vs-list">
+                            <li><span class="vs-ok">✓</span>Rápido y sin instalar nada.</li>
+                            <li><span class="vs-ok">✓</span>Lo mantiene Microsoft y se exporta sin sorpresas.</li>
+                            <li><span class="vs-no">✗</span>Destacar lo importante cuesta mucho formato a mano.</li>
+                        </ul>
+                    </div>
+                    <div class="card vs-col">
+                        <span class="vs-tag custom">Visual personalizado</span>
+                        <div class="vs-mock">
+                            <div class="kpi-mock"><span class="k-lbl">Ventas</span><span class="k-val">$33.98 M</span><span class="k-badge up">▲ 15.3 %</span></div>
+                            <svg viewBox="0 0 330 130" fill="none" aria-hidden="true"><defs><linearGradient id="gVs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A0DAD" stop-opacity="0.42" /><stop offset="1" stop-color="#6A0DAD" stop-opacity="0.02" /></linearGradient></defs><line x1="10" y1="102" x2="320" y2="102" stroke="#e4dcef" stroke-width="2" /><path d="M10 79.4 L38.2 74 L66.4 57.8 L94.5 42.9 L122.7 38.3 L150.9 63 L179.1 67.3 L207.3 71.7 L235.5 69.9 L263.6 61.7 L291.8 62.7 L320 60.1 L320 102 L10 102 Z" fill="url(#gVs)" /><path d="M10 79.4 L38.2 74 L66.4 57.8 L94.5 42.9 L122.7 38.3 L150.9 63 L179.1 67.3 L207.3 71.7 L235.5 69.9 L263.6 61.7 L291.8 62.7 L320 60.1" stroke="#6A0DAD" stroke-width="3" fill="none" stroke-linejoin="round" /><circle cx="38.2" cy="74" r="3.5" fill="#6A0DAD" /><circle cx="66.4" cy="57.8" r="3.5" fill="#6A0DAD" /><circle cx="94.5" cy="42.9" r="3.5" fill="#6A0DAD" /><circle cx="150.9" cy="63" r="3.5" fill="#6A0DAD" /><circle cx="179.1" cy="67.3" r="3.5" fill="#6A0DAD" /><circle cx="207.3" cy="71.7" r="3.5" fill="#6A0DAD" /><circle cx="235.5" cy="69.9" r="3.5" fill="#6A0DAD" /><circle cx="263.6" cy="61.7" r="3.5" fill="#6A0DAD" /><circle cx="291.8" cy="62.7" r="3.5" fill="#6A0DAD" /><circle cx="320" cy="60.1" r="3.5" fill="#6A0DAD" /><circle cx="122.7" cy="38.3" r="7" fill="#27AE60" stroke="#ffffff" stroke-width="2" /><circle cx="10" cy="79.4" r="7" fill="#ffffff" stroke="#E74C3C" stroke-width="3" /><text x="122.7" y="24.299999999999997" text-anchor="middle" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#1a7a4a">PEAK</text><text x="6" y="103.4" text-anchor="start" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#c0142d">LOW</text><g font-family="var(--font-sans)" font-size="14" font-weight="600" fill="#71717a" text-anchor="middle"><text x="10" y="122" text-anchor="start">Ene</text><text x="66.4" y="122">Mar</text><text x="122.7" y="122">May</text><text x="179.1" y="122">Jul</text><text x="235.5" y="122">Sep</text><text x="291.8" y="122">Nov</text></g></svg>
+                        </div>
+                        <ul class="vs-list">
+                            <li><span class="vs-ok">✓</span>El color dice si vas bien o mal.</li>
+                            <li><span class="vs-ok">✓</span>Marca solo lo importante: el PEAK y el LOW.</li>
+                            <li><span class="vs-no">✗</span>Depende de un visual externo y de su código.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>No es uno contra otro:</strong> nativo para explorar y analizar; personalizado para la página que mira la gerencia.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 05: [JUEGO] LA PRUEBA DE LOS 5 SEGUNDOS
+             Visual 5 segundos, pregunta y marcador nativo vs. personalizado.
+             =================================================================== -->
+        <section class="slide" data-slide="5" data-type="Juego: La prueba de los 5 segundos">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Juego • La prueba de los 5 segundos</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge emerald">Juego</span>
+                    <span class="slide-number">05 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="j5-head">
+                    <div>
+                        <h2>La prueba de los <span class="wine-gradient">5 segundos</span></h2>
+                        <p class="slide-subtitle">Mira el visual 5 segundos y responde en el chat. Al final, compara cada par.</p>
+                    </div>
+                </div>
+
+                <div class="j5-stage" id="j5Stage">
+                    <div class="j5-main" id="j5Main"></div>
+                    <aside class="j5-side">
+                        <div class="j5-ring" id="j5Ring">
+                            <svg viewBox="0 0 160 160" aria-hidden="true">
+                                <circle cx="80" cy="80" r="66" class="j5-ring-bg" />
+                                <circle cx="80" cy="80" r="66" class="j5-ring-fg" id="j5Arco" />
+                            </svg>
+                            <span class="j5-num" id="j5Num">5</span>
+                        </div>
+                        <span class="j5-tag" id="j5Tag">6 rondas</span>
+                        <div class="j5-dots" id="j5Dots"><i class="nativo"></i><i class="personalizado"></i><i class="nativo"></i><i class="personalizado"></i><i class="nativo"></i><i class="personalizado"></i></div>
+                        <span class="j5-ronda" id="j5Ronda">Listos para empezar</span>
+                    </aside>
+                    <div class="j5-curtain" id="j5Cortina"><span>¡Tiempo!</span></div>
+                </div>
+                <template id="j5v0"><div class="j5-vis nativo"><svg viewBox="0 0 760 330" fill="none"><text x="8" y="24" font-family="'Segoe UI', var(--font-sans)" font-size="18" fill="#252423">Ventas por Mes</text><g stroke="#e5e7eb" stroke-width="1.5"><line x1="78" y1="270" x2="722" y2="270" /><line x1="78" y1="215.5" x2="722" y2="215.5" /><line x1="78" y1="161" x2="722" y2="161" /><line x1="78" y1="106.5" x2="722" y2="106.5" /><line x1="78" y1="52" x2="722" y2="52" /></g><g font-family="'Segoe UI', var(--font-sans)" font-size="15" fill="#605e5c" text-anchor="end"><text x="68" y="275">1.5 M</text><text x="68" y="220.5">2.0 M</text><text x="68" y="166">2.5 M</text><text x="68" y="111.5">3.0 M</text><text x="68" y="57">3.5 M</text></g><path d="M78 217.7 L136.5 217.7 L195.1 130.5 L253.6 145.7 L312.2 104.3 L370.7 150.1 L429.3 221 L487.8 173 L546.4 204.6 L604.9 174.1 L663.5 116.3 L722 133.8" stroke="#118DFF" stroke-width="3" fill="none" /><g font-family="'Segoe UI', var(--font-sans)" font-size="15" fill="#605e5c" text-anchor="middle"><text x="78" y="296">Ene</text><text x="136.5" y="296">Feb</text><text x="195.1" y="296">Mar</text><text x="253.6" y="296">Abr</text><text x="312.2" y="296">May</text><text x="370.7" y="296">Jun</text><text x="429.3" y="296">Jul</text><text x="487.8" y="296">Ago</text><text x="546.4" y="296">Sep</text><text x="604.9" y="296">Oct</text><text x="663.5" y="296">Nov</text><text x="722" y="296">Dic</text></g></svg></div></template>
+                <template id="j5v1"><div class="j5-vis personalizado"><svg viewBox="0 0 760 330" fill="none"><text x="10" y="28" font-family="var(--font-sans)" font-size="20" font-weight="800" fill="#3D0080">Ventas 2025</text><defs><linearGradient id="gJ5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A0DAD" stop-opacity="0.42" /><stop offset="1" stop-color="#6A0DAD" stop-opacity="0.02" /></linearGradient></defs><line x1="34" y1="270" x2="726" y2="270" stroke="#e4dcef" stroke-width="2" /><path d="M34 211.7 L96.9 197.8 L159.8 156.1 L222.7 117.7 L285.6 105.8 L348.5 169.4 L411.5 180.6 L474.4 191.9 L537.3 187.2 L600.2 166 L663.1 168.7 L726 162.1 L726 270 L34 270 Z" fill="url(#gJ5)" /><path d="M34 211.7 L96.9 197.8 L159.8 156.1 L222.7 117.7 L285.6 105.8 L348.5 169.4 L411.5 180.6 L474.4 191.9 L537.3 187.2 L600.2 166 L663.1 168.7 L726 162.1" stroke="#6A0DAD" stroke-width="3" fill="none" stroke-linejoin="round" /><circle cx="96.9" cy="197.8" r="3.5" fill="#6A0DAD" /><circle cx="159.8" cy="156.1" r="3.5" fill="#6A0DAD" /><circle cx="222.7" cy="117.7" r="3.5" fill="#6A0DAD" /><circle cx="348.5" cy="169.4" r="3.5" fill="#6A0DAD" /><circle cx="411.5" cy="180.6" r="3.5" fill="#6A0DAD" /><circle cx="474.4" cy="191.9" r="3.5" fill="#6A0DAD" /><circle cx="537.3" cy="187.2" r="3.5" fill="#6A0DAD" /><circle cx="600.2" cy="166" r="3.5" fill="#6A0DAD" /><circle cx="663.1" cy="168.7" r="3.5" fill="#6A0DAD" /><circle cx="726" cy="162.1" r="3.5" fill="#6A0DAD" /><circle cx="285.6" cy="105.8" r="7" fill="#27AE60" stroke="#ffffff" stroke-width="2" /><circle cx="34" cy="211.7" r="7" fill="#ffffff" stroke="#E74C3C" stroke-width="3" /><text x="285.6" y="91.8" text-anchor="middle" font-family="var(--font-sans)" font-size="17" font-weight="800" fill="#1a7a4a">PEAK · $3.77 M</text><text x="30" y="235.7" text-anchor="start" font-family="var(--font-sans)" font-size="17" font-weight="800" fill="#c0142d">LOW · $2.17 M</text><g font-family="var(--font-sans)" font-size="17" font-weight="600" fill="#71717a" text-anchor="middle"><text x="34" y="293" text-anchor="start">Ene</text><text x="159.8" y="293">Mar</text><text x="285.6" y="293">May</text><text x="411.5" y="293">Jul</text><text x="537.3" y="293">Sep</text><text x="663.1" y="293">Nov</text></g></svg></div></template>
+                <template id="j5v2"><div class="j5-vis nativo"><div class="j5-native-card"><span class="j5-nv">$33.98 M</span><span class="j5-nl">Ventas</span></div></div></template>
+                <template id="j5v3"><div class="j5-vis personalizado"><div class="j5-kpi"><span class="k-lbl">Margen</span><span class="k-val">27.5 %</span><span class="k-badge down">▼ 0.1 pts vs año anterior</span></div></div></template>
+                <template id="j5v4"><div class="j5-vis nativo"><table class="j5-table"><thead><tr><th>Sucursal</th><th>Ventas</th><th>YoY %</th></tr></thead><tbody><tr><td>CDMX Coyoacán</td><td>$1,680,668</td><td>1.2 %</td></tr><tr><td>Guadalajara Centro</td><td>$4,066,945</td><td>12.3 %</td></tr><tr><td>León Industrial</td><td>$7,090,028</td><td>10.2 %</td></tr><tr><td>Monterrey Cumbres</td><td>$4,969,771</td><td>19.2 %</td></tr><tr><td>Puebla Angelópolis</td><td>$3,010,464</td><td>1.0 %</td></tr><tr><td>Querétaro Juriquilla</td><td>$1,737,552</td><td>159.6 %</td></tr><tr><td>Saltillo Centro</td><td>$3,370,513</td><td>15.1 %</td></tr><tr><td>Zapopan Bodega</td><td>$8,058,819</td><td>14.9 %</td></tr></tbody><tfoot><tr><td>Total</td><td>$33,984,761</td><td>15.3 %</td></tr></tfoot></table></div></template>
+                <template id="j5v5"><div class="j5-vis personalizado"><svg viewBox="0 0 760 330" fill="none"><text x="10" y="28" font-family="var(--font-sans)" font-size="20" font-weight="800" fill="#3D0080">Ventas 2025 por sucursal</text><text x="210" y="70" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#3D0080">Zapopan Bodega</text><rect x="222" y="52" width="430" height="24" rx="6" fill="#6A0DAD" /><text x="662" y="70" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#3D0080">$8.06 M</text><text x="210" y="104" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">León Industrial</text><rect x="222" y="86" width="378.3" height="24" rx="6" fill="#D4B8F0" /><text x="610.3" y="104" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$7.09 M</text><text x="210" y="138" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Monterrey Cumbres</text><rect x="222" y="120" width="265.1" height="24" rx="6" fill="#D4B8F0" /><text x="497.1" y="138" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$4.97 M</text><text x="210" y="172" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Guadalajara Centro</text><rect x="222" y="154" width="217.1" height="24" rx="6" fill="#D4B8F0" /><text x="449.1" y="172" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$4.07 M</text><text x="210" y="206" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Saltillo Centro</text><rect x="222" y="188" width="179.8" height="24" rx="6" fill="#D4B8F0" /><text x="411.8" y="206" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$3.37 M</text><text x="210" y="240" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Puebla Angelópolis</text><rect x="222" y="222" width="160.6" height="24" rx="6" fill="#D4B8F0" /><text x="392.6" y="240" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$3.01 M</text><text x="210" y="274" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Querétaro Juriquilla</text><rect x="222" y="256" width="92.8" height="24" rx="6" fill="#D4B8F0" /><text x="324.8" y="274" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$1.74 M</text><text x="210" y="308" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">CDMX Coyoacán</text><rect x="222" y="290" width="89.6" height="24" rx="6" fill="#D4B8F0" /><text x="321.6" y="308" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">$1.68 M</text></svg></div></template>
+                <template id="j5c0"><div class="j5-vis personalizado"><svg viewBox="0 0 760 330" fill="none"><text x="10" y="28" font-family="var(--font-sans)" font-size="20" font-weight="800" fill="#3D0080">Ventas 2024</text><defs><linearGradient id="gJ5c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A0DAD" stop-opacity="0.42" /><stop offset="1" stop-color="#6A0DAD" stop-opacity="0.02" /></linearGradient></defs><line x1="34" y1="270" x2="726" y2="270" stroke="#e4dcef" stroke-width="2" /><path d="M34 208.8 L96.9 208.8 L159.8 129.5 L222.7 143.4 L285.6 105.8 L348.5 147.4 L411.5 211.7 L474.4 168.2 L537.3 196.9 L600.2 169.2 L663.1 116.7 L726 132.5 L726 270 L34 270 Z" fill="url(#gJ5c)" /><path d="M34 208.8 L96.9 208.8 L159.8 129.5 L222.7 143.4 L285.6 105.8 L348.5 147.4 L411.5 211.7 L474.4 168.2 L537.3 196.9 L600.2 169.2 L663.1 116.7 L726 132.5" stroke="#6A0DAD" stroke-width="3" fill="none" stroke-linejoin="round" /><circle cx="34" cy="208.8" r="3.5" fill="#6A0DAD" /><circle cx="96.9" cy="208.8" r="3.5" fill="#6A0DAD" /><circle cx="159.8" cy="129.5" r="3.5" fill="#6A0DAD" /><circle cx="222.7" cy="143.4" r="3.5" fill="#6A0DAD" /><circle cx="348.5" cy="147.4" r="3.5" fill="#6A0DAD" /><circle cx="474.4" cy="168.2" r="3.5" fill="#6A0DAD" /><circle cx="537.3" cy="196.9" r="3.5" fill="#6A0DAD" /><circle cx="600.2" cy="169.2" r="3.5" fill="#6A0DAD" /><circle cx="663.1" cy="116.7" r="3.5" fill="#6A0DAD" /><circle cx="726" cy="132.5" r="3.5" fill="#6A0DAD" /><circle cx="285.6" cy="105.8" r="7" fill="#27AE60" stroke="#ffffff" stroke-width="2" /><circle cx="411.5" cy="211.7" r="7" fill="#ffffff" stroke="#E74C3C" stroke-width="3" /><text x="285.6" y="91.8" text-anchor="middle" font-family="var(--font-sans)" font-size="17" font-weight="800" fill="#1a7a4a">PEAK · $3.02 M</text><text x="411.5" y="235.7" text-anchor="middle" font-family="var(--font-sans)" font-size="17" font-weight="800" fill="#c0142d">LOW · $1.95 M</text><g font-family="var(--font-sans)" font-size="17" font-weight="600" fill="#71717a" text-anchor="middle"><text x="34" y="293" text-anchor="start">Ene</text><text x="159.8" y="293">Mar</text><text x="285.6" y="293">May</text><text x="411.5" y="293">Jul</text><text x="537.3" y="293">Sep</text><text x="663.1" y="293">Nov</text></g></svg></div></template>
+                <template id="j5c1"><div class="j5-vis personalizado"><div class="j5-kpi"><span class="k-lbl">Ventas</span><span class="k-val">$33.98 M</span><span class="k-badge up">▲ 15.3 % vs año anterior</span></div></div></template>
+                <template id="j5c2"><div class="j5-vis personalizado"><svg viewBox="0 0 760 330" fill="none"><text x="10" y="28" font-family="var(--font-sans)" font-size="20" font-weight="800" fill="#3D0080">Crecimiento 2025 por sucursal</text><text x="210" y="70" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#c0142d">Puebla Angelópolis</text><rect x="222" y="52" width="26" height="24" rx="6" fill="#E74C3C" /><text x="258" y="70" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#c0142d">1.0 %  ▼ el menor</text><text x="210" y="104" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">CDMX Coyoacán</text><rect x="222" y="86" width="30" height="24" rx="6" fill="#D4B8F0" /><text x="262" y="104" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">1.2 %</text><text x="210" y="138" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">León Industrial</text><rect x="222" y="120" width="210" height="24" rx="6" fill="#D4B8F0" /><text x="442" y="138" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">10.2 %</text><text x="210" y="172" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Guadalajara Centro</text><rect x="222" y="154" width="252" height="24" rx="6" fill="#D4B8F0" /><text x="484" y="172" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">12.3 %</text><text x="210" y="206" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Zapopan Bodega</text><rect x="222" y="188" width="304" height="24" rx="6" fill="#D4B8F0" /><text x="536" y="206" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">14.9 %</text><text x="210" y="240" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Saltillo Centro</text><rect x="222" y="222" width="308" height="24" rx="6" fill="#D4B8F0" /><text x="540" y="240" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">15.1 %</text><text x="210" y="274" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Monterrey Cumbres</text><rect x="222" y="256" width="390" height="24" rx="6" fill="#D4B8F0" /><text x="622" y="274" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">19.2 %</text><text x="210" y="308" text-anchor="end" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#52525b">Querétaro Juriquilla</text><rect x="222" y="290" width="406" height="24" rx="6" fill="#D4B8F0" /><path d="M582 288 l8 14 l-8 14" stroke="#ffffff" stroke-width="5" fill="none" /><text x="638" y="308" font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a">159.6 %</text></svg></div></template>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 06: [TEORÍA] CÓMO TE ENTREGA LA IA UN VISUAL
+             Dos caminos: medida (HTML Content) o código que se pega (Deneb).
+             =================================================================== -->
+        <section class="slide" data-slide="6" data-type="Teoría: Cómo te entrega la IA un visual">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • La IA y los visuales</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">06 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Cómo te entrega la IA <span class="wine-gradient">un visual</span></h2>
+                    <p class="slide-subtitle">Hay dos caminos. Saber cuál toca te ahorra la mitad de las dudas de hoy.</p>
+                </div>
+
+                <div class="route-grid">
+                    <div class="card route-card">
+                        <span class="route-tag">Tarjetas KPI · HTML Content</span>
+                        <h3>Como una medida</h3>
+                        <div class="route-steps">
+                            <div class="route-step"><span class="route-who ia">IA</span><span>Escribe una medida DAX que devuelve HTML.</span></div>
+                            <div class="route-step"><span class="route-who mcp">MCP</span><span>La guarda en tu modelo, en _Medidas.</span></div>
+                            <div class="route-step"><span class="route-who pbi">Power BI</span><span>HTML Content la dibuja y la recalcula con cada filtro.</span></div>
+                        </div>
+                        <p class="route-foot good"><strong>Si la IA la cambia,</strong> tu tarjeta se actualiza sola.</p>
+                        <span class="skill-chip">skill: html-kpi-cards</span>
+                    </div>
+                    <div class="card route-card">
+                        <span class="route-tag">Gráficas · Deneb</span>
+                        <h3>Como código que pegas</h3>
+                        <div class="route-steps">
+                            <div class="route-step"><span class="route-who mcp">MCP</span><span>La IA lee los campos de tu modelo.</span></div>
+                            <div class="route-step"><span class="route-who ia">IA</span><span>Escribe la spec en Vega-Lite, un archivo JSON.</span></div>
+                            <div class="route-step"><span class="route-who tu">Tú</span><span>La pegas en el editor de Deneb.</span></div>
+                        </div>
+                        <p class="route-foot warn"><strong>Si la IA la cambia,</strong> tienes que pegar la spec nueva.</p>
+                        <span class="skill-chip">skill: deneb-chart-generator</span>
+                    </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Las skills de la Metodología 2 ya saben las reglas técnicas.</strong> Tú describes lo que quieres ver; ellas cuidan cómo se escribe.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 07: [TALLER 1] TU PRIMERA TARJETA KPI
+             =================================================================== -->
+        <section class="slide" data-slide="7" data-type="Taller 1: Tu primera tarjeta KPI">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 1 • Tarjeta KPI</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">07 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 1 · Tu primera <span class="wine-gradient">tarjeta KPI</span></h2>
+                    <p class="slide-subtitle">Una medida DAX que devuelve HTML: Power BI la recalcula con cada filtro.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea en la tabla _Medidas, carpeta «Visuales», la medida «Tarjeta Ventas HTML» para el visual HTML Content: la etiqueta VENTAS, el valor de [Ventas] en grande y un badge con [YoY %], verde con ▲ si sube y rojo con ▼ si baja. Fondo blanco.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Inserta HTML Content en el lienzo</strong><span>Desde el panel Visualizaciones, como cualquier visual.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Arrastra «Tarjeta Ventas HTML» al visual</strong><span>Dale el tamaño de una tarjeta.</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿Ves código en lugar de la tarjeta?</strong> Pusiste la medida en una tarjeta nativa o en una tabla: va en HTML Content.</p>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver · 2025</span>
+                        <div class="kpi-mock"><span class="k-lbl">Ventas</span><span class="k-val">$33,984,761</span><span class="k-badge up">▲ 15.3 %</span></div>
+                        <p class="check-note">Los colores y el formato pueden variar: lo que importa es el número y el badge verde.</p>
+                        <p class="tip"><strong>Pregúntale «¿Qué skill usaste?».</strong> Debería nombrar html-kpi-cards, aunque tú no la mencionaste.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 08: [TALLER 2] UNA SEGUNDA TARJETA, IGUAL A LA PRIMERA
+             =================================================================== -->
+        <section class="slide" data-slide="8" data-type="Taller 2: Una segunda tarjeta">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 2 • Mismo estilo</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">08 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 2 · Una segunda tarjeta, <span class="wine-gradient">igual</span></h2>
+                    <p class="slide-subtitle">No le repitas el diseño: pídele que copie el estilo de lo que ya hizo.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea la medida «Tarjeta Margen HTML» con el mismo estilo que «Tarjeta Ventas HTML»: la etiqueta MARGEN, el valor de [Margen %] y un badge con la diferencia en puntos contra el año anterior.</p>
+                        </div>
+                        <p class="tip"><strong>«Con el mismo estilo» funciona</strong> porque la IA lee tu medida anterior por MCP y reutiliza su diseño.</p>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Inserta otro HTML Content con «Tarjeta Margen HTML»</strong><span>Ponlo junto a la tarjeta de Ventas, del mismo tamaño.</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿El badge dice ▲ 1.0 %?</strong> Calculó el cambio relativo. Pídele «la diferencia en puntos porcentuales».</p>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver · 2025</span>
+                        <div class="kpi-pair">
+                            <div class="kpi-mock"><span class="k-lbl">Ventas</span><span class="k-val">$33.98 M</span><span class="k-badge up">▲ 15.3 %</span></div>
+                            <div class="kpi-mock"><span class="k-lbl">Margen</span><span class="k-val">27.8 %</span><span class="k-badge up">▲ 0.3 pts</span></div>
+                        </div>
+                        <p class="check-note">Cambia el segmentador a <strong>2024</strong>: Margen 27.5 % con <strong class="nw">▼ 0.1 pts</strong>, ahora en rojo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 09: [TEORÍA] UNA GRÁFICA DENEB SE PIDE POR CAPAS
+             =================================================================== -->
+        <section class="slide" data-slide="9" data-type="Teoría: Gráficas con Deneb">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Gráficas con Deneb</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">09 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Una gráfica Deneb <span class="wine-gradient">se pide por capas</span></h2>
+                    <p class="slide-subtitle">No necesitas leer el JSON: necesitas saber nombrar lo que quieres ver.</p>
+                </div>
+
+                <div class="anat-grid">
+                    <div class="card anat-chart">
+                        <svg viewBox="0 0 740 300" fill="none" aria-label="Ventas mensuales de 2025 con sus capas numeradas" role="img">
+                            <defs><linearGradient id="gAnat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A0DAD" stop-opacity="0.42" /><stop offset="1" stop-color="#6A0DAD" stop-opacity="0.02" /></linearGradient></defs><line x1="40" y1="260" x2="680" y2="260" stroke="#e4dcef" stroke-width="2" /><path d="M40 195.8 L98.2 180.5 L156.4 134.5 L214.5 92.2 L272.7 79 L330.9 149.1 L389.1 161.5 L447.3 173.9 L505.5 168.8 L563.6 145.4 L621.8 148.4 L680 141.1 L680 260 L40 260 Z" fill="url(#gAnat)" /><path d="M40 195.8 L98.2 180.5 L156.4 134.5 L214.5 92.2 L272.7 79 L330.9 149.1 L389.1 161.5 L447.3 173.9 L505.5 168.8 L563.6 145.4 L621.8 148.4 L680 141.1" stroke="#6A0DAD" stroke-width="3" fill="none" stroke-linejoin="round" /><circle cx="98.2" cy="180.5" r="3.5" fill="#6A0DAD" /><circle cx="156.4" cy="134.5" r="3.5" fill="#6A0DAD" /><circle cx="214.5" cy="92.2" r="3.5" fill="#6A0DAD" /><circle cx="330.9" cy="149.1" r="3.5" fill="#6A0DAD" /><circle cx="389.1" cy="161.5" r="3.5" fill="#6A0DAD" /><circle cx="447.3" cy="173.9" r="3.5" fill="#6A0DAD" /><circle cx="505.5" cy="168.8" r="3.5" fill="#6A0DAD" /><circle cx="563.6" cy="145.4" r="3.5" fill="#6A0DAD" /><circle cx="621.8" cy="148.4" r="3.5" fill="#6A0DAD" /><circle cx="680" cy="141.1" r="3.5" fill="#6A0DAD" /><circle cx="272.7" cy="79" r="7" fill="#27AE60" stroke="#ffffff" stroke-width="2" /><circle cx="40" cy="195.8" r="7" fill="#ffffff" stroke="#E74C3C" stroke-width="3" /><text x="272.7" y="65" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#1a7a4a">PEAK · $3.77 M</text><text x="36" y="219.8" text-anchor="start" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#c0142d">LOW · $2.17 M</text><g font-family="var(--font-sans)" font-size="16" font-weight="600" fill="#71717a" text-anchor="middle"><text x="40" y="282" text-anchor="start">Ene</text><text x="156.4" y="282">Mar</text><text x="272.7" y="282">May</text><text x="389.1" y="282">Jul</text><text x="505.5" y="282">Sep</text><text x="621.8" y="282">Nov</text></g>
+                            <line x1="563.6" y1="145.4" x2="541.6" y2="119.4" stroke="#b9a7d6" stroke-width="2" stroke-dasharray="4 4" />
+                            <rect x="391.6" y="67.4" width="150" height="52" rx="9" fill="#ffffff" stroke="#d1c4e9" stroke-width="2" />
+                            <text x="405.6" y="88.4" font-family="var(--font-sans)" font-size="15" font-weight="800" fill="#3D0080">Octubre</text>
+                            <text x="405.6" y="108.4" font-family="var(--font-sans)" font-size="15" font-weight="600" fill="#52525b">Ventas: $2.86 M</text>
+                            <circle cx="447.3" cy="236" r="15" fill="#881337" stroke="#ffffff" stroke-width="2.5" /><text x="447.3" y="241.5" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#ffffff">1</text>
+                            <circle cx="96.2" cy="150.5" r="15" fill="#881337" stroke="#ffffff" stroke-width="2.5" /><text x="96.2" y="156" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#ffffff">2</text>
+                            <circle cx="507.5" cy="198.8" r="15" fill="#881337" stroke="#ffffff" stroke-width="2.5" /><text x="507.5" y="204.3" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#ffffff">3</text>
+                            <circle cx="188.7" cy="59" r="15" fill="#881337" stroke="#ffffff" stroke-width="2.5" /><text x="188.7" y="64.5" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#ffffff">4</text>
+                            <circle cx="371.6" cy="93.4" r="15" fill="#881337" stroke="#ffffff" stroke-width="2.5" /><text x="371.6" y="98.9" text-anchor="middle" font-family="var(--font-sans)" font-size="16" font-weight="800" fill="#ffffff">5</text>
+                        </svg>
+                    </div>
+                    <div class="anatomy-list">
+                        <div class="anatomy-item"><span class="pin wine">1</span><div><strong>Área con degradado</strong><span>El volumen, suave al fondo.</span></div></div>
+                        <div class="anatomy-item"><span class="pin wine">2</span><div><strong>Línea</strong><span>La tendencia, encima del área.</span></div></div>
+                        <div class="anatomy-item"><span class="pin wine">3</span><div><strong>Puntos</strong><span>Uno por mes, para leer cada valor.</span></div></div>
+                        <div class="anatomy-item"><span class="pin wine">4</span><div><strong>PEAK y LOW</strong><span>Marcas automáticas del mejor y el peor mes.</span></div></div>
+                        <div class="anatomy-item"><span class="pin wine">5</span><div><strong>Tooltip</strong><span>El detalle al pasar el ratón.</span></div></div>
+                    </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Vega-Lite</strong> es el lenguaje de la gráfica y <strong>Deneb</strong> es el visual que la dibuja en Power BI. Por eso la spec se pega: no vive en tu modelo.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 10: [TALLER 3] TU GRÁFICA DE TENDENCIA CON DENEB
+             =================================================================== -->
+        <section class="slide" data-slide="10" data-type="Taller 3: Tendencia con Deneb">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 3 • Deneb</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">10 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 3 · Tu gráfica de <span class="wine-gradient">tendencia</span></h2>
+                    <p class="slide-subtitle">La IA escribe la spec y tú la pegas en Deneb.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Escribe una spec de Vega-Lite para Deneb con [Ventas] por DimCalendario[Mes], de enero a diciembre: área con degradado, línea encima, puntos, el mes más alto marcado como PEAK y el más bajo como LOW, y tooltip con mes y ventas. Antes, dime qué campos arrastro al visual.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Inserta Deneb y arrastra los campos que te diga</strong><span>Normalmente, Mes y Ventas.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Menú … → Editar → Vega-Lite → plantilla vacía</strong><span>Así se abre el editor de Deneb.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Pega la spec y aplica los cambios</strong><span>Cierra el editor para ver la gráfica en el lienzo.</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿Sale un error?</strong> Cópialo y pégaselo a tu agente: casi siempre es un nombre de campo distinto.</p>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver · 2025</span>
+                        <svg class="t3-chart" viewBox="0 0 432 180" fill="none" aria-label="Ventas mensuales de 2025 con PEAK en mayo y LOW en enero" role="img"><defs><linearGradient id="gT3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6A0DAD" stop-opacity="0.42" /><stop offset="1" stop-color="#6A0DAD" stop-opacity="0.02" /></linearGradient></defs><line x1="16" y1="154" x2="416" y2="154" stroke="#e4dcef" stroke-width="2" /><path d="M16 118.3 L52.4 109.8 L88.7 84.3 L125.1 60.8 L161.5 53.5 L197.8 92.4 L234.2 99.3 L270.5 106.2 L306.9 103.3 L343.3 90.4 L379.6 92 L416 87.9 L416 154 L16 154 Z" fill="url(#gT3)" /><path d="M16 118.3 L52.4 109.8 L88.7 84.3 L125.1 60.8 L161.5 53.5 L197.8 92.4 L234.2 99.3 L270.5 106.2 L306.9 103.3 L343.3 90.4 L379.6 92 L416 87.9" stroke="#6A0DAD" stroke-width="3" fill="none" stroke-linejoin="round" /><circle cx="52.4" cy="109.8" r="3.5" fill="#6A0DAD" /><circle cx="88.7" cy="84.3" r="3.5" fill="#6A0DAD" /><circle cx="125.1" cy="60.8" r="3.5" fill="#6A0DAD" /><circle cx="197.8" cy="92.4" r="3.5" fill="#6A0DAD" /><circle cx="234.2" cy="99.3" r="3.5" fill="#6A0DAD" /><circle cx="270.5" cy="106.2" r="3.5" fill="#6A0DAD" /><circle cx="306.9" cy="103.3" r="3.5" fill="#6A0DAD" /><circle cx="343.3" cy="90.4" r="3.5" fill="#6A0DAD" /><circle cx="379.6" cy="92" r="3.5" fill="#6A0DAD" /><circle cx="416" cy="87.9" r="3.5" fill="#6A0DAD" /><circle cx="161.5" cy="53.5" r="7" fill="#27AE60" stroke="#ffffff" stroke-width="2" /><circle cx="16" cy="118.3" r="7" fill="#ffffff" stroke="#E74C3C" stroke-width="3" /><text x="161.5" y="39.5" text-anchor="middle" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#1a7a4a">PEAK · $3.77 M</text><text x="12" y="142.3" text-anchor="start" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#c0142d">LOW · $2.17 M</text><g font-family="var(--font-sans)" font-size="14" font-weight="600" fill="#71717a" text-anchor="middle"><text x="16" y="174" text-anchor="start">Ene</text><text x="88.7" y="174">Mar</text><text x="161.5" y="174">May</text><text x="234.2" y="174">Jul</text><text x="306.9" y="174">Sep</text><text x="379.6" y="174">Nov</text></g></svg>
+                        <p class="check-note"><strong>PEAK en mayo</strong> ($3.77 M) y <strong>LOW en enero</strong> ($2.17 M). Pasa el ratón por un punto: debe salir el tooltip.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 11: [TALLER 4] UN FILTRO QUE MUEVE TODO
+             =================================================================== -->
+        <section class="slide" data-slide="11" data-type="Taller 4: Filtro de pills">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 4 • Filtros</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">11 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 4 · Un filtro que <span class="wine-gradient">mueve todo</span></h2>
+                    <p class="slide-subtitle">El visual de pills de la Metodología 2, conectado a tus tarjetas y a tu gráfica.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Dime la ruta completa del archivo FiltroGeneralUniversal.pbiviz de la Metodología 2 en mi computadora.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Importa ese archivo .pbiviz</strong><span>Visualizaciones → … → Importar un objeto visual desde un archivo.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Insértalo arriba con Año, Mes y Sucursal</strong><span>Dale al menos 70 px de alto y quita el segmentador nativo.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Elige y observa</strong><span>Las tarjetas y la gráfica cambian con cada clic.</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿Las pills salen vacías?</strong> El visual es muy bajo y el texto queda fuera: súbelo a 120 px.</p>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <table class="value-table filtro-table">
+                            <tr><td>2024</td><td>Ventas $29,474,874 · ▲ 17.7 %</td></tr>
+                            <tr><td>2024</td><td>PEAK mayo · LOW julio</td></tr>
+                            <tr><td>2025 · Puebla Angelópolis</td><td>Ventas $3,010,464 · ▲ 1.0 %</td></tr>
+                            <tr><td>2026</td><td>YoY ▲ 5.4 %</td></tr>
+                        </table>
+                        <p class="check-note"><strong>¿2026 da ▼ 21.3 %?</strong> Tu YoY % compara contra todo 2025: corrígelo como en el taller 5 de la Clase 02.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 12: [TALLER 5] TÚ ERES SUS OJOS
+             La IA no ve el lienzo: se le muestra con una captura.
+             =================================================================== -->
+        <section class="slide" data-slide="12" data-type="Taller 5: Tú eres sus ojos">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 5 • Iterar con capturas</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">12 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 5 · Tú eres <span class="wine-gradient">sus ojos</span></h2>
+                    <p class="slide-subtitle">La IA lee tu modelo, pero no ve tu lienzo. Una captura le muestra lo que tú ves.</p>
+                </div>
+
+                <div class="eyes-strip">
+                    <svg viewBox="0 0 1180 156" fill="none" aria-label="Recorta el lienzo, pega la captura en el chat y pide el cambio" role="img">
+                        <defs><clipPath id="corte"><rect x="34" y="34" width="150" height="74" rx="10" /></clipPath></defs>
+                        <!-- 1 · Recorta -->
+                        <rect x="8" y="8" width="352" height="116" rx="14" fill="#ffffff" stroke="#e4dcef" stroke-width="2.5" />
+                        <rect x="34" y="34" width="150" height="74" rx="10" fill="#ffffff" stroke="#e0d6f5" stroke-width="2" />
+                        <g clip-path="url(#corte)" font-family="var(--font-sans)">
+                            <text x="48" y="56" font-size="14" font-weight="800" fill="#9B59B6">VENTAS</text>
+                            <text x="48" y="94" font-size="34" font-weight="800" fill="#3D0080">$33,984,7</text>
+                        </g>
+                        <rect x="24" y="24" width="170" height="94" rx="12" stroke="#881337" stroke-width="2.5" stroke-dasharray="7 6" />
+                        <g font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#1e1115" text-anchor="middle">
+                            <rect x="214" y="44" width="50" height="30" rx="7" fill="#f6f2fb" stroke="#d8cfe6" stroke-width="2" /><text x="239" y="64">Win</text>
+                            <rect x="214" y="80" width="62" height="30" rx="7" fill="#f6f2fb" stroke="#d8cfe6" stroke-width="2" /><text x="245" y="100">Shift</text>
+                            <rect x="284" y="80" width="40" height="30" rx="7" fill="#f6f2fb" stroke="#d8cfe6" stroke-width="2" /><text x="304" y="100">S</text>
+                        </g>
+                        <!-- Flecha -->
+                        <path d="M372 66 H408" stroke="#881337" stroke-width="4" stroke-linecap="round" class="flow-dash" /><path d="M406 57 L420 66 L406 75 Z" fill="#881337" />
+                        <!-- 2 · Pega -->
+                        <rect x="428" y="8" width="352" height="116" rx="14" fill="#ffffff" stroke="#e4dcef" stroke-width="2.5" />
+                        <rect x="560" y="22" width="204" height="88" rx="14" fill="#f3e8ff" />
+                        <rect x="574" y="34" width="72" height="44" rx="6" fill="#ffffff" stroke="#c4b5fd" stroke-width="2" />
+                        <rect x="582" y="44" width="38" height="6" rx="3" fill="#c4b5fd" /><rect x="582" y="58" width="52" height="10" rx="3" fill="#3D0080" />
+                        <text x="658" y="52" font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#3b0764">¿Cómo la</text>
+                        <text x="658" y="72" font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#3b0764">mejoro?</text>
+                        <g font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#1e1115" text-anchor="middle">
+                            <rect x="452" y="44" width="50" height="30" rx="7" fill="#f6f2fb" stroke="#d8cfe6" stroke-width="2" /><text x="477" y="64">Ctrl</text>
+                            <rect x="510" y="44" width="34" height="30" rx="7" fill="#f6f2fb" stroke="#d8cfe6" stroke-width="2" /><text x="527" y="64">V</text>
+                        </g>
+                        <!-- Flecha -->
+                        <path d="M792 66 H828" stroke="#881337" stroke-width="4" stroke-linecap="round" class="flow-dash" /><path d="M826 57 L840 66 L826 75 Z" fill="#881337" />
+                        <!-- 3 · La IA ajusta -->
+                        <rect x="848" y="8" width="324" height="116" rx="14" fill="#ffffff" stroke="#e4dcef" stroke-width="2.5" />
+                        <circle cx="880" cy="42" r="18" fill="#D97757" />
+                        <path d="M880 31 l2.6 7.4 l7.4 2.6 l-7.4 2.6 l-2.6 7.4 l-2.6 -7.4 l-7.4 -2.6 l7.4 -2.6 Z" fill="#ffffff" />
+                        <rect x="908" y="22" width="248" height="88" rx="14" fill="#fdf1ec" />
+                        <g font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#9a3f1c">
+                            <text x="922" y="48">El valor se corta.</text>
+                            <text x="922" y="70">Ajusto el tamaño del</text>
+                            <text x="922" y="92">número a la tarjeta.</text>
+                        </g>
+                        <g font-family="var(--font-sans)" font-size="17" font-weight="800" fill="#4c0519" text-anchor="middle">
+                            <text x="184" y="148">1 · Recorta tu lienzo</text>
+                            <text x="604" y="148">2 · Pega la captura</text>
+                            <text x="1010" y="148">3 · La IA ajusta</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Pega tu captura y luego esto</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Te paso una captura de mi lienzo. Dime 3 mejoras de diseño para que se lea mejor y aplica la que más ayude.</p>
+                        </div>
+                        <p class="stuck"><strong>¿No se pega la imagen?</strong> En la terminal de Claude Code en Windows usa Alt+V, o guarda la captura y arrastra el archivo al chat.</p>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes notar</span>
+                        <table class="value-table notar-table">
+                            <tr><td>Tarjetas</td><td>Se actualizan solas: la IA cambió la medida.</td></tr>
+                            <tr><td>Gráfica</td><td>Pegas la spec nueva en Deneb.</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 13: [TEORÍA] LO QUE DEBES SABER ANTES DE ENTREGAR
+             =================================================================== -->
+        <section class="slide" data-slide="13" data-type="Teoría: Antes de entregar">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Antes de entregar</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">13 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Lo que debes saber <span class="wine-gradient">antes de entregar</span></h2>
+                    <p class="slide-subtitle">Los visuales personalizados son potentes, pero tienen reglas propias.</p>
+                </div>
+
+                <div class="limits-grid">
+                    <div class="card limit-card">
+                        <span class="role-icon wine"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg></span>
+                        <div><h3>Tu empresa puede bloquearlos</h3><p>TI decide qué visuales externos se permiten. Pregunta antes de llenar un reporte con ellos.</p></div>
+                    </div>
+                    <div class="card limit-card">
+                        <span class="role-icon cyan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /><path d="M12 18v-6" /><path d="M9 15l3 3 3-3" /></svg></span>
+                        <div><h3>No todos se exportan</h3><p>Los visuales sin certificar no salen al exportar a PowerPoint ni en las suscripciones por correo.</p></div>
+                    </div>
+                    <div class="card limit-card">
+                        <span class="role-icon emerald"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8" /><path d="M12 17v4" /></svg></span>
+                        <div><h3>Desktop no es un navegador</h3><p>Una tarjeta HTML puede verse distinta al publicarla. Revísala también en el servicio de Power BI.</p></div>
+                    </div>
+                    <div class="card limit-card">
+                        <span class="role-icon gold"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /><path d="M9 7h7" /><path d="M9 11h5" /></svg></span>
+                        <div><h3>El código también se mantiene</h3><p>Pídele a la IA una descripción en cada medida HTML: quien herede el reporte sabrá qué hace.</p></div>
+                    </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Regla práctica:</strong> personalizado donde cambia la decisión; nativo en todo lo demás.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 14: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             =================================================================== -->
+        <section class="slide" data-slide="14" data-type="Cierre: Preguntas">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Cierre • Clase 03</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Cierre</span>
+                    <span class="slide-number">14 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="closing-grid">
+                    <div class="closing-main">
+                        <svg class="closing-art" viewBox="0 0 300 150" fill="none" aria-hidden="true">
+                            <rect x="20" y="16" width="160" height="96" rx="26" fill="#881337" />
+                            <path d="M60 112 L48 140 L88 112 Z" fill="#881337" />
+                            <text x="100" y="86" text-anchor="middle" font-family="var(--font-sans)" font-size="62" font-weight="800" fill="#ffffff">?</text>
+                            <rect x="150" y="46" width="130" height="80" rx="24" fill="#ffffff" stroke="#D97757" stroke-width="4" />
+                            <path d="M244 126 L258 146 L222 126 Z" fill="#ffffff" stroke="#D97757" stroke-width="4" stroke-linejoin="round" />
+                            <line x1="223" y1="126" x2="243" y2="126" stroke="#ffffff" stroke-width="6" />
+                            <circle cx="190" cy="86" r="7" fill="#D97757" />
+                            <circle cx="215" cy="86" r="7" fill="#D97757" />
+                            <circle cx="240" cy="86" r="7" fill="#D97757" />
+                        </svg>
+                        <h1 class="closing-title"><span class="wine-gradient">¿Preguntas?</span></h1>
+                        <p class="slide-subtitle">Este es el espacio para tus dudas sobre las tarjetas, Deneb o lo que viene en el curso.</p>
+                    </div>
+
+                    <div class="card linkedin-card">
+                        <div class="linkedin-head">
+                            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#0A66C2" /><text x="20" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">in</text></svg>
+                            <div>
+                                <strong>Conecta conmigo</strong>
+                                <span>en LinkedIn</span>
+                            </div>
+                        </div>
+                        <svg class="qr" viewBox="-2 -2 41 41" aria-label="Código QR del perfil de LinkedIn" role="img">
+                            <rect x="-2" y="-2" width="41" height="41" fill="#ffffff" />
+                            <path fill="#1e1115" d="M0 0h7v1h-7zM8 0h1v1h-1zM12 0h2v1h-2zM16 0h1v1h-1zM18 0h2v1h-2zM24 0h1v1h-1zM30 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h6v1h-6zM19 1h1v1h-1zM21 1h2v1h-2zM25 1h1v1h-1zM28 1h1v1h-1zM30 1h1v1h-1zM36 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h3v1h-3zM16 2h2v1h-2zM21 2h1v1h-1zM23 2h3v1h-3zM28 2h1v1h-1zM30 2h1v1h-1zM32 2h3v1h-3zM36 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h1v1h-1zM17 3h3v1h-3zM21 3h2v1h-2zM25 3h2v1h-2zM30 3h1v1h-1zM32 3h3v1h-3zM36 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM15 4h3v1h-3zM22 4h1v1h-1zM24 4h3v1h-3zM30 4h1v1h-1zM32 4h3v1h-3zM36 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h3v1h-3zM20 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h7v1h-7zM10 7h2v1h-2zM18 7h2v1h-2zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h2v1h-2zM0 8h1v1h-1zM2 8h1v1h-1zM6 8h2v1h-2zM11 8h1v1h-1zM16 8h4v1h-4zM31 8h1v1h-1zM34 8h1v1h-1zM36 8h1v1h-1zM0 9h3v1h-3zM4 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM11 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM27 9h2v1h-2zM30 9h2v1h-2zM33 9h4v1h-4zM1 10h2v1h-2zM5 10h3v1h-3zM9 10h2v1h-2zM12 10h3v1h-3zM16 10h1v1h-1zM18 10h2v1h-2zM21 10h3v1h-3zM25 10h1v1h-1zM27 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM36 10h1v1h-1zM0 11h1v1h-1zM3 11h2v1h-2zM7 11h2v1h-2zM11 11h1v1h-1zM13 11h4v1h-4zM18 11h1v1h-1zM22 11h3v1h-3zM26 11h1v1h-1zM29 11h2v1h-2zM0 12h1v1h-1zM3 12h1v1h-1zM5 12h2v1h-2zM9 12h6v1h-6zM16 12h1v1h-1zM19 12h2v1h-2zM23 12h2v1h-2zM27 12h2v1h-2zM30 12h1v1h-1zM33 12h1v1h-1zM36 12h1v1h-1zM2 13h2v1h-2zM5 13h1v1h-1zM9 13h1v1h-1zM12 13h6v1h-6zM19 13h2v1h-2zM23 13h3v1h-3zM27 13h5v1h-5zM33 13h1v1h-1zM36 13h1v1h-1zM0 14h4v1h-4zM6 14h1v1h-1zM8 14h2v1h-2zM12 14h1v1h-1zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h2v1h-2zM27 14h1v1h-1zM33 14h2v1h-2zM36 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM15 15h1v1h-1zM17 15h1v1h-1zM19 15h2v1h-2zM23 15h2v1h-2zM26 15h1v1h-1zM30 15h4v1h-4zM2 16h1v1h-1zM4 16h6v1h-6zM11 16h1v1h-1zM13 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM30 16h2v1h-2zM36 16h1v1h-1zM1 17h2v1h-2zM7 17h3v1h-3zM14 17h1v1h-1zM20 17h4v1h-4zM26 17h3v1h-3zM30 17h2v1h-2zM33 17h4v1h-4zM0 18h1v1h-1zM2 18h5v1h-5zM9 18h3v1h-3zM15 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM30 18h2v1h-2zM34 18h1v1h-1zM36 18h1v1h-1zM0 19h4v1h-4zM5 19h1v1h-1zM8 19h3v1h-3zM12 19h3v1h-3zM18 19h3v1h-3zM23 19h2v1h-2zM28 19h6v1h-6zM0 20h9v1h-9zM12 20h1v1h-1zM14 20h3v1h-3zM20 20h1v1h-1zM22 20h3v1h-3zM28 20h1v1h-1zM30 20h2v1h-2zM33 20h1v1h-1zM35 20h1v1h-1zM0 21h1v1h-1zM3 21h3v1h-3zM8 21h1v1h-1zM10 21h1v1h-1zM14 21h3v1h-3zM19 21h2v1h-2zM23 21h2v1h-2zM27 21h4v1h-4zM36 21h1v1h-1zM0 22h1v1h-1zM3 22h1v1h-1zM5 22h3v1h-3zM10 22h3v1h-3zM15 22h1v1h-1zM17 22h3v1h-3zM21 22h1v1h-1zM23 22h1v1h-1zM26 22h3v1h-3zM30 22h1v1h-1zM33 22h2v1h-2zM36 22h1v1h-1zM2 23h1v1h-1zM5 23h1v1h-1zM18 23h1v1h-1zM22 23h2v1h-2zM28 23h1v1h-1zM31 23h3v1h-3zM36 23h1v1h-1zM0 24h1v1h-1zM3 24h1v1h-1zM6 24h2v1h-2zM10 24h3v1h-3zM16 24h5v1h-5zM22 24h2v1h-2zM28 24h1v1h-1zM30 24h2v1h-2zM35 24h2v1h-2zM5 25h1v1h-1zM8 25h3v1h-3zM13 25h2v1h-2zM16 25h3v1h-3zM21 25h3v1h-3zM25 25h1v1h-1zM27 25h1v1h-1zM30 25h2v1h-2zM34 25h1v1h-1zM36 25h1v1h-1zM0 26h2v1h-2zM4 26h1v1h-1zM6 26h6v1h-6zM14 26h1v1h-1zM16 26h1v1h-1zM19 26h2v1h-2zM23 26h1v1h-1zM25 26h4v1h-4zM30 26h2v1h-2zM33 26h2v1h-2zM36 26h1v1h-1zM2 27h1v1h-1zM4 27h2v1h-2zM7 27h3v1h-3zM12 27h2v1h-2zM15 27h2v1h-2zM18 27h1v1h-1zM22 27h1v1h-1zM24 27h1v1h-1zM26 27h2v1h-2zM29 27h2v1h-2zM33 27h1v1h-1zM35 27h1v1h-1zM0 28h2v1h-2zM3 28h1v1h-1zM6 28h1v1h-1zM8 28h4v1h-4zM13 28h1v1h-1zM16 28h1v1h-1zM18 28h1v1h-1zM20 28h1v1h-1zM24 28h1v1h-1zM28 28h6v1h-6zM35 28h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h4v1h-4zM19 29h2v1h-2zM23 29h2v1h-2zM28 29h1v1h-1zM32 29h1v1h-1zM35 29h2v1h-2zM0 30h7v1h-7zM8 30h1v1h-1zM10 30h3v1h-3zM14 30h3v1h-3zM19 30h2v1h-2zM22 30h3v1h-3zM28 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM36 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM9 31h4v1h-4zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM22 31h3v1h-3zM26 31h3v1h-3zM32 31h1v1h-1zM35 31h1v1h-1zM0 32h1v1h-1zM2 32h3v1h-3zM6 32h1v1h-1zM9 32h4v1h-4zM15 32h1v1h-1zM17 32h1v1h-1zM19 32h1v1h-1zM24 32h1v1h-1zM27 32h6v1h-6zM35 32h2v1h-2zM0 33h1v1h-1zM2 33h3v1h-3zM6 33h1v1h-1zM9 33h3v1h-3zM14 33h1v1h-1zM17 33h1v1h-1zM19 33h1v1h-1zM23 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM32 33h2v1h-2zM0 34h1v1h-1zM2 34h3v1h-3zM6 34h1v1h-1zM8 34h1v1h-1zM12 34h1v1h-1zM15 34h1v1h-1zM17 34h1v1h-1zM19 34h2v1h-2zM23 34h1v1h-1zM29 34h1v1h-1zM31 34h2v1h-2zM34 34h1v1h-1zM36 34h1v1h-1zM0 35h1v1h-1zM6 35h1v1h-1zM10 35h1v1h-1zM13 35h2v1h-2zM18 35h2v1h-2zM27 35h3v1h-3zM32 35h2v1h-2zM0 36h7v1h-7zM8 36h2v1h-2zM12 36h1v1h-1zM14 36h2v1h-2zM19 36h1v1h-1zM23 36h2v1h-2zM26 36h1v1h-1zM28 36h1v1h-1zM30 36h2v1h-2zM36 36h1v1h-1z" />
+                        </svg>
+                        <span class="linkedin-url">linkedin.com/in/<br>francisco-ricardo-hernandez-astorga-7709b53b8</span>
+                    </div>
+                </div>
+
+                <div class="next-class">
+                    <span class="badge purple">Próxima clase</span>
+                    <span><strong>Clase 04</strong> · Dashboard completo con un solo prompt: la IA arma el lienzo entero, no solo un visual.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================
+         BOTTOM NAVIGATION DOCK
+         =================================================================== -->
+    <nav class="nav-dock" id="navDock">
+        <button class="nav-btn" id="prevBtn" title="Diapositiva Anterior (Flecha Izquierda)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <span class="nav-counter" id="navCounter">01 / 14</span>
+
+        <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <div class="nav-divider"></div>
+
+        <button class="nav-btn" id="overviewBtn" title="Ver Todas las Diapositivas (Tecla 'O')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+
+        <button class="nav-btn" id="fullscreenBtn" title="Pantalla Completa (Tecla 'F')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+    </nav>
+
+    <!-- ===================================================================
+         OVERVIEW MODAL ('O' KEY)
+         =================================================================== -->
+    <div class="overview-modal" id="overviewModal">
+        <div class="overview-header">
+            <div>
+                <h2 style="font-size:1.6rem; color:#fff;">Índice General de Diapositivas</h2>
+                <p style="color:#94a3b8; font-size:0.9rem;">Haz clic en cualquier tarjeta para navegar directamente.</p>
+            </div>
+            <button class="nav-btn" id="closeOverviewBtn" style="color:#fff; background:rgba(255,255,255,0.1);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="overview-grid" id="overviewGrid"></div>
+    </div>
+
+    <!-- ===================================================================
+         SCRIPTS & CONTROLES INTERACTIVOS
+         =================================================================== -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const navCounter = document.getElementById('navCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const deck = document.getElementById('deck');
+        const navDock = document.getElementById('navDock');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const overviewBtn = document.getElementById('overviewBtn');
+        const overviewModal = document.getElementById('overviewModal');
+        const closeOverviewBtn = document.getElementById('closeOverviewBtn');
+        const overviewGrid = document.getElementById('overviewGrid');
+        const spotlight = document.getElementById('spotlight');
+
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        // Actualizar Diapositiva
+        function updateSlide(newIndex) {
+            if (newIndex < 0) newIndex = 0;
+            if (newIndex >= totalSlides) newIndex = totalSlides - 1;
+
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = newIndex;
+            slides[currentSlideIndex].classList.add('active');
+
+            const progressPct = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPct}%`;
+
+            const currentFormatted = String(currentSlideIndex + 1).padStart(2, '0');
+            const totalFormatted = String(totalSlides).padStart(2, '0');
+            navCounter.textContent = `${currentFormatted} / ${totalFormatted}`;
+
+            prevBtn.style.opacity = currentSlideIndex === 0 ? '0.35' : '1';
+            nextBtn.style.opacity = currentSlideIndex === totalSlides - 1 ? '0.35' : '1';
+
+            // Guardar la diapositiva en la URL (#4) para que recargar no regrese a la portada
+            try {
+                history.replaceState(null, '', `#${currentSlideIndex + 1}`);
+            } catch (err) { /* algunos navegadores lo bloquean en file:// */ }
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                updateSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                updateSlide(currentSlideIndex - 1);
+            }
+        }
+
+        // Lienzo fijo 1280×720 escalado para llenar la ventana (ver .deck en el CSS).
+        // `zoom` mantiene el texto nítido; con transform: scale se vería borroso.
+        function fitStage() {
+            const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+            deck.style.zoom = scale;
+        }
+        window.addEventListener('resize', fitStage);
+        fitStage();
+
+        // Pantalla Completa
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // Overview Modal
+        function buildOverviewGrid() {
+            overviewGrid.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const title = slide.querySelector('h1, h2')?.innerText || `Diapositiva ${index + 1}`;
+                const type = slide.getAttribute('data-type') || 'Contenido';
+                const card = document.createElement('div');
+                card.className = 'overview-card';
+                card.innerHTML = `
+                    <span class="num">${String(index + 1).padStart(2, '0')}</span>
+                    <span class="type">${type}</span>
+                    <span class="name">${title}</span>
+                `;
+                card.addEventListener('click', () => {
+                    updateSlide(index);
+                    overviewModal.classList.remove('open');
+                });
+                overviewGrid.appendChild(card);
+            });
+        }
+
+        overviewBtn.addEventListener('click', () => {
+            buildOverviewGrid();
+            overviewModal.classList.add('open');
+        });
+
+        closeOverviewBtn.addEventListener('click', () => overviewModal.classList.remove('open'));
+        overviewModal.addEventListener('click', (e) => {
+            if (e.target === overviewModal) overviewModal.classList.remove('open');
+        });
+
+        // Controles de Teclado
+        window.addEventListener('keydown', (e) => {
+            if (overviewModal.classList.contains('open')) {
+                if (e.key === 'Escape' || e.key === 'o' || e.key === 'O') {
+                    overviewModal.classList.remove('open');
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'o' || e.key === 'O') {
+                buildOverviewGrid();
+                overviewModal.classList.add('open');
+            } else if (e.key === 'Home') {
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                updateSlide(totalSlides - 1);
+            }
+        });
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Barra de navegación: solo aparece con el ratón cerca del borde inferior
+        window.addEventListener('mousemove', (e) => {
+            const nearBottom = e.clientY > window.innerHeight - 110;
+            document.body.classList.toggle('dock-visible', nearBottom || navDock.matches(':hover'));
+        });
+        document.addEventListener('mouseleave', () => document.body.classList.remove('dock-visible'));
+
+        // Spotlight Cursor
+        window.addEventListener('mousemove', (e) => {
+            if (spotlight) {
+                spotlight.style.opacity = '1';
+                spotlight.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            }
+        });
+        document.addEventListener('mouseleave', () => {
+            if (spotlight) spotlight.style.opacity = '0';
+        });
+
+        // ===================================================================
+        // TALLERES: COPIAR PROMPTS
+        // ===================================================================
+        document.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const texto = btn.closest('.prompt-copy').querySelector('.prompt-copy-text').textContent.trim();
+                const avisar = (ok) => {
+                    btn.textContent = ok ? 'Copiado ✓' : 'Selecciona y Ctrl+C';
+                    btn.classList.toggle('copiado', ok);
+                    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2000);
+                };
+                // Respaldo para file:// o navegadores sin permiso de portapapeles
+                const respaldo = () => {
+                    const area = document.createElement('textarea');
+                    area.value = texto;
+                    document.body.appendChild(area);
+                    area.select();
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                    area.remove();
+                    avisar(ok);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(texto).then(() => avisar(true), respaldo);
+                } else {
+                    respaldo();
+                }
+                btn.blur();
+            });
+        });
+
+        // ===================================================================
+        // REVELAR RESPUESTAS (talleres)
+        // ===================================================================
+        document.querySelectorAll('.reveal-btn[data-target]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.getElementById(btn.dataset.target).classList.add('revealed');
+                btn.blur();
+            });
+        });
+
+        // ===================================================================
+        // JUEGO: LA PRUEBA DE LOS 5 SEGUNDOS (clic, Enter y teclas 1, 2 y 3)
+        // ===================================================================
+        const j5Rondas = [
+            { q: '¿Cuál fue el mes con menos ventas?', o: ['Enero', 'Julio', 'Septiembre'], ok: 1,
+              e: '<strong>Julio, $1.95 M.</strong> Enero y febrero quedaron en $1.98 M: sin una marca de LOW, en 5 segundos no se distinguen.' },
+            { q: '¿Cuál fue el mes con menos ventas?', o: ['Enero', 'Agosto', 'Septiembre'], ok: 0,
+              e: '<strong>Enero, $2.17 M.</strong> La marca LOW responde sola: no hace falta recorrer la línea.' },
+            { q: '¿Vendimos más o menos que el año anterior?', o: ['Más', 'Menos', 'No se puede saber'], ok: 2,
+              e: '<strong>No se puede saber.</strong> La tarjeta solo muestra el valor, sin comparación. En realidad fue ▲ 15.3 %.' },
+            { q: '¿El margen subió o bajó contra el año anterior?', o: ['Subió', 'Bajó', 'Se quedó igual'], ok: 1,
+              e: '<strong>Bajó 0.1 puntos.</strong> El badge rojo con ▼ lo dice antes de que leas el número.' },
+            { q: '¿Qué sucursal creció menos?', o: ['Puebla Angelópolis', 'CDMX Coyoacán', 'Guadalajara Centro'], ok: 0,
+              e: '<strong>Puebla Angelópolis, 1.0 %.</strong> CDMX Coyoacán tiene 1.2 %: en una tabla de 8 filas, dos décimas no se ven en 5 segundos.' },
+            { q: '¿Qué sucursal vendió más?', o: ['León Industrial', 'Zapopan Bodega', 'Monterrey Cumbres'], ok: 1,
+              e: '<strong>Zapopan Bodega, $8.06 M.</strong> El orden y el color destacan al primero sin buscarlo.' },
+        ];
+        const j5Tipos = ['nativo', 'personalizado', 'nativo', 'personalizado', 'nativo', 'personalizado'];
+        const j5 = { i: 0, fase: 'intro', reloj: null, n: 5 };
+        const j5Main = document.getElementById('j5Main');
+        const j5Stage = document.getElementById('j5Stage');
+        const j5Ring = document.getElementById('j5Ring');
+        const j5Arco = document.getElementById('j5Arco');
+        const j5Num = document.getElementById('j5Num');
+        const j5Tag = document.getElementById('j5Tag');
+        const j5Ronda = document.getElementById('j5Ronda');
+        const j5Cortina = document.getElementById('j5Cortina');
+        const j5Visual = (i) => document.getElementById('j5v' + i).innerHTML;
+
+        function j5Puntos(indice) {
+            document.querySelectorAll('#j5Dots i').forEach((d, k) => {
+                d.classList.toggle('actual', k === indice);
+                d.classList.toggle('hecho', k < indice || indice < 0);
+            });
+        }
+
+        function j5Anillo(lleno) {
+            j5Arco.style.transition = 'none';
+            j5Arco.style.strokeDashoffset = lleno ? '0' : '414.69';
+            void j5Arco.getBoundingClientRect();
+        }
+
+        function j5Intro() {
+            clearInterval(j5.reloj);
+            Object.assign(j5, { i: 0, fase: 'intro' });
+            j5Stage.classList.remove('final');
+            j5Puntos(0);
+            j5Anillo(true);
+            j5Num.textContent = '5';
+            j5Ring.classList.remove('urgente', 'bien', 'mal');
+            j5Stage.classList.remove('urgente');
+            j5Tag.className = 'j5-tag';
+            j5Tag.textContent = '6 rondas';
+            j5Ronda.textContent = 'Listos para empezar';
+            j5Main.innerHTML = `
+                <div class="j5-intro">
+                    <h3>Verás un visual solo 5 segundos.<br>Después, una pregunta.</h3>
+                    <div class="j5-pasos">
+                        <span class="j5-paso"><b>1</b>Mira</span>
+                        <span class="j5-paso"><b>2</b>Responde en el chat</span>
+                        <span class="j5-paso"><b>3</b>Compara nativo vs. personalizado</span>
+                    </div>
+                    <button class="j5-btn pulso" type="button" data-j5="empezar">Empezar <kbd>Enter</kbd></button>
+                </div>`;
+        }
+
+        function j5Ver() {
+            const tipo = j5Tipos[j5.i];
+            j5.fase = 'ver';
+            j5.n = 5;
+            j5Puntos(j5.i);
+            j5Tag.className = 'j5-tag ' + tipo;
+            j5Tag.textContent = tipo === 'nativo' ? 'Nativo' : 'Personalizado';
+            j5Ronda.textContent = 'Ronda ' + (j5.i + 1) + ' de 6';
+            j5Main.innerHTML = '<div class="j5-ver">' + j5Visual(j5.i) + '</div>';
+            j5Num.textContent = '5';
+            j5Ring.classList.remove('urgente', 'bien', 'mal');
+            j5Stage.classList.remove('urgente');
+            j5Anillo(true);
+            requestAnimationFrame(() => {
+                j5Arco.style.transition = 'stroke-dashoffset 5s linear';
+                j5Arco.style.strokeDashoffset = '414.69';
+            });
+            clearInterval(j5.reloj);
+            j5.reloj = setInterval(() => {
+                j5.n -= 1;
+                j5Num.textContent = String(j5.n);
+                j5Num.classList.remove('tic');
+                void j5Num.offsetWidth;
+                j5Num.classList.add('tic');
+                if (j5.n <= 2) { j5Ring.classList.add('urgente'); j5Stage.classList.add('urgente'); }
+                if (j5.n <= 0) { clearInterval(j5.reloj); j5Tiempo(); }
+            }, 1000);
+        }
+
+        function j5Tiempo() {
+            j5.fase = 'cortina';
+            j5Stage.classList.remove('urgente');
+            j5Cortina.classList.remove('corre');
+            void j5Cortina.offsetWidth;
+            j5Cortina.classList.add('corre');
+            setTimeout(j5Pregunta, 480);
+        }
+
+        function j5Opciones(r, disabled) {
+            return r.o.map((t, k) => `<button class="j5-opt" type="button" data-j5="op" data-k="${k}"${disabled ? ' disabled' : ''}><kbd>${k + 1}</kbd>${t}</button>`).join('');
+        }
+
+        function j5Pregunta() {
+            const r = j5Rondas[j5.i];
+            j5.fase = 'pregunta';
+            j5Num.textContent = '?';
+            j5Ring.classList.remove('urgente', 'bien', 'mal');
+            j5Main.innerHTML = `<p class="j5-q">${r.q}</p><div class="j5-opts">${j5Opciones(r, false)}</div>`;
+        }
+
+        function j5Confeti(btn) {
+            const colores = ['#881337', '#be123c', '#6A0DAD', '#118DFF', '#27AE60', '#f59e0b'];
+            for (let k = 0; k < 26; k++) {
+                const c = document.createElement('i');
+                c.className = 'j5-confeti';
+                const ang = Math.random() * Math.PI * 2, dist = 70 + Math.random() * 110;
+                c.style.setProperty('--dx', Math.cos(ang) * dist + 'px');
+                c.style.setProperty('--dy', Math.sin(ang) * dist - 30 + 'px');
+                c.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+                c.style.background = colores[k % colores.length];
+                btn.appendChild(c);
+                setTimeout(() => c.remove(), 1100);
+            }
+        }
+
+        function j5Responder(k) {
+            if (j5.fase !== 'pregunta') return;
+            const r = j5Rondas[j5.i], tipo = j5Tipos[j5.i], acierto = k === r.ok;
+            j5.fase = 'respuesta';
+            j5Main.innerHTML = `
+                <div class="j5-resp">
+                    <p class="j5-q j5-resp-q">${r.q}</p>
+                    <div class="j5-opts">${j5Opciones(r, true)}</div>
+                    <div class="j5-explica">
+                        <div class="j5-thumb">${j5Visual(j5.i)}</div>
+                        <div class="j5-explica-txt">
+                            <p>${r.e}</p>
+                            <button class="j5-btn" type="button" data-j5="siguiente">${j5.i + 1 < j5Rondas.length ? 'Siguiente ronda' : 'Comparar los pares'} <kbd>Enter</kbd></button>
+                        </div>
+                    </div>
+                </div>`;
+            const botones = j5Main.querySelectorAll('.j5-opt');
+            botones.forEach((b, n) => {
+                if (n === r.ok) b.classList.add('ok');
+                else if (n === k) b.classList.add('mal');
+                else b.classList.add('apagada');
+            });
+            if (acierto) j5Confeti(botones[r.ok]);
+            j5Anillo(true);
+            j5Ring.classList.add(acierto ? 'bien' : 'mal');
+            j5Num.textContent = acierto ? '✓' : '✗';
+        }
+
+        const j5Pares = [
+            { q: '¿Cuál fue el mes más bajo?', n: 0, c: 0, e: 'Sin marcas, julio se pierde entre enero y febrero. Con <strong>LOW</strong>, se ve sin buscar.' },
+            { q: '¿Vendimos más que el año anterior?', n: 2, c: 1, e: 'El mismo $33.98 M. Solo la versión con <strong>badge</strong> responde la pregunta: ▲ 15.3 %.' },
+            { q: '¿Qué sucursal creció menos?', n: 4, c: 2, e: 'En la tabla hay que leer 8 filas. En el ranking, <strong>el rojo</strong> señala a Puebla de inmediato.' },
+        ];
+        const j5Comparar = (k) => document.getElementById('j5c' + k).innerHTML;
+
+        function j5Final() {
+            j5.fase = 'final';
+            j5Stage.classList.add('final');
+            j5Main.innerHTML = `
+                <div class="j5-comp">
+                    <div class="j5-comp-head">
+                        <h3>Mismo dato, <span class="wine-gradient">dos historias</span></h3>
+                        <span class="j5-comp-hint">Haz clic en un par para verlo en grande.</span>
+                        <button class="j5-btn" type="button" data-j5="otra">Jugar otra vez <kbd>Enter</kbd></button>
+                    </div>
+                    <div class="j5-pares">${j5Pares.map((p, k) => `
+                        <div class="j5-par" data-j5="zoom" data-k="${k}" style="--d: ${k}" role="button" tabindex="0">
+                            <span class="j5-par-q">${p.q}</span>
+                            <div class="j5-fila"><span class="j5-vtag nativo">Nativo</span><div class="j5-mini nativo">${j5Visual(p.n)}</div></div>
+                            <div class="j5-fila"><span class="j5-vtag personalizado">Personalizado</span><div class="j5-mini personalizado">${j5Comparar(p.c)}</div></div>
+                        </div>`).join('')}
+                    </div>
+                </div>`;
+        }
+
+        function j5Zoom(k) {
+            const p = j5Pares[k];
+            j5Cerrar();
+            const z = document.createElement('div');
+            z.className = 'j5-zoom';
+            z.id = 'j5Zoom';
+            z.innerHTML = `
+                <div class="j5-zoom-head">
+                    <h3>${p.q}</h3>
+                    <button class="j5-btn" type="button" data-j5="cerrar">Volver <kbd>Esc</kbd></button>
+                </div>
+                <div class="j5-zoom-par">
+                    <div class="j5-zoom-col"><span class="j5-mtag nativo">Nativo</span><div class="j5-big">${j5Visual(p.n)}</div></div>
+                    <div class="j5-zoom-col"><span class="j5-mtag personalizado">Personalizado</span><div class="j5-big">${j5Comparar(p.c)}</div></div>
+                </div>
+                <p class="j5-zoom-nota">${p.e}</p>`;
+            j5Stage.appendChild(z);
+        }
+
+        function j5Cerrar() {
+            const z = document.getElementById('j5Zoom');
+            if (z) z.remove();
+            return !!z;
+        }
+
+        function j5Avanzar() {
+            if (j5.fase === 'intro') j5Ver();
+            else if (j5.fase === 'respuesta') { j5.i += 1; if (j5.i < j5Rondas.length) j5Ver(); else j5Final(); }
+            else if (j5.fase === 'final') { j5Intro(); }
+        }
+
+        j5Stage.addEventListener('click', (e) => {
+            const b = e.target.closest('[data-j5]');
+            if (!b) return;
+            const accion = b.dataset.j5;
+            if (accion === 'op') j5Responder(Number(b.dataset.k));
+            else if (accion === 'otra') { j5Intro(); j5Ver(); }
+            else if (accion === 'zoom') j5Zoom(Number(b.dataset.k));
+            else if (accion === 'cerrar') j5Cerrar();
+            else j5Avanzar();
+            b.blur();
+        });
+        window.addEventListener('keydown', (e) => {
+            if (overviewModal.classList.contains('open') || !slides[currentSlideIndex].querySelector('.j5-stage')) return;
+            if (e.key === 'Escape') { j5Cerrar(); return; }
+            if (e.key === 'Enter') { e.preventDefault(); if (j5.fase === 'final') { if (!j5Cerrar()) { j5Intro(); j5Ver(); } } else j5Avanzar(); }
+            const k = { '1': 0, '2': 1, '3': 2 }[e.key];
+            if (k !== undefined) j5Responder(k);
+        });
+        j5Intro();
+
+        // Inicializar en la diapositiva de la URL (#4) o en la portada
+        function slideFromHash() {
+            const n = parseInt(location.hash.slice(1), 10);
+            return Number.isInteger(n) ? n - 1 : 0;
+        }
+        window.addEventListener('hashchange', () => updateSlide(slideFromHash()));
+        updateSlide(slideFromHash());
+    </script>
+</body>
+
+</html>
