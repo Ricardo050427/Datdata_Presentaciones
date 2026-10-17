@@ -115,9 +115,80 @@
             color: var(--text);
         }
 
+        /* Actualizar la Metodología 2 */
+        .update {
+            margin-top: 40px;
+            padding: 24px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--wine);
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(136, 19, 55, 0.05);
+        }
+
+        .update-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .update h2 { font-size: 1.3rem; font-weight: 800; }
+
+        .version {
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(136, 19, 55, 0.08);
+            color: var(--wine);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .update > p { margin: 8px 0 16px; color: var(--muted); line-height: 1.5; }
+
+        .prompt {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            background: rgba(136, 19, 55, 0.06);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+        }
+
+        .prompt code {
+            flex: 1;
+            min-width: 0;
+            font-family: 'JetBrains Mono', Consolas, monospace;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .copy {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            border: 1px solid var(--wine);
+            border-radius: 10px;
+            background: #ffffff;
+            color: var(--wine);
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .copy:hover { background: var(--wine); color: #ffffff; }
+        .copy.done { background: #047857; border-color: #047857; color: #ffffff; }
+
+        .update ol { margin: 16px 0 0 20px; color: var(--muted); line-height: 1.7; }
+        .update a { color: var(--wine); font-weight: 700; }
+
         @media (max-width: 560px) {
             .class-card { flex-wrap: wrap; }
             .go { margin-left: 76px; }
+            .prompt { flex-direction: column; align-items: stretch; }
         }
     </style>
 </head>
@@ -159,8 +230,56 @@
             </a>
         </div>
 
+        <section class="update" aria-labelledby="actualizar">
+            <div class="update-head">
+                <h2 id="actualizar">Actualiza tu Metodología 2</h2>
+                <span class="version" id="version">Versión publicada: 2.1.0</span>
+            </div>
+            <p>Cuando salga una versión nueva, copia esta frase y pégala en tu agente (Claude Code, Codex o Antigravity).</p>
+            <div class="prompt">
+                <code id="prompt">Actualiza la Metodología 2 de Datdata siguiendo las instrucciones de https://ricardo050427.github.io/datdata/instalar.md</code>
+                <button class="copy" id="copiar" type="button">Copiar</button>
+            </div>
+            <ol>
+                <li>Tu agente descarga la versión nueva y te muestra qué cambió.</li>
+                <li>Al terminar, cierra y vuelve a abrir tu agente.</li>
+                <li>¿Qué trae cada versión? Revisa las <a href="https://github.com/Ricardo050427/datdata/blob/main/novedades.md" target="_blank" rel="noopener">novedades</a>.</li>
+            </ol>
+        </section>
+
         <p class="keys">Dentro de cada presentación: <kbd>←</kbd> <kbd>→</kbd> para avanzar, <kbd>F</kbd> pantalla completa y <kbd>O</kbd> índice de diapositivas.</p>
     </main>
+
+    <script>
+        // Copiar el prompt (con respaldo para navegadores sin permiso de portapapeles)
+        const boton = document.getElementById('copiar');
+        boton.addEventListener('click', () => {
+            const texto = document.getElementById('prompt').textContent.trim();
+            const avisar = (ok) => {
+                boton.textContent = ok ? 'Copiado ✓' : 'Selecciona y Ctrl+C';
+                boton.classList.toggle('done', ok);
+                setTimeout(() => { boton.textContent = 'Copiar'; boton.classList.remove('done'); }, 2000);
+            };
+            const respaldo = () => {
+                const area = document.createElement('textarea');
+                area.value = texto;
+                document.body.appendChild(area);
+                area.select();
+                let ok = false;
+                try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                area.remove();
+                avisar(ok);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texto).then(() => avisar(true), respaldo);
+            else respaldo();
+        });
+
+        // Versión publicada, leída del sitio de la metodología (mismo dominio)
+        fetch('https://ricardo050427.github.io/datdata/version.txt', { cache: 'no-store' })
+            .then((r) => (r.ok ? r.text() : Promise.reject()))
+            .then((v) => { if (/^\d+\.\d+\.\d+$/.test(v.trim())) document.getElementById('version').textContent = 'Versión publicada: ' + v.trim(); })
+            .catch(() => {});
+    </script>
 </body>
 
 </html>
