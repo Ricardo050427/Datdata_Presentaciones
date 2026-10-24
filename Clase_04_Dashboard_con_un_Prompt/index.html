@@ -1980,18 +1980,6 @@
         }
 
         /* ===================== CLASE 04 ===================== */
-        .badge.espera {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--accent-emerald-bg);
-            color: var(--accent-emerald);
-            border-color: var(--accent-emerald-border);
-        }
-
-        .espera-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-emerald); animation: esperaPulso 1.4s ease-in-out infinite; }
-        @keyframes esperaPulso { 50% { opacity: 0.25; transform: scale(0.7); } }
-
         .agenda.cinco { grid-template-columns: repeat(5, 1fr); }
 
         /* ¿Nativo o personalizado? */
@@ -2264,6 +2252,90 @@
         /* Frase dinámica */
         .fr-txt { display: block; min-height: 50px; padding: 8px 14px; border-radius: 12px; background: #fff7ed; border-left: 4px solid #E8590C; font-size: 0.95rem; line-height: 1.4; color: var(--text-sub); }
         .fr-txt b { color: #c2410c; }
+
+        /* ===== Así se ve un visual.json ===== */
+        .vj-grid { display: grid; grid-template-columns: 1fr 390px; gap: 20px; align-items: stretch; }
+
+        .vj-code { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #fbfaf8; border: 1px solid #ece4e6; box-shadow: var(--card-shadow); }
+        .vj-bar { display: flex; justify-content: space-between; gap: 12px; padding: 8px 14px; background: #f3eef0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
+        .vj-lines { color: var(--wine-base); white-space: nowrap; }
+
+        .vj-code pre {
+            margin: 0;
+            padding: 12px 6px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #52525b;
+            white-space: pre;
+            overflow: hidden;
+        }
+
+        .jk { color: #7c3aed; }
+        .js { color: #b45309; }
+        .jn { color: #0369a1; }
+        .jz { display: inline-block; width: calc(100% - 4px); margin-left: -4px; padding-left: 4px; border-left: 4px solid transparent; border-radius: 0 6px 6px 0; }
+        .jz.z1 { background: rgba(3, 105, 161, 0.08); border-left-color: #0369a1; }
+        .jz.z2 { background: rgba(4, 120, 87, 0.08); border-left-color: #047857; }
+        .jz.z3 { background: rgba(180, 83, 9, 0.08); border-left-color: #b45309; }
+
+        .sw { border-radius: 4px; transition: background 0.3s ease; }
+        .sw.cambio { background: #bbf7d0; color: #166534; animation: vjFlash 0.7s ease; }
+        @keyframes vjFlash { 0% { background: #fde68a; } 100% { background: #bbf7d0; } }
+
+        .vj-side { display: flex; flex-direction: column; gap: 8px; }
+        .vj-ley { display: flex; align-items: flex-start; gap: 10px; }
+        .vj-ley strong { display: block; font-size: 1.02rem; color: var(--text-heading); }
+        .vj-ley span:not(.vj-n) { display: block; font-size: 0.92rem; line-height: 1.3; color: var(--text-muted); }
+        .vj-n { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: #ffffff; }
+        .vj-ley.z1 .vj-n { background: #0369a1; }
+        .vj-ley.z2 .vj-n { background: #047857; }
+        .vj-ley.z3 .vj-n { background: #b45309; }
+
+        .vj-demo { margin-top: auto; display: flex; flex-direction: column; gap: 9px; padding: 11px 13px; border-radius: 14px; background: var(--wine-soft); }
+
+        .vj-tabs { display: flex; gap: 6px; }
+
+        .vj-tab {
+            flex: 1;
+            padding: 5px 6px;
+            border: 1.5px solid #e8c9d2;
+            border-radius: 999px;
+            background: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--wine-base);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .vj-tab.activo { background: var(--wine-base); border-color: var(--wine-base); color: #ffffff; }
+        .vj-prompt { min-height: 2.9em; font-family: var(--font-mono); font-size: 0.86rem; font-weight: 600; line-height: 1.45; color: var(--text-heading); }
+        .vj-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 76px; }
+
+        .vj-card {
+            width: 136px;
+            height: 72px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            background: #ffffff;
+            border: 1px solid #ebe7e5;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(140, 156, 168, 0.25);
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .vj-card b { font-family: 'Segoe UI', var(--font-sans); font-size: 1.5rem; font-weight: 600; line-height: 1.1; color: #1F2933; transition: color 0.4s ease, font-size 0.4s ease; }
+        .vj-card span { font-size: 0.78rem; color: #6B7A86; white-space: nowrap; }
+        .vj-card.ancha { width: 240px; }
+        .vj-card.grande b { font-size: 1.95rem; font-weight: 800; }
+        .vj-card.cambia { animation: kdCambia 0.4s ease; }
+        .vj-btn { flex-shrink: 0; }
     </style>
 </head>
 
@@ -2281,7 +2353,7 @@
     <main class="deck" id="deck">
 
         <!-- ===================================================================
-             DECK CONTAINER (14 DIAPOSITIVAS • DASHBOARD CON UN SOLO PROMPT)
+             DECK CONTAINER (15 DIAPOSITIVAS • DASHBOARD CON UN SOLO PROMPT)
              =================================================================== -->
 
         <!-- ===================================================================
@@ -2369,7 +2441,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge ">Agenda</span>
-                    <span class="slide-number">02 / 14</span>
+                    <span class="slide-number">02 / 15</span>
                 </div>
             </header>
 
@@ -2409,7 +2481,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">03 / 14</span>
+                    <span class="slide-number">03 / 15</span>
                 </div>
             </header>
 
@@ -2459,7 +2531,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">04 / 14</span>
+                    <span class="slide-number">04 / 15</span>
                 </div>
             </header>
 
@@ -2504,9 +2576,8 @@
                     <span class="header-brand-title">Teoría • PBIP y PBIR</span>
                 </div>
                 <div class="badge-group">
-                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">05 / 14</span>
+                    <span class="slide-number">05 / 15</span>
                 </div>
             </header>
 
@@ -2549,18 +2620,88 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 06: [TEORÍA] QUÉ PASA CUANDO DAS LA ORDEN
+             SLIDE 06: [TEORÍA] ASÍ SE VE UN VISUAL.JSON
+             Un archivo real resumido y cómo lo cambia un prompt.
              =================================================================== -->
-        <section class="slide" data-slide="6" data-type="Teoría: Qué pasa cuando das la orden">
+        <section class="slide" data-slide="6" data-type="Teoría: Así se ve un visual.json">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Por dentro</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">06 / 15</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Así se ve un <span class="wine-gradient">visual.json</span></h2>
+                    <p class="slide-subtitle">La tarjeta de Cumplimiento meta de la página nativa, tal como está en tu carpeta. No es magia: es texto.</p>
+                </div>
+
+                <div class="vj-grid">
+                    <div class="vj-code">
+                        <div class="vj-bar"><span>tornillo flojo.Report › pages › … › visual.json</span><span class="vj-lines" id="vjLineas">298 líneas · resumido</span></div>
+                        <pre>{
+  <span class="jk">"name"</span>: <span class="js">"2a115f326da4ee54681d"</span>,
+<span class="jz z1">  <span class="jk">"position"</span>: { <span class="jk">"x"</span>: <span class="jn">609</span>, <span class="jk">"y"</span>: <span class="jn">272</span>, <span class="jk">"width"</span>: <span class="jn"><span class="sw" data-id="width" data-q="0">179</span></span>, <span class="jk">"height"</span>: <span class="jn">148</span> },</span>
+  <span class="jk">"visual"</span>: {
+<span class="jz z2">    <span class="jk">"visualType"</span>: <span class="js">"card"</span>,
+    <span class="jk">"query"</span>: { … <span class="jk">"Values"</span>: [{
+      <span class="jk">"Measure"</span>: { <span class="jk">"Entity"</span>: <span class="js">"_Medidas"</span>,
+                 <span class="jk">"Property"</span>: <span class="js"><span class="sw" data-id="prop" data-q="1">"Cumplimiento meta año analizado"</span></span> },
+      <span class="jk">"displayName"</span>: <span class="js"><span class="sw" data-id="disp" data-q="1">"Cumplimiento meta"</span></span>
+    }] },</span>
+<span class="jz z3">    <span class="jk">"objects"</span>: { <span class="jk">"labels"</span>: [{
+      <span class="jk">"color"</span>: <span class="js"><span class="sw" data-id="color" data-q="1">"#1F2933"</span></span>,
+      <span class="jk">"fontSize"</span>: <span class="jn"><span class="sw" data-id="size" data-q="0">22</span></span>,
+      <span class="jk">"fontFamily"</span>: <span class="js"><span class="sw" data-id="font" data-q="1">"Segoe UI Semibold"</span></span>
+    }] }, …</span>
+  }
+}</pre>
+                    </div>
+
+                    <div class="vj-side">
+                        <div class="vj-ley z1"><span class="vj-n">1</span><div><strong>Dónde va</strong><span>Posición y tamaño en el lienzo, en píxeles.</span></div></div>
+                        <div class="vj-ley z2"><span class="vj-n">2</span><div><strong>Qué muestra</strong><span>El tipo de visual y la medida de tu modelo.</span></div></div>
+                        <div class="vj-ley z3"><span class="vj-n">3</span><div><strong>Cómo se ve</strong><span>Color, tamaño y fuente del número.</span></div></div>
+
+                        <div class="vj-demo">
+                            <div class="vj-tabs" role="group" aria-label="Ejemplos de prompt">
+                                <button type="button" class="vj-tab activo" data-i="0">1 · Medida y color</button>
+                                <button type="button" class="vj-tab" data-i="1">2 · Tamaño</button>
+                                <button type="button" class="vj-tab" data-i="2">3 · Estilo</button>
+                            </div>
+                            <p class="vj-prompt" id="vjPrompt">«Cambia la tarjeta de Cumplimiento meta por Margen % y pon el número en verde.»</p>
+                            <div class="vj-row">
+                                <div class="vj-card" id="vjCard"><b id="vjVal">95.8%</b><span id="vjLbl">Cumplimiento meta</span></div>
+                                <button class="reveal-btn vj-btn" type="button" id="vjBtn">Aplicar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>La IA no hace clics en Power BI:</strong> edita estas líneas como tú editarías un archivo de texto, y luego le pide a Power BI que recargue. Para una página entera usa un generador (hybrid.js) que escribe decenas de archivos como este.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 07: [TEORÍA] QUÉ PASA CUANDO DAS LA ORDEN
+             =================================================================== -->
+        <section class="slide" data-slide="7" data-type="Teoría: Qué pasa cuando das la orden">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
                     <span class="header-brand-title">Teoría • La orden maestra</span>
                 </div>
                 <div class="badge-group">
-                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">06 / 14</span>
+                    <span class="slide-number">07 / 15</span>
                 </div>
             </header>
 
@@ -2586,18 +2727,17 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 07: [TEORÍA] EL PROMPT DEL ANALISTA DIRECTOR
+             SLIDE 08: [TEORÍA] EL PROMPT DEL ANALISTA DIRECTOR
              =================================================================== -->
-        <section class="slide" data-slide="7" data-type="Teoría: El prompt del analista director">
+        <section class="slide" data-slide="8" data-type="Teoría: El prompt del analista director">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
                     <span class="header-brand-title">Teoría • Cómo pedir un dashboard</span>
                 </div>
                 <div class="badge-group">
-                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">07 / 14</span>
+                    <span class="slide-number">08 / 15</span>
                 </div>
             </header>
 
@@ -2628,18 +2768,17 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 08: [TEORÍA] LO QUE LA IA DECIDE SOLA
+             SLIDE 09: [TEORÍA] LO QUE LA IA DECIDE SOLA
              =================================================================== -->
-        <section class="slide" data-slide="8" data-type="Teoría: Lo que la IA decide sola">
+        <section class="slide" data-slide="9" data-type="Teoría: Lo que la IA decide sola">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
                     <span class="header-brand-title">Teoría • Decidir, no preguntar</span>
                 </div>
                 <div class="badge-group">
-                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">08 / 14</span>
+                    <span class="slide-number">09 / 15</span>
                 </div>
             </header>
 
@@ -2675,9 +2814,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 09: [TALLER 2] REVISA LOS NÚMEROS
+             SLIDE 10: [TALLER 2] REVISA LOS NÚMEROS
              =================================================================== -->
-        <section class="slide" data-slide="9" data-type="Taller 2: Revisa los números">
+        <section class="slide" data-slide="10" data-type="Taller 2: Revisa los números">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2685,7 +2824,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">09 / 14</span>
+                    <span class="slide-number">10 / 15</span>
                 </div>
             </header>
 
@@ -2723,9 +2862,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 10: [TALLER 3] PRUÉBALO COMO DIRECTOR
+             SLIDE 11: [TALLER 3] PRUÉBALO COMO DIRECTOR
              =================================================================== -->
-        <section class="slide" data-slide="10" data-type="Taller 3: Pruébalo como director">
+        <section class="slide" data-slide="11" data-type="Taller 3: Pruébalo como director">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2733,7 +2872,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">10 / 14</span>
+                    <span class="slide-number">11 / 15</span>
                 </div>
             </header>
 
@@ -2775,9 +2914,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 11: [TALLER 4] NATIVO VS PERSONALIZADO
+             SLIDE 12: [TALLER 4] NATIVO VS PERSONALIZADO
              =================================================================== -->
-        <section class="slide" data-slide="11" data-type="Taller 4: Nativo vs personalizado">
+        <section class="slide" data-slide="12" data-type="Taller 4: Nativo vs personalizado">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2785,7 +2924,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">11 / 14</span>
+                    <span class="slide-number">12 / 15</span>
                 </div>
             </header>
 
@@ -2821,19 +2960,18 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 12: [IDEAS] PÍDELE MÁS A LA IA
+             SLIDE 13: [IDEAS] PÍDELE MÁS A LA IA
              Mejoras que casi nadie pide, con demostraciones en vivo.
              =================================================================== -->
-        <section class="slide" data-slide="12" data-type="Ideas: Pídele más a la IA">
+        <section class="slide" data-slide="13" data-type="Ideas: Pídele más a la IA">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
                     <span class="header-brand-title">Ideas • Pídele más</span>
                 </div>
                 <div class="badge-group">
-                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
                     <span class="badge gold">Ideas</span>
-                    <span class="slide-number">12 / 14</span>
+                    <span class="slide-number">13 / 15</span>
                 </div>
             </header>
 
@@ -2900,19 +3038,18 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 13: [TEORÍA] ¿NATIVO O PERSONALIZADO?
+             SLIDE 14: [TEORÍA] ¿NATIVO O PERSONALIZADO?
              Lo que se vio en la página 2: qué gana y qué pierde cada uno.
              =================================================================== -->
-        <section class="slide" data-slide="13" data-type="Teoría: ¿Nativo o personalizado?">
+        <section class="slide" data-slide="14" data-type="Teoría: ¿Nativo o personalizado?">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
                     <span class="header-brand-title">Teoría • Criterio</span>
                 </div>
                 <div class="badge-group">
-                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">13 / 14</span>
+                    <span class="slide-number">14 / 15</span>
                 </div>
             </header>
 
@@ -2939,9 +3076,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 14: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             SLIDE 15: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
              =================================================================== -->
-        <section class="slide" data-slide="14" data-type="Cierre: Preguntas">
+        <section class="slide" data-slide="15" data-type="Cierre: Preguntas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2949,7 +3086,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Cierre</span>
-                    <span class="slide-number">14 / 14</span>
+                    <span class="slide-number">15 / 15</span>
                 </div>
             </header>
             <div class="slide-content">
@@ -3003,7 +3140,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <span class="nav-counter" id="navCounter">01 / 14</span>
+        <span class="nav-counter" id="navCounter">01 / 15</span>
 
         <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -3267,6 +3404,60 @@
                 document.getElementById('kdBadge').textContent = datos[b.dataset.p][1];
                 val.classList.remove('cambia'); void val.offsetWidth; val.classList.add('cambia');
                 b.blur();
+            }));
+        })();
+
+        // ===================================================================
+        // ASÍ SE VE UN VISUAL.JSON: 3 prompts de ejemplo que se aplican y se deshacen
+        // ===================================================================
+        (() => {
+            const btn = document.getElementById('vjBtn');
+            if (!btn) return;
+            const BASE = {"prop":"Cumplimiento meta año analizado","disp":"Cumplimiento meta","color":"#1F2933","width":179,"size":22,"font":"Segoe UI Semibold"};
+            const EJ = [{"prompt":"«Cambia la tarjeta de Cumplimiento meta por Margen % y pon el número en verde.»","cambios":{"prop":"Margen % año analizado","disp":"Margen %","color":"#15803D"},"lineas":5,"tarjeta":{"val":"27.3%","lbl":"Margen %","color":"#15803D"}},{"prompt":"«Haz la tarjeta de Cumplimiento meta del doble de ancho.»","cambios":{"width":374},"lineas":1,"tarjeta":{"ancha":true}},{"prompt":"«Pon el número de la tarjeta más grande y en negritas.»","cambios":{"size":30,"font":"Segoe UI Bold"},"lineas":2,"tarjeta":{"grande":true}}];
+            const card = document.getElementById('vjCard'), val = document.getElementById('vjVal'), lbl = document.getElementById('vjLbl');
+            const lineas = document.getElementById('vjLineas');
+            let actual = 0, aplicado = false, timers = [];
+
+            function poner(el, v) { el.textContent = el.dataset.q === '1' ? '"' + v + '"' : v; }
+            function tarjeta(t) {
+                val.textContent = t && t.val ? t.val : '95.8%';
+                lbl.textContent = t && t.lbl ? t.lbl : 'Cumplimiento meta';
+                val.style.color = t && t.color ? t.color : '';
+                card.classList.toggle('ancha', !!(t && t.ancha));
+                card.classList.toggle('grande', !!(t && t.grande));
+                card.classList.remove('cambia'); void card.offsetWidth; card.classList.add('cambia');
+            }
+            function restaurar() {
+                timers.forEach(clearTimeout); timers = [];
+                document.querySelectorAll('.sw').forEach((el) => { poner(el, BASE[el.dataset.id]); el.classList.remove('cambio'); });
+                val.textContent = '95.8%'; lbl.textContent = 'Cumplimiento meta'; val.style.color = '';
+                card.classList.remove('ancha', 'grande');
+                lineas.textContent = '298 líneas · resumido';
+                aplicado = false; btn.textContent = 'Aplicar';
+            }
+            function aplicar() {
+                const e = EJ[actual];
+                Object.keys(e.cambios).forEach((id, i) => {
+                    timers.push(setTimeout(() => {
+                        const el = document.querySelector('.sw[data-id="' + id + '"]');
+                        poner(el, e.cambios[id]); el.classList.add('cambio');
+                    }, i * 250));
+                });
+                timers.push(setTimeout(() => {
+                    tarjeta(e.tarjeta);
+                    lineas.textContent = e.lineas + ' de 298 ' + (e.lineas === 1 ? 'línea cambió' : 'líneas cambiaron');
+                }, Object.keys(e.cambios).length * 250 + 300));
+                aplicado = true; btn.textContent = 'Deshacer';
+            }
+
+            btn.addEventListener('click', () => { if (aplicado) { restaurar(); tarjeta(null); } else aplicar(); btn.blur(); });
+            document.querySelectorAll('.vj-tab').forEach((t) => t.addEventListener('click', () => {
+                restaurar();
+                actual = +t.dataset.i;
+                document.querySelectorAll('.vj-tab').forEach((o) => o.classList.toggle('activo', o === t));
+                document.getElementById('vjPrompt').textContent = EJ[actual].prompt;
+                t.blur();
             }));
         })();
 
