@@ -1,0 +1,3283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clase 04: Dashboard completo con un solo prompt | Datdata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* === MODO CLARO (POR DEFECTO - ALABASTRO & VINO DATDATA) === */
+            --bg-deep: #fbf9f6;
+            --bg-surface: #f4efe9;
+            --slide-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(253, 249, 246, 0.95) 45%, rgba(248, 240, 235, 0.92) 100%);
+            --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --card-bg-hover: linear-gradient(135deg, #ffffff 0%, rgba(255, 250, 246, 0.98) 50%, rgba(252, 240, 233, 0.95) 100%);
+            --card-border: rgba(136, 19, 55, 0.14);
+            --card-border-hover: rgba(136, 19, 55, 0.45);
+            --card-shadow: 0 4px 20px rgba(136, 19, 55, 0.05);
+            --card-shadow-hover: 0 14px 32px rgba(136, 19, 55, 0.10);
+
+            --deck-shadow: 0 30px 70px -15px rgba(76, 5, 25, 0.09), 0 0 50px -10px rgba(136, 19, 55, 0.05);
+
+            --wine-base: #881337;
+            --wine-dark: #4c0519;
+            --wine-bright: #be123c;
+            --wine-light: #9f1239;
+            --wine-soft: rgba(136, 19, 55, 0.08);
+            --wine-glow: rgba(136, 19, 55, 0.14);
+            --wine-glow-strong: rgba(136, 19, 55, 0.26);
+
+            --accent-gold: #b45309;
+            --accent-gold-bg: rgba(217, 119, 6, 0.1);
+            --accent-gold-border: rgba(217, 119, 6, 0.3);
+
+            --accent-emerald: #047857;
+            --accent-emerald-bg: rgba(5, 150, 105, 0.1);
+            --accent-emerald-border: rgba(5, 150, 105, 0.3);
+
+            --accent-purple: #6d28d9;
+            --accent-purple-bg: rgba(109, 40, 217, 0.1);
+            --accent-purple-border: rgba(109, 40, 217, 0.3);
+
+            --accent-cyan: #0369a1;
+            --accent-cyan-bg: rgba(2, 132, 199, 0.1);
+            --accent-cyan-border: rgba(2, 132, 199, 0.3);
+
+            --accent-danger: #dc2626;
+            --accent-danger-bg: rgba(220, 38, 38, 0.1);
+            --accent-danger-border: rgba(220, 38, 38, 0.3);
+
+            --text-main: #0f172a;
+            --text-heading: #1e1115;
+            --text-sub: #334155;
+            --text-muted: #52525b;
+            --text-dim: #71717a;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Hover & Spotlight */
+            --spotlight-size: 750px;
+            --spotlight-core-opacity: 0.11;
+            --spotlight-color: #881337;
+
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-border: rgba(136, 19, 55, 0.2);
+            --nav-shadow: 0 10px 30px rgba(136, 19, 55, 0.12);
+            --code-box-bg: #18090e;
+            --code-box-border: rgba(136, 19, 55, 0.4);
+            --tag-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --tag-card-border: rgba(136, 19, 55, 0.15);
+            --tag-card-shadow: 0 4px 14px rgba(136, 19, 55, 0.06);
+            --toggle-bg: linear-gradient(135deg, #f7f1ea 0%, #f1e9e0 100%);
+
+            /* Color de Claude: el coral para dibujos, el tono oscuro para texto legible */
+            --claude-coral: #D97757;
+            --claude-ink: #9a3f1c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 6% 8%, rgba(136, 19, 55, 0.08) 0%, transparent 42%),
+                radial-gradient(circle at 94% 92%, rgba(180, 83, 9, 0.06) 0%, transparent 46%),
+                linear-gradient(135deg, #fdf8f9 0%, #fbf9f6 45%, #f5ece4 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Cursor Spotlight */
+        .cursor-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--spotlight-size);
+            height: var(--spotlight-size);
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(136, 19, 55, var(--spotlight-core-opacity)) 0%,
+                    rgba(190, 18, 60, calc(var(--spotlight-core-opacity) * 0.5)) 40%,
+                    transparent 72%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            transition: opacity 0.3s ease;
+            filter: blur(28px);
+            opacity: 0;
+        }
+
+        /* Top Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 5px;
+            background: var(--wine-soft);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--wine-dark), var(--wine-base), var(--wine-bright));
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 12px var(--wine-glow);
+        }
+
+        /* LIENZO FIJO 1280×720 (16:9). Todo se diseña en estos píxeles lógicos
+           y el script lo escala con `zoom` para llenar la ventana: a 1920×1080
+           el factor es 1.5, así que 16px lógicos se ven como 24px en pantalla.
+           Lo que ves es exactamente lo que ve la audiencia al compartir pantalla. */
+        .deck {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        /* SLIDE CONTRACT */
+        .slide {
+            position: absolute;
+            inset: 10px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.97) translateY(14px);
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.45s;
+            padding: 22px 40px 26px;
+            border-radius: 24px;
+            background: var(--slide-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--deck-shadow);
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--wine-base), transparent);
+            opacity: 0.8;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            z-index: 10;
+        }
+
+        /* Staggered Animations */
+
+        .slide.active .slide-header,
+        .slide.active h1,
+        .slide.active h2,
+        .slide.active .slide-subtitle,
+        .slide.active .card {
+            animation: slideElemFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .slide.active .card:nth-child(1) { animation-delay: 0.05s; }
+        .slide.active .card:nth-child(2) { animation-delay: 0.10s; }
+        .slide.active .card:nth-child(3) { animation-delay: 0.15s; }
+        .slide.active .card:nth-child(4) { animation-delay: 0.20s; }
+
+        @keyframes slideElemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-brand img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-brand-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 11px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            border: 1px solid rgba(136, 19, 55, 0.2);
+            box-shadow: 0 2px 6px rgba(136, 19, 55, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        .badge.gold {
+            background: var(--accent-gold-bg);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold-border);
+        }
+
+        .badge.emerald {
+            background: var(--accent-emerald-bg);
+            color: var(--accent-emerald);
+            border-color: var(--accent-emerald-border);
+        }
+
+        .badge.purple {
+            background: var(--accent-purple-bg);
+            color: var(--accent-purple);
+            border-color: var(--accent-purple-border);
+        }
+
+        .badge.cyan {
+            background: var(--accent-cyan-bg);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan-border);
+        }
+
+        /* Slide Content Area */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+            gap: 1rem;
+        }
+
+        /* Typography — tamaños en píxeles lógicos del lienzo (×1.5 en pantalla 1080p).
+           Mínimo legible al compartir pantalla: 0.84rem (≈20px reales). */
+        h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.035em;
+            color: var(--text-heading);
+        }
+
+        h2 {
+            font-size: 2.625rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--text-heading);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .wine-gradient {
+            background: linear-gradient(135deg, var(--text-heading) 20%, var(--wine-base) 70%, var(--wine-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            max-width: 1040px;
+            line-height: 1.45;
+            margin-top: 0.4rem;
+            font-weight: 450;
+        }
+
+        /* Layout Grids */
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-border-hover);
+            box-shadow: var(--card-shadow-hover);
+            background: var(--card-bg-hover);
+        }
+
+        /* Tag Cards */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .tag-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 1px solid var(--tag-card-border);
+            background: var(--tag-card-bg);
+            box-shadow: var(--tag-card-shadow);
+            color: var(--text-main);
+        }
+
+        .tag-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .flow-dash {
+            stroke-dasharray: 6 6;
+            animation: flowAnimation 1.4s linear infinite;
+        }
+
+        @keyframes flowAnimation {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+
+/* Interactive Simulator & Stepper */
+
+        /* Número de diapositiva (en la cabecera, junto al tipo Teoría / Práctica) */
+        .slide-number {
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--wine-base);
+            background: var(--wine-soft);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Navigation Dock — oculto por defecto para que no tape contenido en la
+           transmisión; aparece al acercar el ratón al borde inferior. */
+        .nav-dock {
+            position: fixed;
+            bottom: 16px;
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            box-shadow: var(--nav-shadow);
+            border-radius: 999px;
+            padding: 6px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        body.dock-visible .nav-dock {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            transform: scale(1.1);
+        }
+
+        .nav-counter {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        /* Overview Modal ('O' Key) */
+        .overview-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 1, 4, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px clamp(20px, 4vw, 60px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overview-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            overflow-y: auto;
+            padding-bottom: 30px;
+        }
+
+        .overview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .overview-card:hover {
+            background: rgba(244, 63, 94, 0.18);
+            border-color: #f43f5e;
+            transform: translateY(-3px);
+        }
+
+        .overview-card .num {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #fb7185;
+            font-weight: 700;
+        }
+
+        .overview-card .name {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .overview-card .type {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        /* ===================================================================
+           ILUSTRACIONES — estilo común
+           Escenas planas con los colores de la marca, trazos gruesos y pocas
+           palabras. Los viewBox de los SVG miden lo mismo que su caja en el
+           lienzo, así que font-size dentro del SVG = píxeles lógicos (mín. 14).
+           =================================================================== */
+
+        .rule-callout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+        }
+
+        .rule-callout strong {
+            color: var(--accent-gold);
+        }
+
+        /* Código en línea dentro de hallazgos y respuestas del chat */
+
+        /* Portada */
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .cover-art {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cover-art svg {
+            width: 470px;
+            height: 412px;
+            display: block;
+        }
+
+        .cover-art figcaption {
+            font-size: 1.05rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .cover-art figcaption strong {
+            color: var(--wine-base);
+        }
+
+        /* Antes / ahora */
+
+        /* ¿Qué es un MCP? */
+
+        .mcp-pieces {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .mcp-piece {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .mcp-piece strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .mcp-piece span:not(.mcp-piece-icon) {
+            display: block;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .mcp-piece-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mcp-piece-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .mcp-piece-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .mcp-piece-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+/* Modos de trabajo */
+
+        /* Simulador del handshake */
+
+        /* Consultas en lenguaje natural */
+
+        /* Auditoría */
+
+        .pin {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pin.gold { background: var(--accent-gold); }
+        .pin.purple { background: var(--accent-purple); }
+
+        /* Solución de problemas */
+
+/* Instalación con una frase */
+
+        .prompt-copy {
+            background: var(--wine-soft);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px 16px 14px;
+        }
+
+        .prompt-copy-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .copy-prompt-btn {
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+            padding: 5px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--wine-base);
+            background: #ffffff;
+            color: var(--wine-base);
+            cursor: pointer;
+        }
+
+        .copy-prompt-btn:hover { background: var(--wine-base); color: #ffffff; }
+        .copy-prompt-btn.copiado { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+
+        .prompt-copy-text {
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: var(--text-heading);
+            overflow-wrap: anywhere;
+        }
+
+        /* Verificación en la caja de herramientas */
+
+        .pin.cyan { background: var(--accent-cyan); }
+
+        /* Cierre */
+        .closing-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .closing-main {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .closing-art {
+            width: 260px;
+            height: 130px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .closing-title {
+            font-size: 5rem;
+            line-height: 1.05;
+        }
+
+        .linkedin-card {
+            align-items: center;
+            gap: 14px;
+            padding: 22px 24px;
+        }
+
+        .linkedin-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            align-self: stretch;
+        }
+
+        .linkedin-head strong {
+            display: block;
+            font-size: 1.3rem;
+            color: var(--text-heading);
+        }
+
+        .linkedin-head span {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .qr {
+            width: 250px;
+            height: 250px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .linkedin-url {
+            font-size: 0.86rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .next-class {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        /* ===================== CLASE 02 ===================== */
+
+        /* Agenda */
+        .agenda {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .agenda li {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 14px 14px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--accent-gold);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .agenda strong {
+            font-size: 1.05rem;
+            line-height: 1.25;
+            color: var(--text-heading);
+            flex: 1;
+        }
+
+        .agenda-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .how-title {
+            margin-bottom: 10px;
+            color: var(--text-sub);
+        }
+
+        .how-grid { grid-template-columns: repeat(4, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Talleres */
+        .taller-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .taller-main,
+        .taller-side {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .prompt-copy-text { font-size: 1rem; line-height: 1.5; }
+
+        .stuck {
+            padding: 10px 14px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .stuck strong { color: var(--accent-gold); }
+
+        .check-card {
+            padding: 14px 18px 16px;
+            background: var(--accent-emerald-bg);
+            border: 1px solid var(--accent-emerald-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .check-title {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-emerald);
+        }
+
+        .check-note {
+            font-size: 1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.92em;
+            font-weight: 600;
+            color: var(--wine-base);
+        }
+
+        .value-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .value-table td {
+            padding: 5px 4px;
+            border-bottom: 1px solid var(--accent-emerald-border);
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .value-table td:nth-child(even) {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--text-heading);
+            padding-right: 14px;
+        }
+
+        .value-table tr:last-child td { border-bottom: none; }
+        .value-table.big { font-size: 1.12rem; }
+        .value-table.big td { padding: 8px 4px; }
+
+        /* Taller 0: pasos */
+        .steps-card { padding: 18px 22px; gap: 12px; }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .step-list strong,
+        .anatomy-item strong {
+            display: block;
+            font-size: 1.08rem;
+            color: var(--text-heading);
+        }
+
+        .step-list span:not(.step-n),
+        .anatomy-item span:not(.pin) {
+            display: block;
+            font-size: 0.98rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .step-n {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Taller 0: tarjeta que gira entre CSV y Claude */
+
+        /* La entrada anima el contenedor: en las caras pisaría el giro */
+
+        /* El título deja sitio al selector */
+
+        /* Destello suave del icono al activar Claude */
+
+        @keyframes destello {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(20deg); }
+        }
+
+        /* La cara CSV es más corta: reparte sus pasos en la altura de la tarjeta */
+
+        /* Pines numerados: también admiten texto corto como «1→*» */
+        .pin { min-width: 32px; width: auto; padding: 0 7px; border-radius: 16px; }
+        .pin.wine { background: var(--wine-base); }
+        .pin.emerald { background: var(--accent-emerald); }
+
+        /* Esquema estrella */
+
+        /* Taller 2: hallazgos y correcciones */
+
+        /* Taller 3: calendario */
+
+        /* Anatomía de una medida */
+
+        .anatomy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .anatomy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        /* Inteligencia de tiempo */
+
+        /* Taller 6: tabla de control y revelado */
+
+        .reveal-btn {
+            align-self: flex-start;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 22px;
+            border-radius: 10px;
+            border: none;
+            background: var(--wine-base);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .reveal-btn:hover { background: var(--wine-bright); }
+
+        /* Prompt, MCP y skill */
+
+        .role-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .role-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+        /* Cómo pedirle DAX a la IA */
+
+        /* Qué es una skill */
+
+        [hidden] { display: none !important; }
+
+        /* Juego: ¿Prompt, MCP o skill? */
+
+        /* ===================== CLASE 03 ===================== */
+
+        /* Agenda de seis talleres */
+        .agenda.seis { grid-template-columns: repeat(6, 1fr); }
+
+        .agenda-gain {
+            font-size: 0.92rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .how-grid.tres { grid-template-columns: repeat(3, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Maquetas de Power BI: tarjeta KPI en HTML (paleta por defecto de la skill) */
+        .kpi-mock {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 18px;
+            background: #ffffff;
+            border: 1.5px solid #e0d6f5;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(102, 51, 153, 0.08);
+        }
+
+        .k-lbl {
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #9B59B6;
+        }
+
+        .k-val {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #3D0080;
+        }
+
+        .k-badge {
+            align-self: flex-start;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.92rem;
+            font-weight: 800;
+        }
+
+        .k-badge.up { background: #e6f9f0; color: #1a7a4a; }
+        .k-badge.down { background: #fce8ec; color: #c0142d; }
+
+        .kpi-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .kpi-pair .k-val { font-size: 1.6rem; }
+
+        /* Tarjeta nativa de Power BI */
+        .native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 18px 10px;
+            background: #ffffff;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .n-val { font-size: 1.85rem; font-weight: 600; color: #252423; }
+        .n-lbl { font-size: 0.95rem; color: #605e5c; }
+
+        /* Nativo vs. personalizado */
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .vs-col { gap: 12px; padding: 18px 22px 20px; }
+
+        .vs-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .vs-tag.custom { color: var(--wine-base); }
+
+        .vs-mock {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .vs-mock svg { width: 100%; height: 130px; display: block; }
+        .vs-mock .k-val { font-size: 1.6rem; }
+
+        .vs-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .vs-list li {
+            display: flex;
+            gap: 10px;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            color: var(--text-sub);
+        }
+
+        .vs-ok, .vs-no { font-weight: 800; width: 16px; flex-shrink: 0; }
+        .vs-ok { color: var(--accent-emerald); }
+        .vs-no { color: var(--accent-danger); }
+
+        /* Dos caminos para entregar un visual */
+        .route-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .route-card { gap: 12px; padding: 18px 22px 20px; }
+        .route-card h3 { font-size: 1.5rem; }
+
+        .route-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .route-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .route-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        .route-who {
+            min-width: 82px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .route-who.ia { background: var(--wine-soft); color: var(--wine-base); }
+        .route-who.mcp { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .route-who.pbi { background: var(--accent-purple-bg); color: var(--accent-purple); }
+        .route-who.tu { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .route-foot {
+            padding: 9px 14px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            color: var(--text-sub);
+        }
+
+        .route-foot.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .route-foot.good strong { color: var(--accent-emerald); }
+        .route-foot.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .route-foot.warn strong { color: var(--accent-gold); }
+
+        .skill-chip {
+            align-self: flex-start;
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--wine-base);
+        }
+
+        /* Juego de dos opciones */
+
+        /* Talleres */
+        .tip {
+            padding: 9px 14px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .tip strong { color: var(--accent-purple); }
+        .check-note strong { color: var(--text-heading); }
+
+        .t3-chart { width: 100%; height: 180px; display: block; }
+
+        .nw { white-space: nowrap; }
+        .filtro-table td { font-size: 0.98rem; }
+        .filtro-table td:first-child { width: 128px; color: var(--text-heading); font-weight: 800; line-height: 1.3; }
+        .filtro-table td:nth-child(even) { font-family: var(--font-sans); font-weight: 700; padding-right: 4px; white-space: nowrap; }
+
+        .notar-table td:first-child { color: var(--text-heading); font-weight: 800; width: 90px; }
+        .notar-table td:nth-child(even) { text-align: left; font-family: var(--font-sans); font-weight: 600; color: var(--text-sub); }
+
+        /* Capas de Deneb */
+        .anat-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .anat-chart { padding: 10px 14px; }
+        .anat-chart svg { width: 100%; height: 300px; display: block; }
+
+        /* Tú eres sus ojos */
+        .eyes-strip svg { width: 100%; height: 156px; display: block; }
+
+        /* Antes de entregar */
+        .limits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .limit-card {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 22px;
+        }
+
+        .limit-card .role-icon { margin-bottom: 0; flex-shrink: 0; }
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+        .limit-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
+
+        .limit-card p {
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        /* ===== Juego: la prueba de los 5 segundos ===== */
+        .j5-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        @keyframes j5Salta {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.18) rotate(-3deg); }
+            100% { transform: scale(1); }
+        }
+
+        .j5-stage {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+            height: 448px;
+            padding: 20px 22px;
+            background: #ffffff;
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow-hover);
+            overflow: hidden;
+        }
+
+        .j5-stage::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 20%, rgba(136, 19, 55, 0.07), transparent 45%);
+            pointer-events: none;
+        }
+
+        .j5-stage.urgente { animation: j5Late 0.5s ease-in-out infinite alternate; }
+
+        @keyframes j5Late {
+            from { box-shadow: var(--card-shadow-hover); border-color: var(--card-border); }
+            to { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.12), var(--card-shadow-hover); border-color: rgba(220, 38, 38, 0.5); }
+        }
+
+        .j5-main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .j5-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            border-left: 2px dashed #f1e7ea;
+            padding-left: 18px;
+        }
+
+        /* Anillo de cuenta regresiva */
+        .j5-ring { position: relative; width: 160px; height: 160px; }
+        .j5-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+        .j5-ring-bg { fill: none; stroke: #f4ecef; stroke-width: 12; }
+
+        .j5-ring-fg {
+            fill: none;
+            stroke: var(--wine-base);
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 414.69;
+            stroke-dashoffset: 0;
+        }
+
+        .j5-ring.urgente .j5-ring-fg { stroke: var(--accent-danger); }
+
+        .j5-num {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .j5-ring.urgente .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien .j5-ring-fg { stroke: var(--accent-emerald); }
+        .j5-ring.bien .j5-num { color: var(--accent-emerald); }
+        .j5-ring.mal .j5-ring-fg { stroke: var(--accent-danger); }
+        .j5-ring.mal .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien, .j5-ring.mal { animation: j5Salta 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-num.tic { animation: j5Tic 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        @keyframes j5Tic {
+            0% { transform: scale(1.5); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .j5-tag {
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            text-align: center;
+        }
+
+        .j5-tag.nativo { background: rgba(17, 141, 255, 0.1); color: #0b6bcb; }
+        .j5-tag.personalizado { background: rgba(106, 13, 173, 0.1); color: #6A0DAD; }
+
+        .j5-dots { display: flex; gap: 8px; }
+        .j5-ronda { font-family: var(--font-mono); font-size: 0.86rem; font-weight: 700; color: var(--text-dim); }
+        .j5-tag { white-space: nowrap; }
+
+        .j5-dots i {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background: #eadfe3;
+            transition: width 0.35s ease, background 0.35s ease;
+        }
+
+        .j5-dots i.actual { width: 30px; background: var(--wine-base); }
+        .j5-dots i.hecho.nativo { background: #118DFF; }
+        .j5-dots i.hecho.personalizado { background: #6A0DAD; }
+
+        /* Intro */
+        .j5-intro { display: flex; flex-direction: column; gap: 22px; animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .j5-intro h3 { font-size: 2.3rem; line-height: 1.15; letter-spacing: -0.02em; }
+
+        .j5-pasos { display: flex; gap: 14px; }
+
+        .j5-paso {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--wine-soft);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-paso:nth-child(2) { animation-delay: 0.1s; }
+        .j5-paso:nth-child(3) { animation-delay: 0.2s; }
+
+        .j5-paso b {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .j5-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--wine-dark), var(--wine-base) 55%, var(--wine-bright));
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 26px var(--wine-glow-strong);
+            transition: transform 0.2s ease;
+        }
+
+        .j5-btn:hover { transform: translateY(-3px) scale(1.03); }
+        .j5-btn.pulso { animation: j5Pulso 1.6s ease-in-out infinite; }
+        .j5-btn kbd { font-family: var(--font-mono); font-size: 0.85rem; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.2); }
+
+        @keyframes j5Pulso {
+            0%, 100% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 0 rgba(190, 18, 60, 0.35); }
+            50% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 14px rgba(190, 18, 60, 0); }
+        }
+
+        @keyframes j5Sube {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Visuales (caja fija 760 × 330) */
+        .j5-vis {
+            width: 760px;
+            height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .j5-vis > svg { width: 760px; height: 330px; display: block; }
+        .j5-ver { align-self: center; border-radius: 16px; overflow: hidden; border: 1px solid #ece7f3; box-shadow: 0 18px 40px rgba(76, 5, 25, 0.12); animation: j5Entra 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+        @keyframes j5Entra {
+            from { opacity: 0; transform: scale(0.82) rotate(-1.5deg); filter: blur(10px); }
+            to { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+        }
+
+        .j5-native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 40px 70px;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .j5-nv { font-size: 4.4rem; font-weight: 600; color: #252423; line-height: 1.1; }
+        .j5-nl { font-size: 1.3rem; color: #605e5c; }
+
+        .j5-kpi {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 30px 46px;
+            background: #ffffff;
+            border: 2px solid #e0d6f5;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(102, 51, 153, 0.14);
+        }
+
+        .j5-kpi .k-lbl { font-size: 1.1rem; }
+        .j5-kpi .k-val { font-size: 4.4rem; }
+        .j5-kpi .k-badge { font-size: 1.25rem; padding: 6px 16px; }
+
+        .j5-table {
+            width: 560px;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', var(--font-sans);
+            font-size: 1rem;
+            color: #252423;
+        }
+
+        .j5-table th, .j5-table td { padding: 4px 10px; text-align: right; }
+        .j5-table th:first-child, .j5-table td:first-child { text-align: left; }
+        .j5-table th { font-weight: 700; border-bottom: 2px solid #c8c6c4; }
+        .j5-table tbody td { border-bottom: 1px solid #edebe9; }
+        .j5-table tfoot td { font-weight: 700; border-top: 2px solid #c8c6c4; }
+
+        /* Cortina */
+        .j5-curtain {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(110deg, var(--wine-dark), var(--wine-base) 50%, var(--wine-bright));
+            transform: translateX(-102%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .j5-curtain span {
+            font-size: 4.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .j5-curtain.corre { animation: j5Cortina 1s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+        @keyframes j5Cortina {
+            0% { transform: translateX(-102%); }
+            40%, 60% { transform: translateX(0); }
+            100% { transform: translateX(102%); }
+        }
+
+        /* Pregunta y respuesta */
+        .j5-q {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-heading);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-opts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .j5-opt {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 76px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border: 2px solid var(--card-border);
+            background: #ffffff;
+            box-shadow: var(--card-shadow);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: left;
+            cursor: pointer;
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: transform 0.18s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+        }
+
+        .j5-opt:nth-child(1) { animation-delay: 0.12s; }
+        .j5-opt:nth-child(2) { animation-delay: 0.22s; }
+        .j5-opt:nth-child(3) { animation-delay: 0.32s; }
+        .j5-opt:hover:not(:disabled) { transform: translateY(-4px); border-color: var(--wine-base); background: var(--wine-soft); }
+        .j5-opt:disabled { cursor: default; }
+
+        .j5-opt kbd {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--wine-base);
+        }
+
+        .j5-opt.ok { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); box-shadow: 0 0 0 5px var(--accent-emerald-border); animation: j5Brilla 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-opt.ok kbd { background: var(--accent-emerald); color: #ffffff; }
+        .j5-opt.mal { background: var(--accent-danger-bg); border-color: var(--accent-danger); animation: j5Tiembla 0.5s ease; }
+        .j5-opt.apagada { opacity: 0.35; }
+
+        @keyframes j5Brilla {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes j5Tiembla {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(9px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .j5-confeti {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 14px;
+            border-radius: 3px;
+            pointer-events: none;
+            animation: j5Confeti 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes j5Confeti {
+            from { transform: translate(-50%, -50%) rotate(0); opacity: 1; }
+            to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)); opacity: 0; }
+        }
+
+        .j5-resp-q { font-size: 1.35rem; animation: none; }
+        .j5-resp .j5-opts { margin-top: 12px; }
+        .j5-resp .j5-opt { min-height: 60px; font-size: 1.1rem; animation: none; }
+
+        .j5-explica {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            background: var(--accent-gold-bg);
+            border-left: 5px solid var(--accent-gold);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+        }
+
+        .j5-thumb {
+            width: 380px;
+            height: 165px;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #ece7f3;
+            background: #ffffff;
+        }
+
+        .j5-thumb .j5-vis { transform: scale(0.5); transform-origin: top left; }
+
+        .j5-explica-txt { display: flex; flex-direction: column; gap: 12px; }
+        .j5-explica p { font-size: 1.08rem; line-height: 1.45; color: var(--text-sub); }
+        .j5-explica p strong { color: var(--accent-gold); }
+        .j5-explica .j5-btn { font-size: 1.05rem; padding: 10px 22px; }
+
+        /* Final: cada nativo junto a su versión personalizada */
+        .j5-stage.final { grid-template-columns: 1fr; }
+        .j5-stage.final .j5-side { display: none; }
+
+        .j5-comp { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+
+        .j5-comp-head {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            animation: j5Sube 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-comp-head h3 { font-size: 1.75rem; letter-spacing: -0.02em; }
+        .j5-comp-hint { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-dim); }
+        .j5-comp-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-pares {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .j5-par {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 8px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: transform 0.25s ease, background 0.25s ease;
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(var(--d) * 0.12s + 0.1s);
+        }
+
+        .j5-par:hover { transform: translateY(-5px); background: var(--wine-soft); }
+        .j5-par:hover .j5-mini.personalizado { box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.25), 0 14px 30px rgba(106, 13, 173, 0.18); }
+
+        .j5-par-q {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: center;
+        }
+
+        .j5-mini {
+            position: relative;
+            width: 320px;
+            height: 139px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06);
+            transition: box-shadow 0.25s ease;
+        }
+
+        .j5-mini .j5-vis { transform: scale(0.421); transform-origin: top left; }
+
+        .j5-fila { display: flex; gap: 6px; align-items: stretch; }
+
+        .j5-vtag {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #ffffff;
+        }
+
+        .j5-vtag.nativo { background: #118DFF; }
+        .j5-vtag.personalizado { background: #6A0DAD; }
+        .j5-fila:has(.personalizado) { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) both; animation-delay: calc(var(--d) * 0.12s + 0.55s); }
+        .j5-mini.personalizado { border-color: rgba(106, 13, 173, 0.3); }
+
+        @keyframes j5Revela {
+            0% { opacity: 0; transform: translateY(34px) scale(0.86); }
+            60% { opacity: 1; box-shadow: 0 0 0 8px rgba(106, 13, 173, 0.22); }
+            100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06); }
+        }
+
+        .j5-mtag {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 1;
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .j5-mtag.nativo { background: #118DFF; }
+        .j5-mtag.personalizado { background: #6A0DAD; }
+
+        /* Par en grande */
+        .j5-zoom {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 22px;
+            animation: j5Entra 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-zoom-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+        .j5-zoom-head h3 { font-size: 1.6rem; letter-spacing: -0.02em; }
+        .j5-zoom-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-zoom-par { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+        .j5-zoom-col { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+        .j5-zoom-col .j5-mtag { position: static; font-size: 0.95rem; padding: 4px 14px; }
+
+        .j5-big {
+            width: 502px;
+            height: 218px;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 12px 30px rgba(76, 5, 25, 0.1);
+        }
+
+        .j5-big .j5-vis { transform: scale(0.6605); transform-origin: top left; }
+        .j5-zoom-col:last-child .j5-big { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both; }
+
+        .j5-zoom-nota {
+            font-size: 1.1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .j5-zoom-nota strong { color: var(--wine-base); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .j5-stage *, .j5-stage { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+        }
+
+        /* ===== El filtro universal por dentro ===== */
+        .ft-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .ft-mock { padding: 10px 14px; }
+        .ft-mock svg { width: 100%; height: 248px; display: block; }
+        .ft-mock:hover { transform: none; }
+
+        .slide.active .ft-drop { animation: ftAbre 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.45s both; transform-origin: 252px 72px; }
+
+        @keyframes ftAbre {
+            from { opacity: 0; transform: translateY(-10px) scaleY(0.6); }
+            to { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .ft-grid .anatomy-item span:not(.pin) { font-size: 0.95rem; }
+
+        .llm-card { gap: 10px; padding: 14px 20px 16px; }
+        .llm-card:hover { transform: none; }
+
+        .llm-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .llm-head h3 { font-size: 1.25rem; }
+
+        .llm-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .llm-step {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px 12px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+        }
+
+        .llm-step .route-who { align-self: flex-start; min-width: 0; padding: 2px 10px; }
+        .llm-step strong { font-size: 1rem; color: var(--text-heading); }
+        .llm-step > span:last-child { font-size: 0.9rem; line-height: 1.35; color: var(--text-muted); }
+
+        .llm-arrow {
+            align-self: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--wine-base);
+        }
+
+        /* ===================== CLASE 04 ===================== */
+        .badge.espera {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent-emerald-bg);
+            color: var(--accent-emerald);
+            border-color: var(--accent-emerald-border);
+        }
+
+        .espera-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-emerald); animation: esperaPulso 1.4s ease-in-out infinite; }
+        @keyframes esperaPulso { 50% { opacity: 0.25; transform: scale(0.7); } }
+
+        .agenda.cinco { grid-template-columns: repeat(5, 1fr); }
+
+        /* ¿Nativo o personalizado? */
+        .nv-grid { grid-template-columns: 1fr 1fr; }
+        .nv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .nv-list li { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 3px solid var(--card-border); }
+        .nv-grid .cv-col:last-child .nv-list li { border-left-color: var(--wine-base); }
+        .nv-list strong { font-size: 1.1rem; color: var(--text-heading); }
+        .nv-list span { font-size: 1rem; line-height: 1.4; color: var(--text-muted); }
+
+        /* PBIX contra PBIP */
+        .code-vs { display: grid; grid-template-columns: 1fr 1.25fr; gap: 22px; }
+        .cv-col { gap: 12px; padding: 18px 22px 20px; }
+        .cv-box { width: 100%; height: 170px; display: block; }
+        .cv-text { font-size: 1.05rem; line-height: 1.45; color: var(--text-sub); }
+        .cv-text strong { color: var(--text-heading); }
+
+        .ft-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px 14px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .ft-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 4px 8px 4px calc(8px + var(--n) * 22px);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .ft-note { font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; color: var(--text-dim); }
+        .ft-row.hot { background: var(--wine-soft); color: var(--wine-base); }
+        .ft-row.hot .ft-note { color: var(--wine-base); }
+
+        /* Tubería de la orden maestra */
+        .pipe { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
+
+        .pipe-step {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 16px 16px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .pipe-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -12px;
+            top: 18px;
+            z-index: 2;
+            font-weight: 800;
+            color: var(--wine-base);
+        }
+
+        .pipe-n {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pipe-step .route-who { align-self: flex-start; min-width: 0; padding: 2px 10px; }
+        .pipe-step strong { font-size: 1.08rem; color: var(--text-heading); }
+        .pipe-step > span:last-child { font-size: 0.95rem; line-height: 1.4; color: var(--text-muted); }
+
+        .slide.active .pipe-step { animation: slideElemFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .slide.active .pipe-step:nth-child(2) { animation-delay: 0.08s; }
+        .slide.active .pipe-step:nth-child(3) { animation-delay: 0.16s; }
+        .slide.active .pipe-step:nth-child(4) { animation-delay: 0.24s; }
+        .slide.active .pipe-step:nth-child(5) { animation-delay: 0.32s; }
+
+        .pipe-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .pipe-note {
+            padding: 12px 16px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .pipe-note.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .pipe-note.warn strong { color: var(--accent-gold); }
+        .pipe-note.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .pipe-note.good strong { color: var(--accent-emerald); }
+
+        /* El prompt del analista director */
+        .dir-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: center; }
+        .dir-prompt { gap: 10px; padding: 18px 22px; }
+
+        .dir-text {
+            font-family: var(--font-mono);
+            font-size: 1.04rem;
+            font-weight: 600;
+            line-height: 1.85;
+            color: var(--text-heading);
+        }
+
+        mark { padding: 2px 4px; border-radius: 5px; color: inherit; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+        mark.m1, .dot.m1 { background: rgba(180, 83, 9, 0.18); }
+        mark.m2, .dot.m2 { background: rgba(109, 40, 217, 0.16); }
+        mark.m3, .dot.m3 { background: rgba(3, 105, 161, 0.16); }
+        mark.m4, .dot.m4 { background: rgba(4, 120, 87, 0.17); }
+
+        .dir-pieces { display: flex; flex-direction: column; gap: 12px; }
+        .dir-piece { display: flex; align-items: flex-start; gap: 12px; }
+        .dir-piece strong { display: block; font-size: 1.12rem; color: var(--text-heading); }
+        .dir-piece span:not(.dot) { display: block; font-size: 0.98rem; line-height: 1.4; color: var(--text-muted); }
+
+        .dot { width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0; margin-top: 3px; }
+        .dot.m1 { box-shadow: inset 0 0 0 2px #b45309; }
+        .dot.m2 { box-shadow: inset 0 0 0 2px #6d28d9; }
+        .dot.m3 { box-shadow: inset 0 0 0 2px #0369a1; }
+        .dot.m4 { box-shadow: inset 0 0 0 2px #047857; }
+
+        .check-big { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800; color: var(--accent-emerald); }
+        .filtro-table td:first-child { width: 200px; }
+
+        /* Taller 1 con captura */
+        .t1-grid { grid-template-columns: 1fr 520px; }
+        .shot { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--accent-emerald-border); background: #ffffff; }
+
+        /* Lo que la IA decide sola */
+        .dec-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: stretch; }
+
+        .dec-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            font-size: 1.05rem;
+        }
+
+        .dec-table th { background: var(--wine-dark); color: #ffffff; text-align: left; padding: 10px 16px; font-size: 0.95rem; }
+        .dec-table td { padding: 10px 16px; border-bottom: 1px solid #f1e7ea; color: var(--text-sub); }
+        .dec-table td:first-child { font-weight: 800; color: var(--text-heading); }
+        .dec-table tr:last-child td { border-bottom: none; }
+
+        .cls-chip { padding: 3px 10px; border-radius: 8px; background: var(--accent-purple-bg); color: var(--accent-purple); font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+
+        .dec-side { gap: 10px; padding: 20px 22px; }
+        .dec-side p { font-size: 1.05rem; line-height: 1.5; color: var(--text-sub); }
+        .dec-side strong { color: var(--text-heading); }
+
+        /* ===== Pídele más a la IA ===== */
+        .ideas-content { gap: 8px; justify-content: flex-start; padding-top: 4px; }
+        .ideas-top { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .ideas-bottom { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .idea-demo, .idea { gap: 7px; padding: 10px 13px; }
+        .idea-demo:hover, .idea:hover { transform: none; }
+
+        .idea-head { display: flex; align-items: center; gap: 8px; }
+        .idea-head h3 { margin-right: auto; }
+        .idea-head h3 { font-size: 1.08rem; }
+
+        .idea-chip { flex-shrink: 0; padding: 3px 10px; border-radius: 999px; font-size: 0.84rem; font-weight: 800; white-space: nowrap; }
+        .idea-chip.ok { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+        .idea-chip.warn { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .prompt-copy.mini { display: block; padding: 7px 8px 7px 11px; margin-top: auto; }
+        .prompt-copy.mini .prompt-copy-text { font-size: 0.78rem; line-height: 1.36; }
+        .prompt-copy.mini .copy-prompt-btn { float: right; margin: 0 0 4px 8px; padding: 3px 11px; font-size: 0.82rem; }
+
+        /* Tooltip en vivo */
+        .tt-wrap { position: relative; height: 116px; }
+        .tt-svg { width: 100%; height: 116px; display: block; }
+        .tt-pt { cursor: pointer; }
+        .tt-pt circle { transition: r 0.15s ease; }
+        .tt-pt.on circle { r: 8; }
+
+        .tt-box {
+            position: absolute;
+            top: 0;
+            min-width: 168px;
+            padding: 8px 12px;
+            background: #ffffff;
+            border: 1px solid #f3c7a8;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(76, 5, 25, 0.16);
+            font-size: 0.86rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            pointer-events: none;
+            transition: left 0.18s ease, top 0.18s ease;
+        }
+
+        .tt-box b { display: block; font-size: 0.95rem; color: var(--text-heading); }
+        .tt-box .up { color: var(--accent-emerald); font-weight: 800; }
+        .tt-box .down { color: var(--accent-danger); font-weight: 800; }
+
+        /* Tarjeta con botones y desplegable */
+        .kd-wrap { display: grid; grid-template-columns: 1fr 190px; gap: 12px; align-items: start; height: 116px; }
+
+        .kd-card {
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1.5px solid #fbd5bd;
+            border-top: 4px solid #E8590C;
+            border-radius: 12px;
+        }
+
+        .kd-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .kd-lbl { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #71717a; }
+        .kd-seg { display: inline-flex; padding: 2px; border-radius: 999px; background: #fdf0e8; }
+
+        .kd-btn {
+            padding: 3px 10px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #9a3412;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .kd-btn.activo { background: #E8590C; color: #ffffff; }
+        .kd-val { margin: 4px 0 4px; font-size: 1.75rem; font-weight: 800; line-height: 1; color: #c2410c; }
+        .kd-val.cambia { animation: kdCambia 0.35s ease; }
+
+        @keyframes kdCambia {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kd-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; background: #e6f9f0; color: #1a7a4a; font-size: 0.84rem; font-weight: 800; }
+
+        .kd-det { border: 1.5px solid #fbd5bd; border-radius: 12px; background: #ffffff; }
+        .kd-det summary { padding: 8px 12px; font-size: 0.88rem; font-weight: 800; color: #c2410c; cursor: pointer; list-style: none; }
+        .kd-det summary::-webkit-details-marker { display: none; }
+        .kd-det summary::after { content: ' ▾'; }
+        .kd-det[open] summary::after { content: ' ▴'; }
+        .kd-rows { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 0 12px 10px; font-size: 0.86rem; color: var(--text-sub); animation: kdCambia 0.3s ease; }
+        .kd-rows b { color: var(--text-heading); }
+
+        /* Detalle al pasar el ratón */
+        .hv-card { position: relative; height: 50px; border-radius: 12px; background: #ffffff; border: 1.5px solid #fbd5bd; overflow: hidden; cursor: default; }
+        .hv-front, .hv-back { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 14px; transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease; }
+        .hv-front { justify-content: space-between; }
+        .hv-front b { font-size: 1.6rem; color: #c2410c; }
+        .hv-back { justify-content: space-between; gap: 8px; background: #fff7ed; transform: translateY(100%); opacity: 0; font-size: 0.84rem; color: var(--text-sub); }
+        .hv-back span { display: flex; flex-direction: column; }
+        .hv-back b { font-size: 1rem; color: #c2410c; }
+        .hv-card:hover .hv-front, .hv-card:focus .hv-front { transform: translateY(-100%); opacity: 0; }
+        .hv-card:hover .hv-back, .hv-card:focus .hv-back { transform: translateY(0); opacity: 1; }
+
+        /* Frase dinámica */
+        .fr-txt { display: block; min-height: 50px; padding: 8px 14px; border-radius: 12px; background: #fff7ed; border-left: 4px solid #E8590C; font-size: 0.95rem; line-height: 1.4; color: var(--text-sub); }
+        .fr-txt b { color: #c2410c; }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Top Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Cursor Spotlight -->
+    <div class="cursor-spotlight" id="spotlight"></div>
+
+    <main class="deck" id="deck">
+
+        <!-- ===================================================================
+             DECK CONTAINER (14 DIAPOSITIVAS • DASHBOARD CON UN SOLO PROMPT)
+             =================================================================== -->
+
+        <!-- ===================================================================
+             SLIDE 01: [PORTADA] DASHBOARD COMPLETO CON UN SOLO PROMPT
+             =================================================================== -->
+        <section class="slide active" data-slide="1" data-type="Portada">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Programa Oficial Datdata • 2026</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Clase 04 de 10</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="cover-grid">
+                    <div>
+                        <span class="badge purple" style="margin-bottom: 0.9rem;">Fase 2 • Diseño visual</span>
+                        <h1>Dashboard completo con <span class="wine-gradient">un solo prompt</span></h1>
+                        <p class="slide-subtitle">La clase pasada insertaste cada visual. Hoy describes el dashboard y la IA lo construye entero sobre tu reporte.</p>
+                        <div class="tag-group" style="margin-top: 1.4rem;">
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--wine-base); box-shadow: 0 0 8px var(--wine-base);"></span><span>Reportes como código</span></div>
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></span><span>La orden maestra</span></div>
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald);"></span><span>Criterio de director</span></div>
+                        </div>
+                    </div>
+                    <figure class="cover-art">
+                        <svg viewBox="0 0 470 412" fill="none" aria-hidden="true">
+                            <circle cx="236" cy="206" r="190" fill="rgba(136, 19, 55, 0.045)" />
+                            <!-- El prompt -->
+                            <rect x="14" y="40" width="250" height="104" rx="20" fill="#881337" />
+                            <path d="M58 144 L46 170 L88 144 Z" fill="#881337" />
+                            <g font-family="var(--font-sans)" font-size="15" font-weight="700" fill="#ffffff">
+                                <text x="34" y="74">«Crea un dashboard de una</text>
+                                <text x="34" y="96">página para el director: filtros,</text>
+                                <text x="34" y="118">4 KPIs, tendencia y ranking»</text>
+                            </g>
+                            <!-- La IA construye -->
+                            <path d="M150 186 C 150 236, 170 252, 182 254" stroke="#881337" stroke-width="4" stroke-linecap="round" class="flow-dash" />
+                            <path d="M178 246 L192 255 L178 263 Z" fill="#881337" />
+                            <circle cx="132" cy="214" r="24" fill="#D97757" stroke="#ffffff" stroke-width="3" />
+                            <path d="M132 201 l3 9 l9 3 l-9 3 l-3 9 l-3 -9 l-9 -3 l9 -3 Z" fill="#ffffff" />
+                            <!-- El dashboard -->
+                            <rect x="180" y="176" width="276" height="196" rx="14" fill="#ffffff" stroke="#e4dcef" stroke-width="2.5" />
+            <g font-family="var(--font-sans)" font-size="9" font-weight="800">
+                <rect x="194" y="190" width="54" height="20" rx="10" fill="#6A0DAD" /><text x="221" y="204" fill="#ffffff" text-anchor="middle">2025</text>
+                <rect x="254" y="190" width="44" height="20" rx="10" fill="#ffffff" stroke="#d8cfe6" stroke-width="1.5" /><text x="276" y="204" fill="#3D0080" text-anchor="middle">Mes</text>
+                <rect x="304" y="190" width="62" height="20" rx="10" fill="#ffffff" stroke="#d8cfe6" stroke-width="1.5" /><text x="335" y="204" fill="#3D0080" text-anchor="middle">Sucursal</text>
+            </g>
+            <rect x="194" y="222" width="58" height="42" rx="7" fill="#ffffff" stroke="#e0d6f5" stroke-width="1.5" />
+            <text x="201" y="235" font-family="var(--font-sans)" font-size="8" font-weight="800" fill="#9B59B6">VENTAS</text>
+            <text x="201" y="250" font-family="var(--font-sans)" font-size="12" font-weight="800" fill="#3D0080">$34.0M</text>
+            <rect x="201" y="254" width="26" height="6" rx="3" fill="#bdebd2" /><rect x="258" y="222" width="58" height="42" rx="7" fill="#ffffff" stroke="#e0d6f5" stroke-width="1.5" />
+            <text x="265" y="235" font-family="var(--font-sans)" font-size="8" font-weight="800" fill="#9B59B6">MARGEN</text>
+            <text x="265" y="250" font-family="var(--font-sans)" font-size="12" font-weight="800" fill="#3D0080">27.8%</text>
+            <rect x="265" y="254" width="26" height="6" rx="3" fill="#bdebd2" /><rect x="322" y="222" width="58" height="42" rx="7" fill="#ffffff" stroke="#e0d6f5" stroke-width="1.5" />
+            <text x="329" y="235" font-family="var(--font-sans)" font-size="8" font-weight="800" fill="#9B59B6">TICKET</text>
+            <text x="329" y="250" font-family="var(--font-sans)" font-size="12" font-weight="800" fill="#3D0080">$2,325</text>
+            <rect x="329" y="254" width="26" height="6" rx="3" fill="#bdebd2" /><rect x="386" y="222" width="58" height="42" rx="7" fill="#ffffff" stroke="#e0d6f5" stroke-width="1.5" />
+            <text x="393" y="235" font-family="var(--font-sans)" font-size="8" font-weight="800" fill="#9B59B6">META</text>
+            <text x="393" y="250" font-family="var(--font-sans)" font-size="12" font-weight="800" fill="#3D0080">102%</text>
+            <rect x="393" y="254" width="26" height="6" rx="3" fill="#bdebd2" />
+            <rect x="194" y="272" width="172" height="86" rx="8" fill="#faf7fd" />
+            <path d="M202 314 L215 310 L228 301 L241 293 L254 290 L267 304 L280 307 L293 309 L306 308 L319 303 L332 304 L345 302" stroke="#6A0DAD" stroke-width="2.5" fill="none" stroke-linejoin="round" />
+            <rect x="372" y="272" width="70" height="86" rx="8" fill="#faf7fd" />
+            <rect x="376" y="280" width="58" height="6" rx="2" fill="#6A0DAD" /><rect x="376" y="289" width="51" height="6" rx="2" fill="#d4b8f0" /><rect x="376" y="298" width="36" height="6" rx="2" fill="#d4b8f0" /><rect x="376" y="307" width="29" height="6" rx="2" fill="#d4b8f0" /><rect x="376" y="316" width="24" height="6" rx="2" fill="#d4b8f0" /><rect x="376" y="325" width="22" height="6" rx="2" fill="#d4b8f0" /><rect x="376" y="334" width="13" height="6" rx="2" fill="#d4b8f0" /><rect x="376" y="343" width="12" height="6" rx="2" fill="#d4b8f0" />
+                            <path d="M424 34 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 Z" fill="#fda4af" />
+                        </svg>
+                        <figcaption>Tú describes; la IA <strong>construye la página completa</strong>.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 02: [AGENDA] HOY DIRIGES, NO CONSTRUYES
+             =================================================================== -->
+        <section class="slide" data-slide="2" data-type="Agenda">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Agenda • Clase 04</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge ">Agenda</span>
+                    <span class="slide-number">02 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Hoy <span class="wine-gradient">diriges</span>, no construyes</h2>
+                    <p class="slide-subtitle">Al final tendrás un dashboard ejecutivo y una segunda página que lo compara con los visuales nativos.</p>
+                </div>
+
+                <ol class="agenda cinco">
+                    <li><span class="agenda-num">0</span><strong>Prepara tu proyecto</strong><span class="agenda-gain">Actualiza y guarda</span></li>
+                    <li><span class="agenda-num">1</span><strong>La orden maestra</strong><span class="agenda-gain">Un prompt, una página</span></li>
+                    <li><span class="agenda-num">2</span><strong>Revisa los números</strong><span class="agenda-gain">La IA comprueba con DAX</span></li>
+                    <li><span class="agenda-num">3</span><strong>Pruébalo como director</strong><span class="agenda-gain">Clic, filtro y 10 segundos</span></li>
+                    <li><span class="agenda-num">4</span><strong>Nativo vs personalizado</strong><span class="agenda-gain">Otra página, lado a lado</span></li>
+                </ol>
+
+                <div>
+                    <h3 class="how-title">Así funciona hoy</h3>
+                    <div class="mcp-pieces how-grid tres">
+                        <div class="mcp-piece"><span class="mcp-piece-icon wine"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg></span><div><strong>1. Tú describes</strong><span>Para quién es, qué quiere saber y qué debe ver.</span></div></div>
+                        <div class="mcp-piece"><span class="mcp-piece-icon gold"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg></span><div><strong>2. La IA construye</strong><span>Medidas, visuales y filtros, y recarga tu Power BI.</span></div></div>
+                        <div class="mcp-piece"><span class="mcp-piece-icon emerald"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg></span><div><strong>3. Tú revisas</strong><span>Que los números cuadren y que se entienda.</span></div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 03: [TALLER 0] PREPARA TU PROYECTO
+             =================================================================== -->
+        <section class="slide" data-slide="3" data-type="Taller 0: Prepara tu proyecto">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 0 • Preparación</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">03 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 0 · Prepara tu <span class="wine-gradient">proyecto</span></h2>
+                    <p class="slide-subtitle">Trabajas sobre el .pbip de la Clase 03, con tus medidas y tus visuales ya importados.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="card steps-card">
+                        <h3>Antes de dar la orden</h3>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Actualiza la Metodología 2</strong><span>Pega el prompt de la derecha. Al terminar, cierra y vuelve a abrir tu agente.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Abre tu .pbip de la Clase 03</strong><span>Con Deneb, HTML Content y el filtro importados en ese reporte.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Guarda con Ctrl+S</strong><span>Si hay cambios sin guardar, la IA no puede recargar tu reporte.</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿Te falta algún visual?</strong> Impórtalo ahora: es lo único que la IA no puede hacer por ti.</p>
+                    </div>
+
+                    <div class="taller-side">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 1 · Actualiza la metodología</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Actualiza la Metodología 2 de Datdata siguiendo las instrucciones de https://ricardo050427.github.io/datdata/instalar.md</p>
+                        </div>
+                        <div class="check-card">
+                            <span class="check-title">Lo que debes ver</span>
+                            <p class="check-big">RESULTADO: OK</p>
+                            <p class="check-note">Con la versión <strong>2.1.1</strong> o posterior: detecta sola qué edición de HTML Content y qué filtro importaste.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 04: [TALLER 1] LA ORDEN MAESTRA
+             =================================================================== -->
+        <section class="slide" data-slide="4" data-type="Taller 1: La orden maestra">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 1 • Un solo prompt</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">04 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 1 · La <span class="wine-gradient">orden maestra</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: mientras la IA arma la página, vemos qué está haciendo y por qué funciona.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea un dashboard de una sola página del reporte que tengo abierto. Es para el director de la ferretería, que quiere saber en 10 segundos cómo vamos este año (2026). Arriba, la barra de filtros con Año, Mes y Sucursal. Debajo, 4 tarjetas KPI: Ventas, Margen %, Ticket promedio y Cumplimiento meta %. Después, la tendencia mensual de ventas contra el año anterior y el ranking de ventas por sucursal.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Tarda unos 10 minutos: mientras, seguimos con la teoría.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide guardar, hazlo con Ctrl+S</strong><span>Y dile que continúe.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="dashboard.png" alt="Dashboard de una página generado con la orden maestra" />
+                        <p class="check-note">Prueba real con la ferretería. Los colores y el acomodo cambian en cada agente: lo que importa es que estén los filtros, las 4 tarjetas con datos y las 2 gráficas.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 05: [TEORÍA] TU REPORTE, COMO CÓDIGO
+             PBIX contra PBIP/PBIR: por qué la IA ya puede escribir el lienzo.
+             =================================================================== -->
+        <section class="slide" data-slide="5" data-type="Teoría: Tu reporte, como código">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • PBIP y PBIR</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">05 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Tu reporte, <span class="wine-gradient">como código</span></h2>
+                    <p class="slide-subtitle">Guardado como .pbip, cada página y cada visual es un archivo de texto que la IA puede escribir.</p>
+                </div>
+
+                <div class="code-vs">
+                    <div class="card cv-col">
+                        <span class="vs-tag">.pbix</span>
+                        <svg class="cv-box" viewBox="0 0 220 150" fill="none" aria-hidden="true">
+                            <path d="M40 54 L110 24 L180 54 L180 124 L110 146 L40 124 Z" fill="#f4f1f7" stroke="#b9a7d6" stroke-width="3" stroke-linejoin="round" />
+                            <path d="M40 54 L110 80 L180 54 M110 80 V146" stroke="#b9a7d6" stroke-width="3" stroke-linejoin="round" />
+                            <rect x="92" y="96" width="36" height="28" rx="5" fill="#ffffff" stroke="#9B59B6" stroke-width="2.5" />
+                            <path d="M100 96 v-8 a10 10 0 0 1 20 0 v8" stroke="#9B59B6" stroke-width="2.5" />
+                        </svg>
+                        <p class="cv-text"><strong>Una caja cerrada.</strong> Todo vive en un solo archivo binario: la IA puede consultar el modelo por MCP, pero no escribir páginas.</p>
+                    </div>
+                    <div class="card cv-col">
+                        <span class="vs-tag custom">.pbip</span>
+                        <div class="ft-tree">
+                            <div class="ft-row " style="--n:0"><span class="ft-name">📄 tornillo flojo.pbip</span><span class="ft-note">lo que abres</span></div>
+                            <div class="ft-row " style="--n:0"><span class="ft-name">📁 tornillo flojo.SemanticModel</span><span class="ft-note">tablas y medidas</span></div>
+                            <div class="ft-row " style="--n:0"><span class="ft-name">📁 tornillo flojo.Report</span><span class="ft-note">el lienzo</span></div>
+                            <div class="ft-row " style="--n:1"><span class="ft-name">📁 definition / pages</span><span class="ft-note"></span></div>
+                            <div class="ft-row " style="--n:2"><span class="ft-name">📁 Resumen</span><span class="ft-note">una carpeta por página</span></div>
+                            <div class="ft-row hot" style="--n:3"><span class="ft-name">📄 visual.json</span><span class="ft-note">un archivo por visual</span></div>
+                        </div>
+                        <p class="cv-text"><strong>Una carpeta de archivos.</strong> La IA escribe los visual.json y Power BI Desktop los vuelve a leer al recargar.</p>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>La clase pasada</strong> la IA solo tocaba el modelo y tú montabas cada visual. <strong>Con .pbip,</strong> también escribe el lienzo: por eso hoy basta un prompt.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 06: [TEORÍA] QUÉ PASA CUANDO DAS LA ORDEN
+             =================================================================== -->
+        <section class="slide" data-slide="6" data-type="Teoría: Qué pasa cuando das la orden">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • La orden maestra</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">06 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Qué pasa cuando <span class="wine-gradient">das la orden</span></h2>
+                    <p class="slide-subtitle">Tu agente está recorriendo este camino ahora mismo: busca en su pantalla en qué paso va.</p>
+                </div>
+
+                <div class="pipe">
+                    <div class="pipe-step"><span class="pipe-n">1</span><span class="route-who mcp">MCP</span><strong>Revisa el modelo</strong><span>Tablas, relaciones y medidas. Comprueba que los totales cuadren.</span></div>
+                    <div class="pipe-step"><span class="pipe-n">2</span><span class="route-who mcp">MCP</span><strong>Crea lo que falta</strong><span>Medidas y tarjetas HTML, todas en un solo lote.</span></div>
+                    <div class="pipe-step"><span class="pipe-n">3</span><span class="route-who ia">IA</span><strong>Escribe la página</strong><span>Con hybrid.js genera los visual.json en una cuadrícula ordenada.</span></div>
+                    <div class="pipe-step"><span class="pipe-n">4</span><span class="route-who pbi">Power BI</span><strong>Recarga tu reporte</strong><span>Power BI Desktop vuelve a leer los archivos: aparece el dashboard.</span></div>
+                    <div class="pipe-step"><span class="pipe-n">5</span><span class="route-who ia">IA</span><strong>Se mira y corrige</strong><span>Toma una captura, la revisa y ajusta lo que salió mal.</span></div>
+                </div>
+
+                <div class="pipe-notes">
+                    <div class="pipe-note warn"><strong>Mientras trabaja, no toques Power BI.</strong> Si recarga mientras editas, se pierde lo que estabas haciendo.</div>
+                    <div class="pipe-note good"><strong>Si te pide guardar, hazlo con Ctrl+S.</strong> Recargar descarta lo que no está guardado, como un visual recién importado.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 07: [TEORÍA] EL PROMPT DEL ANALISTA DIRECTOR
+             =================================================================== -->
+        <section class="slide" data-slide="7" data-type="Teoría: El prompt del analista director">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Cómo pedir un dashboard</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">07 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>El prompt del <span class="wine-gradient">analista director</span></h2>
+                    <p class="slide-subtitle">El prompt que pegaste no dicta visuales al azar: describe el problema de negocio con cuatro piezas.</p>
+                </div>
+
+                <div class="dir-grid">
+                    <div class="card dir-prompt">
+                        <span class="vs-tag custom">La orden que pegaste</span>
+                        <p class="dir-text">«Crea un dashboard <mark class="m4">de una sola página</mark> del reporte que tengo abierto. Es <mark class="m2">para el director de la ferretería</mark>, que <mark class="m1">quiere saber en 10 segundos cómo vamos este año (2026)</mark>. <mark class="m4">Arriba, la barra de filtros con Año, Mes y Sucursal.</mark> Debajo, 4 tarjetas KPI: <mark class="m3">Ventas, Margen %, Ticket promedio y Cumplimiento meta %</mark>. Después, <mark class="m4">la tendencia mensual de ventas contra el año anterior y el ranking de ventas por sucursal</mark>.»</p>
+                    </div>
+                    <div class="dir-pieces">
+                        <div class="dir-piece"><span class="dot m1"></span><div><strong>Objetivo</strong><span>Qué quiere saber o decidir.</span></div></div>
+                        <div class="dir-piece"><span class="dot m2"></span><div><strong>Audiencia</strong><span>Para quién es: cambia el nivel de detalle.</span></div></div>
+                        <div class="dir-piece"><span class="dot m3"></span><div><strong>Métricas</strong><span>Qué números, con el nombre de tus medidas.</span></div></div>
+                        <div class="dir-piece"><span class="dot m4"></span><div><strong>Estructura</strong><span>Cuántas páginas, qué filtros y qué gráficas.</span></div></div>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Lo que no digas, la IA lo decide:</strong> sin «una sola página» arma tres. Decide bien, pero decide ella.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 08: [TEORÍA] LO QUE LA IA DECIDE SOLA
+             =================================================================== -->
+        <section class="slide" data-slide="8" data-type="Teoría: Lo que la IA decide sola">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Decidir, no preguntar</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">08 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Lo que la IA <span class="wine-gradient">decide sola</span></h2>
+                    <p class="slide-subtitle">La skill no te interroga: si no dices algo, elige por ti. Si lo dices, manda lo tuyo.</p>
+                </div>
+
+                <div class="dec-grid">
+                    <table class="dec-table">
+                        <thead><tr><th>Si no lo dices…</th><th>La IA elige</th><th>Lo vemos en</th></tr></thead>
+                        <tbody>
+                            <tr><td>Páginas</td><td>3: Resumen, Producto y Operación</td><td><span class="cls-chip">Clase 08</span></td></tr>
+                            <tr><td>Colores</td><td>Un acento según el negocio</td><td><span class="cls-chip">Clase 07</span></td></tr>
+                            <tr><td>Filtros</td><td>Barra arriba, con las fechas primero</td><td><span class="cls-chip">Clase 06</span></td></tr>
+                            <tr><td>Gráficas</td><td>Las que mejor cuenten tus datos</td><td><span class="cls-chip">Clase 05</span></td></tr>
+                            <tr><td>Lienzo</td><td>1440 × 1080, tema claro</td><td><span class="cls-chip">Clase 06</span></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="card dec-side">
+                        <h3>Por eso hoy</h3>
+                        <p>Pedimos <strong>una sola página</strong> y dijimos qué gráficas: así todos tienen el mismo dashboard y pueden comparar. La segunda la agregaste con otro prompt.</p>
+                        <p>En las próximas clases aprendes a cambiar cada una de estas decisiones.</p>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Regla de la skill: decidir, no preguntar.</strong> Una frase corta basta para arrancar; un buen prompt hace que decida lo que tú querías.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 09: [TALLER 2] REVISA LOS NÚMEROS
+             =================================================================== -->
+        <section class="slide" data-slide="9" data-type="Taller 2: Revisa los números">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 2 • Criterio</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">09 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 2 · Revisa los <span class="wine-gradient">números</span></h2>
+                    <p class="slide-subtitle">Un dashboard bonito con un número mal es peor que no tener dashboard.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Comprueba con una consulta DAX que las 4 tarjetas del dashboard muestran lo mismo que las medidas Ventas, Margen %, Ticket promedio y Cumplimiento meta % para 2026, y dime si algún visual quedó vacío o con el texto cortado.</p>
+                        </div>
+                        <p class="tip"><strong>La IA comprueba los números;</strong> que el dashboard responda la pregunta del director lo juzgas tú en el taller 3.</p>
+                        <p class="stuck"><strong>¿Una tarjeta o gráfica salió en blanco?</strong> Pídele: «El visual de … salió vacío, revisa por qué y corrígelo».</p>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver · 2026, enero a septiembre</span>
+                        <table class="value-table big">
+                            <tr><td>Ventas</td><td>$26,748,960</td></tr>
+                            <tr><td>Margen %</td><td>27.3 %</td></tr>
+                            <tr><td>Ticket promedio</td><td>$2,422</td></tr>
+                            <tr><td>Cumplimiento meta %</td><td>95.8 %</td></tr>
+                        </table>
+                        <p class="check-note">Las cifras pueden salir abreviadas, como $26.7 M: lo que importa es que coincidan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 10: [TALLER 3] PRUÉBALO COMO DIRECTOR
+             =================================================================== -->
+        <section class="slide" data-slide="10" data-type="Taller 3: Pruébalo como director">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 3 • Interactividad</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">10 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 3 · Pruébalo como <span class="wine-gradient">director</span></h2>
+                    <p class="slide-subtitle">La captura no prueba los clics: eso lo haces tú, como lo haría el director.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="card steps-card">
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Elige 2024 en el filtro</strong><span>Las tarjetas y las gráficas cambian juntas.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Vuelve a 2026 y haz clic en Puebla Angelópolis en el ranking</strong><span>Las tarjetas muestran solo esa sucursal.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>La prueba de los 10 segundos</strong><span>Enséñaselo a alguien: ¿responde «cómo vamos este año» sin explicarle nada?</span></div></li>
+                        </ol>
+                        </div>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Si algo no se entiende, pega una captura y esto</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Te paso una captura de mi dashboard. El director tiene que entender en 10 segundos cómo vamos este año: dime qué se lo impide y corrígelo.</p>
+                        </div>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <table class="value-table filtro-table">
+                            <tr><td>2024</td><td>Ventas $29,474,874</td></tr>
+                            <tr><td>2026 · Puebla Angelópolis</td><td>Ventas $2,312,956</td></tr>
+                            <tr><td>2026 · Puebla Angelópolis</td><td>Margen % 27.2 %</td></tr>
+                        </table>
+                        <p class="check-note"><strong>¿El clic en el ranking no cambia las tarjetas?</strong> Revisa que Deneb tenga activada la filtración cruzada.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 11: [TALLER 4] NATIVO VS PERSONALIZADO
+             =================================================================== -->
+        <section class="slide" data-slide="11" data-type="Taller 4: Nativo vs personalizado">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 4 • Una segunda página</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">11 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 4 · Nativo vs <span class="wine-gradient">personalizado</span></h2>
+                    <p class="slide-subtitle">Un segundo prompt agrega otra página: los mismos números con visuales nativos y personalizados, lado a lado.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Agrega una segunda página llamada «Nativo vs personalizado» con las mismas métricas de la página 1, en dos columnas: a la izquierda con visuales nativos de Power BI (tarjetas, gráfica de líneas, barras y segmentadores) y a la derecha las versiones personalizadas. Mismo tamaño, y que los segmentadores nativos filtren solo la columna izquierda y la barra de filtros personalizada solo la derecha.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Tarda entre 8 y 13 minutos: mientras, vemos qué más pedirle a la IA.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide cerrar y volver a abrir Power BI, hazlo</strong><span>Una página nueva no aparece con solo recargar.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Elige Zapopan Bodega en el segmentador nativo</strong><span>La izquierda baja a $6.2 mill.; la derecha sigue en $26.7 M.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="nativo_vs_personalizado.png" alt="Página con visuales nativos a la izquierda y personalizados a la derecha" />
+                        <p class="check-note">Prueba real. Sin filtros, los dos lados dicen lo mismo: $26.7 M, 27.3 %, $2,422 y 95.8 %. Fíjate en lo que solo trae el personalizado.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 12: [IDEAS] PÍDELE MÁS A LA IA
+             Mejoras que casi nadie pide, con demostraciones en vivo.
+             =================================================================== -->
+        <section class="slide" data-slide="12" data-type="Ideas: Pídele más a la IA">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Ideas • Pídele más</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
+                    <span class="badge gold">Ideas</span>
+                    <span class="slide-number">12 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content ideas-content">
+                <div>
+                    <h2>Pídele más a la <span class="wine-gradient">IA</span></h2>
+                    <p class="slide-subtitle">Cosas que casi nadie pide y salen con una frase. Pasa el ratón y haz clic para probarlas.</p>
+                </div>
+
+                <div class="ideas-top">
+                    <div class="card idea-demo">
+                        <div class="idea-head"><h3>Un tooltip que cuenta la historia</h3><span class="idea-chip ok">Deneb</span></div>
+                        <div class="tt-wrap" id="ttWrap">
+                            <svg class="tt-svg" viewBox="0 0 540 150" fill="none" aria-label="Ventas mensuales de 2026 contra 2025; pasa el ratón por un mes para ver su tooltip" role="img"><defs><linearGradient id="gIdea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8590C" stop-opacity="0.3" /><stop offset="1" stop-color="#E8590C" stop-opacity="0.02" /></linearGradient></defs><path d="M34 106.7 L93.5 89.3 L153 68 L212.5 62.1 L272 26.6 L331.5 56.3 L391 93.5 L450.5 85.4 L510 85.9 L510 128 L34 128 Z" fill="url(#gIdea)" /><path d="M34 114.6 L93.5 104 L153 72.8 L212.5 44.4 L272 35.2 L331.5 82.9 L391 91.6 L450.5 100 L510 96.2" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4" fill="none" /><path d="M34 106.7 L93.5 89.3 L153 68 L212.5 62.1 L272 26.6 L331.5 56.3 L391 93.5 L450.5 85.4 L510 85.9" stroke="#E8590C" stroke-width="3" fill="none" stroke-linejoin="round" /><g font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#71717a" text-anchor="middle"><text x="34" y="146">Ene</text><text x="93.5" y="146">Feb</text><text x="153" y="146">Mar</text><text x="212.5" y="146">Abr</text><text x="272" y="146">May</text><text x="331.5" y="146">Jun</text><text x="391" y="146">Jul</text><text x="450.5" y="146">Ago</text><text x="510" y="146">Sep</text></g><g class="tt-pt" data-i="0"><rect x="7" y="0" width="54" height="132" fill="transparent" /><circle cx="34" cy="106.7" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="1"><rect x="66.5" y="0" width="54" height="132" fill="transparent" /><circle cx="93.5" cy="89.3" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="2"><rect x="126" y="0" width="54" height="132" fill="transparent" /><circle cx="153" cy="68" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="3"><rect x="185.5" y="0" width="54" height="132" fill="transparent" /><circle cx="212.5" cy="62.1" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="4"><rect x="245" y="0" width="54" height="132" fill="transparent" /><circle cx="272" cy="26.6" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="5"><rect x="304.5" y="0" width="54" height="132" fill="transparent" /><circle cx="331.5" cy="56.3" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="6"><rect x="364" y="0" width="54" height="132" fill="transparent" /><circle cx="391" cy="93.5" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="7"><rect x="423.5" y="0" width="54" height="132" fill="transparent" /><circle cx="450.5" cy="85.4" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><g class="tt-pt" data-i="8"><rect x="483" y="0" width="54" height="132" fill="transparent" /><circle cx="510" cy="85.9" r="5" fill="#E8590C" stroke="#ffffff" stroke-width="2" /></g><line id="ttGuia" x1="0" y1="14" x2="0" y2="128" stroke="#E8590C" stroke-width="1.5" stroke-dasharray="3 3" opacity="0" /></svg>
+                            <div class="tt-box" id="ttBox"></div>
+                        </div>
+                        <div class="prompt-copy mini"><button class="copy-prompt-btn" type="button">Copiar</button><p class="prompt-copy-text">En la gráfica de tendencia mensual, cambia el tooltip para que al pasar el ratón por un mes muestre: el mes y el año, las ventas, la diferencia contra el mismo mes del año anterior en pesos y en %, y qué % de las ventas de su año representa ese mes.</p></div>
+                    </div>
+
+                    <div class="card idea-demo">
+                        <div class="idea-head"><h3>Botones y desplegables</h3><span class="idea-chip ok">Desplegable: Secure ✓</span><span class="idea-chip warn">Botones: normal</span></div>
+                        <div class="kd-wrap">
+                            <div class="kd-card">
+                                <div class="kd-top">
+                                    <span class="kd-lbl">Ventas 2026</span>
+                                    <div class="kd-seg" role="group" aria-label="Periodo">
+                                        <button type="button" class="kd-btn activo" data-p="acum">Acumulado</button>
+                                        <button type="button" class="kd-btn" data-p="mes">Septiembre</button>
+                                    </div>
+                                </div>
+                                <div class="kd-val" id="kdVal">$26.7 M</div>
+                                <span class="kd-badge" id="kdBadge">▲ 5.4 % vs 2025</span>
+                            </div>
+                            <details class="kd-det">
+                                <summary>Ver por canal</summary>
+                                <div class="kd-rows">
+                                    <span>Mostrador</span><b>55.4 %</b>
+                                    <span>WhatsApp</span><b>21.3 %</b>
+                                    <span>Venta en obra</span><b>16.7 %</b>
+                                    <span>Sitio web</span><b>6.6 %</b>
+                                </div>
+                            </details>
+                        </div>
+                        <div class="prompt-copy mini"><button class="copy-prompt-btn" type="button">Copiar</button><p class="prompt-copy-text">En la tarjeta de Ventas agrega un botón «Ver por canal» que, al hacer clic, despliegue dentro de la misma tarjeta las ventas y el % de cada canal (FactVentas[Canal]), y que se pueda volver a cerrar. Tiene que funcionar con HTML Content Secure.</p></div>
+                    </div>
+                </div>
+
+                <div class="ideas-bottom">
+                    <div class="card idea">
+                        <div class="idea-head"><h3>Detalle al pasar el ratón</h3><span class="idea-chip ok">Secure ✓</span></div>
+                        <div class="hv-card" tabindex="0">
+                            <div class="hv-front"><span class="kd-lbl">Margen %</span><b>27.3 %</b></div>
+                            <div class="hv-back"><span>Tornillería <b>49.4 %</b></span><span>Cerrajería <b>45.1 %</b></span><span>Seguridad <b>40.1 %</b></span></div>
+                        </div>
+                        <div class="prompt-copy mini"><button class="copy-prompt-btn" type="button">Copiar</button><p class="prompt-copy-text">En la tarjeta de Margen %, que al pasar el ratón aparezcan las 3 categorías de producto con mayor Margen % y su porcentaje, y que al quitar el ratón vuelva a mostrar el valor normal.</p></div>
+                    </div>
+                    <div class="card idea">
+                        <div class="idea-head"><h3>Frase que cambia sola</h3><span class="idea-chip ok">Secure ✓</span></div>
+                        <p class="fr-txt">«<b>Saltillo Centro</b> es la sucursal con menor cumplimiento de meta: <b>91.2 %</b> al corte.»</p>
+                        <div class="prompt-copy mini"><button class="copy-prompt-btn" type="button">Copiar</button><p class="prompt-copy-text">Agrega debajo del título del dashboard una frase que cambie con los filtros y diga qué sucursal tiene el menor % de cumplimiento de meta y cuál es ese %, al corte. Si el filtro deja una sola sucursal, que diga cómo va esa sucursal contra su meta.</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 13: [TEORÍA] ¿NATIVO O PERSONALIZADO?
+             Lo que se vio en la página 2: qué gana y qué pierde cada uno.
+             =================================================================== -->
+        <section class="slide" data-slide="13" data-type="Teoría: ¿Nativo o personalizado?">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Criterio</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge espera"><i class="espera-dot"></i>Tu agente sigue trabajando</span>
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">13 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>¿Nativo o <span class="wine-gradient">personalizado</span>?</h2>
+                    <p class="slide-subtitle">Los mismos datos y el mismo esfuerzo para la IA. La diferencia está en lo que el director puede hacer con cada uno.</p>
+                </div>
+
+                <div class="code-vs nv-grid">
+                    <div class="card cv-col">
+                        <span class="vs-tag">Solo el nativo</span><ul class="nv-list"><li><strong>Sincroniza filtros entre páginas</strong><span>Un segmentador puede mandar en todo el reporte.</span></li><li><strong>Explorar en profundidad</strong><span>Bajar de año a mes o de categoría a producto con un clic.</span></li><li><strong>Lo ajusta cualquiera</strong><span>Desde el panel de formato, sin prompts ni código.</span></li><li><strong>No depende de nada importado</strong><span>Algunas empresas bloquean los visuales personalizados.</span></li></ul>
+                    </div>
+                    <div class="card cv-col">
+                        <span class="vs-tag custom">Solo el personalizado</span><ul class="nv-list"><li><strong>Contexto en la tarjeta</strong><span>Variación contra el año anterior en margen y ticket.</span></li><li><strong>La meta a la vista</strong><span>Semáforo, «faltan $1.2 M» y el % de meta junto a cada barra.</span></li><li><strong>Cifras limpias</strong><span>«$26.7 M» en lugar de «$26.7 mill.».</span></li><li><strong>Diseño sin límites</strong><span>Lo que puedas describir, la IA lo dibuja.</span></li></ul>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>A la IA le cuesta lo mismo hacer cualquiera de los dos.</strong> La pregunta ya no es cuánto trabajo cuesta, sino qué necesita el que lo va a usar.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 14: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             =================================================================== -->
+        <section class="slide" data-slide="14" data-type="Cierre: Preguntas">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Cierre • Clase 04</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Cierre</span>
+                    <span class="slide-number">14 / 14</span>
+                </div>
+            </header>
+            <div class="slide-content">
+                <div class="closing-grid">
+                    <div class="closing-main">
+                        <svg class="closing-art" viewBox="0 0 300 150" fill="none" aria-hidden="true">
+                            <rect x="20" y="16" width="160" height="96" rx="26" fill="#881337" />
+                            <path d="M60 112 L48 140 L88 112 Z" fill="#881337" />
+                            <text x="100" y="86" text-anchor="middle" font-family="var(--font-sans)" font-size="62" font-weight="800" fill="#ffffff">?</text>
+                            <rect x="150" y="46" width="130" height="80" rx="24" fill="#ffffff" stroke="#D97757" stroke-width="4" />
+                            <path d="M244 126 L258 146 L222 126 Z" fill="#ffffff" stroke="#D97757" stroke-width="4" stroke-linejoin="round" />
+                            <line x1="223" y1="126" x2="243" y2="126" stroke="#ffffff" stroke-width="6" />
+                            <circle cx="190" cy="86" r="7" fill="#D97757" />
+                            <circle cx="215" cy="86" r="7" fill="#D97757" />
+                            <circle cx="240" cy="86" r="7" fill="#D97757" />
+                        </svg>
+                        <h1 class="closing-title"><span class="wine-gradient">¿Preguntas?</span></h1>
+                        <p class="slide-subtitle">Este es el espacio para tus dudas sobre la orden maestra, tu dashboard o lo que viene en el curso.</p>
+                    </div>
+
+                    <div class="card linkedin-card">
+                        <div class="linkedin-head">
+                            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#0A66C2" /><text x="20" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">in</text></svg>
+                            <div>
+                                <strong>Conecta conmigo</strong>
+                                <span>en LinkedIn</span>
+                            </div>
+                        </div>
+                        <svg class="qr" viewBox="-2 -2 41 41" aria-label="Código QR del perfil de LinkedIn" role="img">
+                            <rect x="-2" y="-2" width="41" height="41" fill="#ffffff" />
+                            <path fill="#1e1115" d="M0 0h7v1h-7zM8 0h1v1h-1zM12 0h2v1h-2zM16 0h1v1h-1zM18 0h2v1h-2zM24 0h1v1h-1zM30 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h6v1h-6zM19 1h1v1h-1zM21 1h2v1h-2zM25 1h1v1h-1zM28 1h1v1h-1zM30 1h1v1h-1zM36 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h3v1h-3zM16 2h2v1h-2zM21 2h1v1h-1zM23 2h3v1h-3zM28 2h1v1h-1zM30 2h1v1h-1zM32 2h3v1h-3zM36 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h1v1h-1zM17 3h3v1h-3zM21 3h2v1h-2zM25 3h2v1h-2zM30 3h1v1h-1zM32 3h3v1h-3zM36 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM15 4h3v1h-3zM22 4h1v1h-1zM24 4h3v1h-3zM30 4h1v1h-1zM32 4h3v1h-3zM36 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h3v1h-3zM20 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h7v1h-7zM10 7h2v1h-2zM18 7h2v1h-2zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h2v1h-2zM0 8h1v1h-1zM2 8h1v1h-1zM6 8h2v1h-2zM11 8h1v1h-1zM16 8h4v1h-4zM31 8h1v1h-1zM34 8h1v1h-1zM36 8h1v1h-1zM0 9h3v1h-3zM4 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM11 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM27 9h2v1h-2zM30 9h2v1h-2zM33 9h4v1h-4zM1 10h2v1h-2zM5 10h3v1h-3zM9 10h2v1h-2zM12 10h3v1h-3zM16 10h1v1h-1zM18 10h2v1h-2zM21 10h3v1h-3zM25 10h1v1h-1zM27 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM36 10h1v1h-1zM0 11h1v1h-1zM3 11h2v1h-2zM7 11h2v1h-2zM11 11h1v1h-1zM13 11h4v1h-4zM18 11h1v1h-1zM22 11h3v1h-3zM26 11h1v1h-1zM29 11h2v1h-2zM0 12h1v1h-1zM3 12h1v1h-1zM5 12h2v1h-2zM9 12h6v1h-6zM16 12h1v1h-1zM19 12h2v1h-2zM23 12h2v1h-2zM27 12h2v1h-2zM30 12h1v1h-1zM33 12h1v1h-1zM36 12h1v1h-1zM2 13h2v1h-2zM5 13h1v1h-1zM9 13h1v1h-1zM12 13h6v1h-6zM19 13h2v1h-2zM23 13h3v1h-3zM27 13h5v1h-5zM33 13h1v1h-1zM36 13h1v1h-1zM0 14h4v1h-4zM6 14h1v1h-1zM8 14h2v1h-2zM12 14h1v1h-1zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h2v1h-2zM27 14h1v1h-1zM33 14h2v1h-2zM36 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM15 15h1v1h-1zM17 15h1v1h-1zM19 15h2v1h-2zM23 15h2v1h-2zM26 15h1v1h-1zM30 15h4v1h-4zM2 16h1v1h-1zM4 16h6v1h-6zM11 16h1v1h-1zM13 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM30 16h2v1h-2zM36 16h1v1h-1zM1 17h2v1h-2zM7 17h3v1h-3zM14 17h1v1h-1zM20 17h4v1h-4zM26 17h3v1h-3zM30 17h2v1h-2zM33 17h4v1h-4zM0 18h1v1h-1zM2 18h5v1h-5zM9 18h3v1h-3zM15 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM30 18h2v1h-2zM34 18h1v1h-1zM36 18h1v1h-1zM0 19h4v1h-4zM5 19h1v1h-1zM8 19h3v1h-3zM12 19h3v1h-3zM18 19h3v1h-3zM23 19h2v1h-2zM28 19h6v1h-6zM0 20h9v1h-9zM12 20h1v1h-1zM14 20h3v1h-3zM20 20h1v1h-1zM22 20h3v1h-3zM28 20h1v1h-1zM30 20h2v1h-2zM33 20h1v1h-1zM35 20h1v1h-1zM0 21h1v1h-1zM3 21h3v1h-3zM8 21h1v1h-1zM10 21h1v1h-1zM14 21h3v1h-3zM19 21h2v1h-2zM23 21h2v1h-2zM27 21h4v1h-4zM36 21h1v1h-1zM0 22h1v1h-1zM3 22h1v1h-1zM5 22h3v1h-3zM10 22h3v1h-3zM15 22h1v1h-1zM17 22h3v1h-3zM21 22h1v1h-1zM23 22h1v1h-1zM26 22h3v1h-3zM30 22h1v1h-1zM33 22h2v1h-2zM36 22h1v1h-1zM2 23h1v1h-1zM5 23h1v1h-1zM18 23h1v1h-1zM22 23h2v1h-2zM28 23h1v1h-1zM31 23h3v1h-3zM36 23h1v1h-1zM0 24h1v1h-1zM3 24h1v1h-1zM6 24h2v1h-2zM10 24h3v1h-3zM16 24h5v1h-5zM22 24h2v1h-2zM28 24h1v1h-1zM30 24h2v1h-2zM35 24h2v1h-2zM5 25h1v1h-1zM8 25h3v1h-3zM13 25h2v1h-2zM16 25h3v1h-3zM21 25h3v1h-3zM25 25h1v1h-1zM27 25h1v1h-1zM30 25h2v1h-2zM34 25h1v1h-1zM36 25h1v1h-1zM0 26h2v1h-2zM4 26h1v1h-1zM6 26h6v1h-6zM14 26h1v1h-1zM16 26h1v1h-1zM19 26h2v1h-2zM23 26h1v1h-1zM25 26h4v1h-4zM30 26h2v1h-2zM33 26h2v1h-2zM36 26h1v1h-1zM2 27h1v1h-1zM4 27h2v1h-2zM7 27h3v1h-3zM12 27h2v1h-2zM15 27h2v1h-2zM18 27h1v1h-1zM22 27h1v1h-1zM24 27h1v1h-1zM26 27h2v1h-2zM29 27h2v1h-2zM33 27h1v1h-1zM35 27h1v1h-1zM0 28h2v1h-2zM3 28h1v1h-1zM6 28h1v1h-1zM8 28h4v1h-4zM13 28h1v1h-1zM16 28h1v1h-1zM18 28h1v1h-1zM20 28h1v1h-1zM24 28h1v1h-1zM28 28h6v1h-6zM35 28h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h4v1h-4zM19 29h2v1h-2zM23 29h2v1h-2zM28 29h1v1h-1zM32 29h1v1h-1zM35 29h2v1h-2zM0 30h7v1h-7zM8 30h1v1h-1zM10 30h3v1h-3zM14 30h3v1h-3zM19 30h2v1h-2zM22 30h3v1h-3zM28 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM36 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM9 31h4v1h-4zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM22 31h3v1h-3zM26 31h3v1h-3zM32 31h1v1h-1zM35 31h1v1h-1zM0 32h1v1h-1zM2 32h3v1h-3zM6 32h1v1h-1zM9 32h4v1h-4zM15 32h1v1h-1zM17 32h1v1h-1zM19 32h1v1h-1zM24 32h1v1h-1zM27 32h6v1h-6zM35 32h2v1h-2zM0 33h1v1h-1zM2 33h3v1h-3zM6 33h1v1h-1zM9 33h3v1h-3zM14 33h1v1h-1zM17 33h1v1h-1zM19 33h1v1h-1zM23 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM32 33h2v1h-2zM0 34h1v1h-1zM2 34h3v1h-3zM6 34h1v1h-1zM8 34h1v1h-1zM12 34h1v1h-1zM15 34h1v1h-1zM17 34h1v1h-1zM19 34h2v1h-2zM23 34h1v1h-1zM29 34h1v1h-1zM31 34h2v1h-2zM34 34h1v1h-1zM36 34h1v1h-1zM0 35h1v1h-1zM6 35h1v1h-1zM10 35h1v1h-1zM13 35h2v1h-2zM18 35h2v1h-2zM27 35h3v1h-3zM32 35h2v1h-2zM0 36h7v1h-7zM8 36h2v1h-2zM12 36h1v1h-1zM14 36h2v1h-2zM19 36h1v1h-1zM23 36h2v1h-2zM26 36h1v1h-1zM28 36h1v1h-1zM30 36h2v1h-2zM36 36h1v1h-1z" />
+                        </svg>
+                        <span class="linkedin-url">linkedin.com/in/<br>francisco-ricardo-hernandez-astorga-7709b53b8</span>
+                    </div>
+                </div>
+
+                <div class="next-class">
+                    <span class="badge purple">Próxima clase</span>
+                    <span><strong>Clase 05</strong> · Personalización visual avanzada: bullet charts y tarjetas con micro-gráficas sobre tu dashboard.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================
+         BOTTOM NAVIGATION DOCK
+         =================================================================== -->
+    <nav class="nav-dock" id="navDock">
+        <button class="nav-btn" id="prevBtn" title="Diapositiva Anterior (Flecha Izquierda)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <span class="nav-counter" id="navCounter">01 / 14</span>
+
+        <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <div class="nav-divider"></div>
+
+        <button class="nav-btn" id="overviewBtn" title="Ver Todas las Diapositivas (Tecla 'O')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+
+        <button class="nav-btn" id="fullscreenBtn" title="Pantalla Completa (Tecla 'F')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+    </nav>
+
+    <!-- ===================================================================
+         OVERVIEW MODAL ('O' KEY)
+         =================================================================== -->
+    <div class="overview-modal" id="overviewModal">
+        <div class="overview-header">
+            <div>
+                <h2 style="font-size:1.6rem; color:#fff;">Índice General de Diapositivas</h2>
+                <p style="color:#94a3b8; font-size:0.9rem;">Haz clic en cualquier tarjeta para navegar directamente.</p>
+            </div>
+            <button class="nav-btn" id="closeOverviewBtn" style="color:#fff; background:rgba(255,255,255,0.1);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="overview-grid" id="overviewGrid"></div>
+    </div>
+
+    <!-- ===================================================================
+         SCRIPTS & CONTROLES INTERACTIVOS
+         =================================================================== -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const navCounter = document.getElementById('navCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const deck = document.getElementById('deck');
+        const navDock = document.getElementById('navDock');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const overviewBtn = document.getElementById('overviewBtn');
+        const overviewModal = document.getElementById('overviewModal');
+        const closeOverviewBtn = document.getElementById('closeOverviewBtn');
+        const overviewGrid = document.getElementById('overviewGrid');
+        const spotlight = document.getElementById('spotlight');
+
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        // Actualizar Diapositiva
+        function updateSlide(newIndex) {
+            if (newIndex < 0) newIndex = 0;
+            if (newIndex >= totalSlides) newIndex = totalSlides - 1;
+
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = newIndex;
+            slides[currentSlideIndex].classList.add('active');
+
+            const progressPct = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPct}%`;
+
+            const currentFormatted = String(currentSlideIndex + 1).padStart(2, '0');
+            const totalFormatted = String(totalSlides).padStart(2, '0');
+            navCounter.textContent = `${currentFormatted} / ${totalFormatted}`;
+
+            prevBtn.style.opacity = currentSlideIndex === 0 ? '0.35' : '1';
+            nextBtn.style.opacity = currentSlideIndex === totalSlides - 1 ? '0.35' : '1';
+
+            // Guardar la diapositiva en la URL (#4) para que recargar no regrese a la portada
+            try {
+                history.replaceState(null, '', `#${currentSlideIndex + 1}`);
+            } catch (err) { /* algunos navegadores lo bloquean en file:// */ }
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                updateSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                updateSlide(currentSlideIndex - 1);
+            }
+        }
+
+        // Lienzo fijo 1280×720 escalado para llenar la ventana (ver .deck en el CSS).
+        // `zoom` mantiene el texto nítido; con transform: scale se vería borroso.
+        function fitStage() {
+            const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+            deck.style.zoom = scale;
+        }
+        window.addEventListener('resize', fitStage);
+        fitStage();
+
+        // Pantalla Completa
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // Overview Modal
+        function buildOverviewGrid() {
+            overviewGrid.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const title = slide.querySelector('h1, h2')?.innerText || `Diapositiva ${index + 1}`;
+                const type = slide.getAttribute('data-type') || 'Contenido';
+                const card = document.createElement('div');
+                card.className = 'overview-card';
+                card.innerHTML = `
+                    <span class="num">${String(index + 1).padStart(2, '0')}</span>
+                    <span class="type">${type}</span>
+                    <span class="name">${title}</span>
+                `;
+                card.addEventListener('click', () => {
+                    updateSlide(index);
+                    overviewModal.classList.remove('open');
+                });
+                overviewGrid.appendChild(card);
+            });
+        }
+
+        overviewBtn.addEventListener('click', () => {
+            buildOverviewGrid();
+            overviewModal.classList.add('open');
+        });
+
+        closeOverviewBtn.addEventListener('click', () => overviewModal.classList.remove('open'));
+        overviewModal.addEventListener('click', (e) => {
+            if (e.target === overviewModal) overviewModal.classList.remove('open');
+        });
+
+        // Controles de Teclado
+        window.addEventListener('keydown', (e) => {
+            if (overviewModal.classList.contains('open')) {
+                if (e.key === 'Escape' || e.key === 'o' || e.key === 'O') {
+                    overviewModal.classList.remove('open');
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'o' || e.key === 'O') {
+                buildOverviewGrid();
+                overviewModal.classList.add('open');
+            } else if (e.key === 'Home') {
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                updateSlide(totalSlides - 1);
+            }
+        });
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Barra de navegación: solo aparece con el ratón cerca del borde inferior
+        window.addEventListener('mousemove', (e) => {
+            const nearBottom = e.clientY > window.innerHeight - 110;
+            document.body.classList.toggle('dock-visible', nearBottom || navDock.matches(':hover'));
+        });
+        document.addEventListener('mouseleave', () => document.body.classList.remove('dock-visible'));
+
+        // Spotlight Cursor
+        window.addEventListener('mousemove', (e) => {
+            if (spotlight) {
+                spotlight.style.opacity = '1';
+                spotlight.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            }
+        });
+        document.addEventListener('mouseleave', () => {
+            if (spotlight) spotlight.style.opacity = '0';
+        });
+
+        // ===================================================================
+        // TALLERES: COPIAR PROMPTS
+        // ===================================================================
+        document.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const texto = btn.closest('.prompt-copy').querySelector('.prompt-copy-text').textContent.trim();
+                const avisar = (ok) => {
+                    btn.textContent = ok ? 'Copiado ✓' : 'Selecciona y Ctrl+C';
+                    btn.classList.toggle('copiado', ok);
+                    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2000);
+                };
+                // Respaldo para file:// o navegadores sin permiso de portapapeles
+                const respaldo = () => {
+                    const area = document.createElement('textarea');
+                    area.value = texto;
+                    document.body.appendChild(area);
+                    area.select();
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                    area.remove();
+                    avisar(ok);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(texto).then(() => avisar(true), respaldo);
+                } else {
+                    respaldo();
+                }
+                btn.blur();
+            });
+        });
+
+        // ===================================================================
+        // REVELAR RESPUESTAS (talleres)
+        // ===================================================================
+        document.querySelectorAll('.reveal-btn[data-target]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.getElementById(btn.dataset.target).classList.add('revealed');
+                btn.blur();
+            });
+        });
+
+
+        // ===================================================================
+        // PÍDELE MÁS: tooltip y botones de la tarjeta (demostraciones)
+        // ===================================================================
+        (() => {
+            const V26 = [2329524,2681672,3110617,3229853,3945811,3346874,2596612,2758786,2749211], V25 = [2170304,2383559,3014319,3587673,3773280,2810600,2635173,2465169,2541957], TOTAL = 26748960;
+            const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre"];
+            const wrap = document.getElementById('ttWrap');
+            if (!wrap) return;
+            const box = document.getElementById('ttBox'), guia = document.getElementById('ttGuia');
+            const mill = (v) => '$' + (v / 1e6).toFixed(2) + ' M';
+            function mostrar(i) {
+                const d = (V26[i] - V25[i]) / V25[i] * 100;
+                box.innerHTML = '<b>' + MESES[i] + ' 2026</b>Ventas: ' + mill(V26[i]) + '<br>vs 2025: <span class="' + (d >= 0 ? 'up' : 'down') + '">' + (d >= 0 ? '▲ ' : '▼ ') + Math.abs(d).toFixed(1) + ' %</span><br>' + (V26[i] / TOTAL * 100).toFixed(1) + ' % del año';
+                wrap.querySelectorAll('.tt-pt').forEach((g) => g.classList.toggle('on', +g.dataset.i === i));
+                const c = wrap.querySelector('.tt-pt[data-i="' + i + '"] circle');
+                const svg = wrap.querySelector('svg'), esc = svg.getBoundingClientRect().width / 540 || 1;
+                const cx = +c.getAttribute('cx');
+                guia.setAttribute('x1', cx); guia.setAttribute('x2', cx); guia.setAttribute('opacity', '1');
+                const izq = cx * esc + (i >= 5 ? -box.offsetWidth - 14 : 14);
+                box.style.left = izq + 'px';
+                box.style.top = '4px';
+            }
+            wrap.querySelectorAll('.tt-pt').forEach((g) => g.addEventListener('mouseenter', () => mostrar(+g.dataset.i)));
+            requestAnimationFrame(() => mostrar(4));
+
+            const datos = { acum: ['$26.7 M', '▲ 5.4 % vs 2025'], mes: ['$2.75 M', '▲ 8.2 % vs sep 2025'] };
+            document.querySelectorAll('.kd-btn').forEach((b) => b.addEventListener('click', () => {
+                document.querySelectorAll('.kd-btn').forEach((o) => o.classList.toggle('activo', o === b));
+                const val = document.getElementById('kdVal');
+                val.textContent = datos[b.dataset.p][0];
+                document.getElementById('kdBadge').textContent = datos[b.dataset.p][1];
+                val.classList.remove('cambia'); void val.offsetWidth; val.classList.add('cambia');
+                b.blur();
+            }));
+        })();
+
+        // Inicializar en la diapositiva de la URL (#4) o en la portada
+        function slideFromHash() {
+            const n = parseInt(location.hash.slice(1), 10);
+            return Number.isInteger(n) ? n - 1 : 0;
+        }
+        window.addEventListener('hashchange', () => updateSlide(slideFromHash()));
+        updateSlide(slideFromHash());
+    </script>
+</body>
+
+</html>
