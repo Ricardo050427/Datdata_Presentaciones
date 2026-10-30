@@ -1,0 +1,3648 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clase 05: Personalización visual avanzada | Datdata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* === MODO CLARO (POR DEFECTO - ALABASTRO & VINO DATDATA) === */
+            --bg-deep: #fbf9f6;
+            --bg-surface: #f4efe9;
+            --slide-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(253, 249, 246, 0.95) 45%, rgba(248, 240, 235, 0.92) 100%);
+            --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --card-bg-hover: linear-gradient(135deg, #ffffff 0%, rgba(255, 250, 246, 0.98) 50%, rgba(252, 240, 233, 0.95) 100%);
+            --card-border: rgba(136, 19, 55, 0.14);
+            --card-border-hover: rgba(136, 19, 55, 0.45);
+            --card-shadow: 0 4px 20px rgba(136, 19, 55, 0.05);
+            --card-shadow-hover: 0 14px 32px rgba(136, 19, 55, 0.10);
+
+            --deck-shadow: 0 30px 70px -15px rgba(76, 5, 25, 0.09), 0 0 50px -10px rgba(136, 19, 55, 0.05);
+
+            --wine-base: #881337;
+            --wine-dark: #4c0519;
+            --wine-bright: #be123c;
+            --wine-light: #9f1239;
+            --wine-soft: rgba(136, 19, 55, 0.08);
+            --wine-glow: rgba(136, 19, 55, 0.14);
+            --wine-glow-strong: rgba(136, 19, 55, 0.26);
+
+            --accent-gold: #b45309;
+            --accent-gold-bg: rgba(217, 119, 6, 0.1);
+            --accent-gold-border: rgba(217, 119, 6, 0.3);
+
+            --accent-emerald: #047857;
+            --accent-emerald-bg: rgba(5, 150, 105, 0.1);
+            --accent-emerald-border: rgba(5, 150, 105, 0.3);
+
+            --accent-purple: #6d28d9;
+            --accent-purple-bg: rgba(109, 40, 217, 0.1);
+            --accent-purple-border: rgba(109, 40, 217, 0.3);
+
+            --accent-cyan: #0369a1;
+            --accent-cyan-bg: rgba(2, 132, 199, 0.1);
+            --accent-cyan-border: rgba(2, 132, 199, 0.3);
+
+            --accent-danger: #dc2626;
+            --accent-danger-bg: rgba(220, 38, 38, 0.1);
+            --accent-danger-border: rgba(220, 38, 38, 0.3);
+
+            --text-main: #0f172a;
+            --text-heading: #1e1115;
+            --text-sub: #334155;
+            --text-muted: #52525b;
+            --text-dim: #71717a;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Hover & Spotlight */
+            --spotlight-size: 750px;
+            --spotlight-core-opacity: 0.11;
+            --spotlight-color: #881337;
+
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-border: rgba(136, 19, 55, 0.2);
+            --nav-shadow: 0 10px 30px rgba(136, 19, 55, 0.12);
+            --code-box-bg: #18090e;
+            --code-box-border: rgba(136, 19, 55, 0.4);
+            --tag-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --tag-card-border: rgba(136, 19, 55, 0.15);
+            --tag-card-shadow: 0 4px 14px rgba(136, 19, 55, 0.06);
+            --toggle-bg: linear-gradient(135deg, #f7f1ea 0%, #f1e9e0 100%);
+
+            /* Color de Claude: el coral para dibujos, el tono oscuro para texto legible */
+            --claude-coral: #D97757;
+            --claude-ink: #9a3f1c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 6% 8%, rgba(136, 19, 55, 0.08) 0%, transparent 42%),
+                radial-gradient(circle at 94% 92%, rgba(180, 83, 9, 0.06) 0%, transparent 46%),
+                linear-gradient(135deg, #fdf8f9 0%, #fbf9f6 45%, #f5ece4 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Cursor Spotlight */
+        .cursor-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--spotlight-size);
+            height: var(--spotlight-size);
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(136, 19, 55, var(--spotlight-core-opacity)) 0%,
+                    rgba(190, 18, 60, calc(var(--spotlight-core-opacity) * 0.5)) 40%,
+                    transparent 72%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            transition: opacity 0.3s ease;
+            filter: blur(28px);
+            opacity: 0;
+        }
+
+        /* Top Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 5px;
+            background: var(--wine-soft);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--wine-dark), var(--wine-base), var(--wine-bright));
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 12px var(--wine-glow);
+        }
+
+        /* LIENZO FIJO 1280×720 (16:9). Todo se diseña en estos píxeles lógicos
+           y el script lo escala con `zoom` para llenar la ventana: a 1920×1080
+           el factor es 1.5, así que 16px lógicos se ven como 24px en pantalla.
+           Lo que ves es exactamente lo que ve la audiencia al compartir pantalla. */
+        .deck {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        /* SLIDE CONTRACT */
+        .slide {
+            position: absolute;
+            inset: 10px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.97) translateY(14px);
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.45s;
+            padding: 22px 40px 26px;
+            border-radius: 24px;
+            background: var(--slide-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--deck-shadow);
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--wine-base), transparent);
+            opacity: 0.8;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            z-index: 10;
+        }
+
+        /* Staggered Animations */
+
+        .slide.active .slide-header,
+        .slide.active h1,
+        .slide.active h2,
+        .slide.active .slide-subtitle,
+        .slide.active .card {
+            animation: slideElemFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .slide.active .card:nth-child(1) { animation-delay: 0.05s; }
+        .slide.active .card:nth-child(2) { animation-delay: 0.10s; }
+        .slide.active .card:nth-child(3) { animation-delay: 0.15s; }
+        .slide.active .card:nth-child(4) { animation-delay: 0.20s; }
+
+        @keyframes slideElemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-brand img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-brand-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 11px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            border: 1px solid rgba(136, 19, 55, 0.2);
+            box-shadow: 0 2px 6px rgba(136, 19, 55, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        .badge.gold {
+            background: var(--accent-gold-bg);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold-border);
+        }
+
+        .badge.emerald {
+            background: var(--accent-emerald-bg);
+            color: var(--accent-emerald);
+            border-color: var(--accent-emerald-border);
+        }
+
+        .badge.purple {
+            background: var(--accent-purple-bg);
+            color: var(--accent-purple);
+            border-color: var(--accent-purple-border);
+        }
+
+        .badge.cyan {
+            background: var(--accent-cyan-bg);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan-border);
+        }
+
+        /* Slide Content Area */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+            gap: 1rem;
+        }
+
+        /* Typography — tamaños en píxeles lógicos del lienzo (×1.5 en pantalla 1080p).
+           Mínimo legible al compartir pantalla: 0.84rem (≈20px reales). */
+        h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.035em;
+            color: var(--text-heading);
+        }
+
+        h2 {
+            font-size: 2.625rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--text-heading);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .wine-gradient {
+            background: linear-gradient(135deg, var(--text-heading) 20%, var(--wine-base) 70%, var(--wine-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            max-width: 1040px;
+            line-height: 1.45;
+            margin-top: 0.4rem;
+            font-weight: 450;
+        }
+
+        /* Layout Grids */
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-border-hover);
+            box-shadow: var(--card-shadow-hover);
+            background: var(--card-bg-hover);
+        }
+
+        /* Tag Cards */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .tag-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 1px solid var(--tag-card-border);
+            background: var(--tag-card-bg);
+            box-shadow: var(--tag-card-shadow);
+            color: var(--text-main);
+        }
+
+        .tag-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .flow-dash {
+            stroke-dasharray: 6 6;
+            animation: flowAnimation 1.4s linear infinite;
+        }
+
+        @keyframes flowAnimation {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+
+/* Interactive Simulator & Stepper */
+
+        /* Número de diapositiva (en la cabecera, junto al tipo Teoría / Práctica) */
+        .slide-number {
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--wine-base);
+            background: var(--wine-soft);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Navigation Dock — oculto por defecto para que no tape contenido en la
+           transmisión; aparece al acercar el ratón al borde inferior. */
+        .nav-dock {
+            position: fixed;
+            bottom: 16px;
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            box-shadow: var(--nav-shadow);
+            border-radius: 999px;
+            padding: 6px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        body.dock-visible .nav-dock {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            transform: scale(1.1);
+        }
+
+        .nav-counter {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        /* Overview Modal ('O' Key) */
+        .overview-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 1, 4, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px clamp(20px, 4vw, 60px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overview-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            overflow-y: auto;
+            padding-bottom: 30px;
+        }
+
+        .overview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .overview-card:hover {
+            background: rgba(244, 63, 94, 0.18);
+            border-color: #f43f5e;
+            transform: translateY(-3px);
+        }
+
+        .overview-card .num {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #fb7185;
+            font-weight: 700;
+        }
+
+        .overview-card .name {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .overview-card .type {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        /* ===================================================================
+           ILUSTRACIONES — estilo común
+           Escenas planas con los colores de la marca, trazos gruesos y pocas
+           palabras. Los viewBox de los SVG miden lo mismo que su caja en el
+           lienzo, así que font-size dentro del SVG = píxeles lógicos (mín. 14).
+           =================================================================== */
+
+        .rule-callout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+        }
+
+        .rule-callout strong {
+            color: var(--accent-gold);
+        }
+
+        /* Código en línea dentro de hallazgos y respuestas del chat */
+
+        /* Portada */
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .cover-art {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cover-art svg {
+            width: 470px;
+            height: 412px;
+            display: block;
+        }
+
+        .cover-art figcaption {
+            font-size: 1.05rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .cover-art figcaption strong {
+            color: var(--wine-base);
+        }
+
+        /* Antes / ahora */
+
+        /* ¿Qué es un MCP? */
+
+        .mcp-pieces {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .mcp-piece {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .mcp-piece strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .mcp-piece span:not(.mcp-piece-icon) {
+            display: block;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .mcp-piece-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mcp-piece-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .mcp-piece-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .mcp-piece-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+/* Modos de trabajo */
+
+        /* Simulador del handshake */
+
+        /* Consultas en lenguaje natural */
+
+        /* Auditoría */
+
+        .pin {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pin.gold { background: var(--accent-gold); }
+        .pin.purple { background: var(--accent-purple); }
+
+        /* Solución de problemas */
+
+/* Instalación con una frase */
+
+        .prompt-copy {
+            background: var(--wine-soft);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px 16px 14px;
+        }
+
+        .prompt-copy-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .copy-prompt-btn {
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+            padding: 5px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--wine-base);
+            background: #ffffff;
+            color: var(--wine-base);
+            cursor: pointer;
+        }
+
+        .copy-prompt-btn:hover { background: var(--wine-base); color: #ffffff; }
+        .copy-prompt-btn.copiado { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+
+        .prompt-copy-text {
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: var(--text-heading);
+            overflow-wrap: anywhere;
+        }
+
+        /* Verificación en la caja de herramientas */
+
+        .pin.cyan { background: var(--accent-cyan); }
+
+        /* Cierre */
+        .closing-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .closing-main {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .closing-art {
+            width: 260px;
+            height: 130px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .closing-title {
+            font-size: 5rem;
+            line-height: 1.05;
+        }
+
+        .linkedin-card {
+            align-items: center;
+            gap: 14px;
+            padding: 22px 24px;
+        }
+
+        .linkedin-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            align-self: stretch;
+        }
+
+        .linkedin-head strong {
+            display: block;
+            font-size: 1.3rem;
+            color: var(--text-heading);
+        }
+
+        .linkedin-head span {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .qr {
+            width: 250px;
+            height: 250px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .linkedin-url {
+            font-size: 0.86rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .next-class {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        /* ===================== CLASE 02 ===================== */
+
+        /* Agenda */
+        .agenda {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .agenda li {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 14px 14px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--accent-gold);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .agenda strong {
+            font-size: 1.05rem;
+            line-height: 1.25;
+            color: var(--text-heading);
+            flex: 1;
+        }
+
+        .agenda-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .how-title {
+            margin-bottom: 10px;
+            color: var(--text-sub);
+        }
+
+        .how-grid { grid-template-columns: repeat(4, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Talleres */
+        .taller-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .taller-main,
+        .taller-side {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .prompt-copy-text { font-size: 1rem; line-height: 1.5; }
+
+        .stuck {
+            padding: 10px 14px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .stuck strong { color: var(--accent-gold); }
+
+        .check-card {
+            padding: 14px 18px 16px;
+            background: var(--accent-emerald-bg);
+            border: 1px solid var(--accent-emerald-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .check-title {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-emerald);
+        }
+
+        .check-note {
+            font-size: 1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.92em;
+            font-weight: 600;
+            color: var(--wine-base);
+        }
+
+        .value-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .value-table td {
+            padding: 5px 4px;
+            border-bottom: 1px solid var(--accent-emerald-border);
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .value-table td:nth-child(even) {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--text-heading);
+            padding-right: 14px;
+        }
+
+        .value-table tr:last-child td { border-bottom: none; }
+        .value-table.big { font-size: 1.12rem; }
+        .value-table.big td { padding: 8px 4px; }
+
+        /* Taller 0: pasos */
+        .steps-card { padding: 18px 22px; gap: 12px; }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .step-list strong,
+        .anatomy-item strong {
+            display: block;
+            font-size: 1.08rem;
+            color: var(--text-heading);
+        }
+
+        .step-list span:not(.step-n),
+        .anatomy-item span:not(.pin) {
+            display: block;
+            font-size: 0.98rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .step-n {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Taller 0: tarjeta que gira entre CSV y Claude */
+
+        /* La entrada anima el contenedor: en las caras pisaría el giro */
+
+        /* El título deja sitio al selector */
+
+        /* Destello suave del icono al activar Claude */
+
+        @keyframes destello {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(20deg); }
+        }
+
+        /* La cara CSV es más corta: reparte sus pasos en la altura de la tarjeta */
+
+        /* Pines numerados: también admiten texto corto como «1→*» */
+        .pin { min-width: 32px; width: auto; padding: 0 7px; border-radius: 16px; }
+        .pin.wine { background: var(--wine-base); }
+        .pin.emerald { background: var(--accent-emerald); }
+
+        /* Esquema estrella */
+
+        /* Taller 2: hallazgos y correcciones */
+
+        /* Taller 3: calendario */
+
+        /* Anatomía de una medida */
+
+        .anatomy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .anatomy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        /* Inteligencia de tiempo */
+
+        /* Taller 6: tabla de control y revelado */
+
+        .reveal-btn {
+            align-self: flex-start;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 22px;
+            border-radius: 10px;
+            border: none;
+            background: var(--wine-base);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .reveal-btn:hover { background: var(--wine-bright); }
+
+        /* Prompt, MCP y skill */
+
+        .role-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .role-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+        /* Cómo pedirle DAX a la IA */
+
+        /* Qué es una skill */
+
+        [hidden] { display: none !important; }
+
+        /* Juego: ¿Prompt, MCP o skill? */
+
+        /* ===================== CLASE 03 ===================== */
+
+        /* Agenda de seis talleres */
+        .agenda.seis { grid-template-columns: repeat(6, 1fr); }
+
+        .agenda-gain {
+            font-size: 0.92rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .how-grid.tres { grid-template-columns: repeat(3, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Maquetas de Power BI: tarjeta KPI en HTML (paleta por defecto de la skill) */
+        .kpi-mock {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 18px;
+            background: #ffffff;
+            border: 1.5px solid #e0d6f5;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(102, 51, 153, 0.08);
+        }
+
+        .k-lbl {
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #9B59B6;
+        }
+
+        .k-val {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #3D0080;
+        }
+
+        .k-badge {
+            align-self: flex-start;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.92rem;
+            font-weight: 800;
+        }
+
+        .k-badge.up { background: #e6f9f0; color: #1a7a4a; }
+        .k-badge.down { background: #fce8ec; color: #c0142d; }
+
+        .kpi-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .kpi-pair .k-val { font-size: 1.6rem; }
+
+        /* Tarjeta nativa de Power BI */
+        .native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 18px 10px;
+            background: #ffffff;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .n-val { font-size: 1.85rem; font-weight: 600; color: #252423; }
+        .n-lbl { font-size: 0.95rem; color: #605e5c; }
+
+        /* Nativo vs. personalizado */
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .vs-col { gap: 12px; padding: 18px 22px 20px; }
+
+        .vs-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .vs-tag.custom { color: var(--wine-base); }
+
+        .vs-mock {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .vs-mock svg { width: 100%; height: 130px; display: block; }
+        .vs-mock .k-val { font-size: 1.6rem; }
+
+        .vs-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .vs-list li {
+            display: flex;
+            gap: 10px;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            color: var(--text-sub);
+        }
+
+        .vs-ok, .vs-no { font-weight: 800; width: 16px; flex-shrink: 0; }
+        .vs-ok { color: var(--accent-emerald); }
+        .vs-no { color: var(--accent-danger); }
+
+        /* Dos caminos para entregar un visual */
+        .route-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .route-card { gap: 12px; padding: 18px 22px 20px; }
+        .route-card h3 { font-size: 1.5rem; }
+
+        .route-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .route-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .route-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        .route-who {
+            min-width: 82px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .route-who.ia { background: var(--wine-soft); color: var(--wine-base); }
+        .route-who.mcp { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .route-who.pbi { background: var(--accent-purple-bg); color: var(--accent-purple); }
+        .route-who.tu { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .route-foot {
+            padding: 9px 14px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            color: var(--text-sub);
+        }
+
+        .route-foot.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .route-foot.good strong { color: var(--accent-emerald); }
+        .route-foot.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .route-foot.warn strong { color: var(--accent-gold); }
+
+        .skill-chip {
+            align-self: flex-start;
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--wine-base);
+        }
+
+        /* Juego de dos opciones */
+
+        /* Talleres */
+        .tip {
+            padding: 9px 14px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .tip strong { color: var(--accent-purple); }
+        .check-note strong { color: var(--text-heading); }
+
+        .t3-chart { width: 100%; height: 180px; display: block; }
+
+        .nw { white-space: nowrap; }
+        .filtro-table td { font-size: 0.98rem; }
+        .filtro-table td:first-child { width: 128px; color: var(--text-heading); font-weight: 800; line-height: 1.3; }
+        .filtro-table td:nth-child(even) { font-family: var(--font-sans); font-weight: 700; padding-right: 4px; white-space: nowrap; }
+
+        .notar-table td:first-child { color: var(--text-heading); font-weight: 800; width: 90px; }
+        .notar-table td:nth-child(even) { text-align: left; font-family: var(--font-sans); font-weight: 600; color: var(--text-sub); }
+
+        /* Capas de Deneb */
+        .anat-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .anat-chart { padding: 10px 14px; }
+        .anat-chart svg { width: 100%; height: 300px; display: block; }
+
+        /* Tú eres sus ojos */
+        .eyes-strip svg { width: 100%; height: 156px; display: block; }
+
+        /* Antes de entregar */
+        .limits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .limit-card {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 22px;
+        }
+
+        .limit-card .role-icon { margin-bottom: 0; flex-shrink: 0; }
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+        .limit-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
+
+        .limit-card p {
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        /* ===== Juego: la prueba de los 5 segundos ===== */
+        .j5-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        @keyframes j5Salta {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.18) rotate(-3deg); }
+            100% { transform: scale(1); }
+        }
+
+        .j5-stage {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+            height: 448px;
+            padding: 20px 22px;
+            background: #ffffff;
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow-hover);
+            overflow: hidden;
+        }
+
+        .j5-stage::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 20%, rgba(136, 19, 55, 0.07), transparent 45%);
+            pointer-events: none;
+        }
+
+        .j5-stage.urgente { animation: j5Late 0.5s ease-in-out infinite alternate; }
+
+        @keyframes j5Late {
+            from { box-shadow: var(--card-shadow-hover); border-color: var(--card-border); }
+            to { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.12), var(--card-shadow-hover); border-color: rgba(220, 38, 38, 0.5); }
+        }
+
+        .j5-main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .j5-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            border-left: 2px dashed #f1e7ea;
+            padding-left: 18px;
+        }
+
+        /* Anillo de cuenta regresiva */
+        .j5-ring { position: relative; width: 160px; height: 160px; }
+        .j5-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+        .j5-ring-bg { fill: none; stroke: #f4ecef; stroke-width: 12; }
+
+        .j5-ring-fg {
+            fill: none;
+            stroke: var(--wine-base);
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 414.69;
+            stroke-dashoffset: 0;
+        }
+
+        .j5-ring.urgente .j5-ring-fg { stroke: var(--accent-danger); }
+
+        .j5-num {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .j5-ring.urgente .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien .j5-ring-fg { stroke: var(--accent-emerald); }
+        .j5-ring.bien .j5-num { color: var(--accent-emerald); }
+        .j5-ring.mal .j5-ring-fg { stroke: var(--accent-danger); }
+        .j5-ring.mal .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien, .j5-ring.mal { animation: j5Salta 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-num.tic { animation: j5Tic 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        @keyframes j5Tic {
+            0% { transform: scale(1.5); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .j5-tag {
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            text-align: center;
+        }
+
+        .j5-tag.nativo { background: rgba(17, 141, 255, 0.1); color: #0b6bcb; }
+        .j5-tag.personalizado { background: rgba(106, 13, 173, 0.1); color: #6A0DAD; }
+
+        .j5-dots { display: flex; gap: 8px; }
+        .j5-ronda { font-family: var(--font-mono); font-size: 0.86rem; font-weight: 700; color: var(--text-dim); }
+        .j5-tag { white-space: nowrap; }
+
+        .j5-dots i {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background: #eadfe3;
+            transition: width 0.35s ease, background 0.35s ease;
+        }
+
+        .j5-dots i.actual { width: 30px; background: var(--wine-base); }
+        .j5-dots i.hecho.nativo { background: #118DFF; }
+        .j5-dots i.hecho.personalizado { background: #6A0DAD; }
+
+        /* Intro */
+        .j5-intro { display: flex; flex-direction: column; gap: 22px; animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .j5-intro h3 { font-size: 2.3rem; line-height: 1.15; letter-spacing: -0.02em; }
+
+        .j5-pasos { display: flex; gap: 14px; }
+
+        .j5-paso {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--wine-soft);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-paso:nth-child(2) { animation-delay: 0.1s; }
+        .j5-paso:nth-child(3) { animation-delay: 0.2s; }
+
+        .j5-paso b {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .j5-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--wine-dark), var(--wine-base) 55%, var(--wine-bright));
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 26px var(--wine-glow-strong);
+            transition: transform 0.2s ease;
+        }
+
+        .j5-btn:hover { transform: translateY(-3px) scale(1.03); }
+        .j5-btn.pulso { animation: j5Pulso 1.6s ease-in-out infinite; }
+        .j5-btn kbd { font-family: var(--font-mono); font-size: 0.85rem; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.2); }
+
+        @keyframes j5Pulso {
+            0%, 100% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 0 rgba(190, 18, 60, 0.35); }
+            50% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 14px rgba(190, 18, 60, 0); }
+        }
+
+        @keyframes j5Sube {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Visuales (caja fija 760 × 330) */
+        .j5-vis {
+            width: 760px;
+            height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .j5-vis > svg { width: 760px; height: 330px; display: block; }
+        .j5-ver { align-self: center; border-radius: 16px; overflow: hidden; border: 1px solid #ece7f3; box-shadow: 0 18px 40px rgba(76, 5, 25, 0.12); animation: j5Entra 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+        @keyframes j5Entra {
+            from { opacity: 0; transform: scale(0.82) rotate(-1.5deg); filter: blur(10px); }
+            to { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+        }
+
+        .j5-native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 40px 70px;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .j5-nv { font-size: 4.4rem; font-weight: 600; color: #252423; line-height: 1.1; }
+        .j5-nl { font-size: 1.3rem; color: #605e5c; }
+
+        .j5-kpi {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 30px 46px;
+            background: #ffffff;
+            border: 2px solid #e0d6f5;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(102, 51, 153, 0.14);
+        }
+
+        .j5-kpi .k-lbl { font-size: 1.1rem; }
+        .j5-kpi .k-val { font-size: 4.4rem; }
+        .j5-kpi .k-badge { font-size: 1.25rem; padding: 6px 16px; }
+
+        .j5-table {
+            width: 560px;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', var(--font-sans);
+            font-size: 1rem;
+            color: #252423;
+        }
+
+        .j5-table th, .j5-table td { padding: 4px 10px; text-align: right; }
+        .j5-table th:first-child, .j5-table td:first-child { text-align: left; }
+        .j5-table th { font-weight: 700; border-bottom: 2px solid #c8c6c4; }
+        .j5-table tbody td { border-bottom: 1px solid #edebe9; }
+        .j5-table tfoot td { font-weight: 700; border-top: 2px solid #c8c6c4; }
+
+        /* Cortina */
+        .j5-curtain {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(110deg, var(--wine-dark), var(--wine-base) 50%, var(--wine-bright));
+            transform: translateX(-102%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .j5-curtain span {
+            font-size: 4.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .j5-curtain.corre { animation: j5Cortina 1s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+        @keyframes j5Cortina {
+            0% { transform: translateX(-102%); }
+            40%, 60% { transform: translateX(0); }
+            100% { transform: translateX(102%); }
+        }
+
+        /* Pregunta y respuesta */
+        .j5-q {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-heading);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-opts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .j5-opt {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 76px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border: 2px solid var(--card-border);
+            background: #ffffff;
+            box-shadow: var(--card-shadow);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: left;
+            cursor: pointer;
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: transform 0.18s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+        }
+
+        .j5-opt:nth-child(1) { animation-delay: 0.12s; }
+        .j5-opt:nth-child(2) { animation-delay: 0.22s; }
+        .j5-opt:nth-child(3) { animation-delay: 0.32s; }
+        .j5-opt:hover:not(:disabled) { transform: translateY(-4px); border-color: var(--wine-base); background: var(--wine-soft); }
+        .j5-opt:disabled { cursor: default; }
+
+        .j5-opt kbd {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--wine-base);
+        }
+
+        .j5-opt.ok { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); box-shadow: 0 0 0 5px var(--accent-emerald-border); animation: j5Brilla 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-opt.ok kbd { background: var(--accent-emerald); color: #ffffff; }
+        .j5-opt.mal { background: var(--accent-danger-bg); border-color: var(--accent-danger); animation: j5Tiembla 0.5s ease; }
+        .j5-opt.apagada { opacity: 0.35; }
+
+        @keyframes j5Brilla {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes j5Tiembla {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(9px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .j5-confeti {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 14px;
+            border-radius: 3px;
+            pointer-events: none;
+            animation: j5Confeti 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes j5Confeti {
+            from { transform: translate(-50%, -50%) rotate(0); opacity: 1; }
+            to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)); opacity: 0; }
+        }
+
+        .j5-resp-q { font-size: 1.35rem; animation: none; }
+        .j5-resp .j5-opts { margin-top: 12px; }
+        .j5-resp .j5-opt { min-height: 60px; font-size: 1.1rem; animation: none; }
+
+        .j5-explica {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            background: var(--accent-gold-bg);
+            border-left: 5px solid var(--accent-gold);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+        }
+
+        .j5-thumb {
+            width: 380px;
+            height: 165px;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #ece7f3;
+            background: #ffffff;
+        }
+
+        .j5-thumb .j5-vis { transform: scale(0.5); transform-origin: top left; }
+
+        .j5-explica-txt { display: flex; flex-direction: column; gap: 12px; }
+        .j5-explica p { font-size: 1.08rem; line-height: 1.45; color: var(--text-sub); }
+        .j5-explica p strong { color: var(--accent-gold); }
+        .j5-explica .j5-btn { font-size: 1.05rem; padding: 10px 22px; }
+
+        /* Final: cada nativo junto a su versión personalizada */
+        .j5-stage.final { grid-template-columns: 1fr; }
+        .j5-stage.final .j5-side { display: none; }
+
+        .j5-comp { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+
+        .j5-comp-head {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            animation: j5Sube 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-comp-head h3 { font-size: 1.75rem; letter-spacing: -0.02em; }
+        .j5-comp-hint { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-dim); }
+        .j5-comp-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-pares {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .j5-par {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 8px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: transform 0.25s ease, background 0.25s ease;
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(var(--d) * 0.12s + 0.1s);
+        }
+
+        .j5-par:hover { transform: translateY(-5px); background: var(--wine-soft); }
+        .j5-par:hover .j5-mini.personalizado { box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.25), 0 14px 30px rgba(106, 13, 173, 0.18); }
+
+        .j5-par-q {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: center;
+        }
+
+        .j5-mini {
+            position: relative;
+            width: 320px;
+            height: 139px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06);
+            transition: box-shadow 0.25s ease;
+        }
+
+        .j5-mini .j5-vis { transform: scale(0.421); transform-origin: top left; }
+
+        .j5-fila { display: flex; gap: 6px; align-items: stretch; }
+
+        .j5-vtag {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #ffffff;
+        }
+
+        .j5-vtag.nativo { background: #118DFF; }
+        .j5-vtag.personalizado { background: #6A0DAD; }
+        .j5-fila:has(.personalizado) { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) both; animation-delay: calc(var(--d) * 0.12s + 0.55s); }
+        .j5-mini.personalizado { border-color: rgba(106, 13, 173, 0.3); }
+
+        @keyframes j5Revela {
+            0% { opacity: 0; transform: translateY(34px) scale(0.86); }
+            60% { opacity: 1; box-shadow: 0 0 0 8px rgba(106, 13, 173, 0.22); }
+            100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06); }
+        }
+
+        .j5-mtag {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 1;
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .j5-mtag.nativo { background: #118DFF; }
+        .j5-mtag.personalizado { background: #6A0DAD; }
+
+        /* Par en grande */
+        .j5-zoom {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 22px;
+            animation: j5Entra 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-zoom-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+        .j5-zoom-head h3 { font-size: 1.6rem; letter-spacing: -0.02em; }
+        .j5-zoom-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-zoom-par { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+        .j5-zoom-col { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+        .j5-zoom-col .j5-mtag { position: static; font-size: 0.95rem; padding: 4px 14px; }
+
+        .j5-big {
+            width: 502px;
+            height: 218px;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 12px 30px rgba(76, 5, 25, 0.1);
+        }
+
+        .j5-big .j5-vis { transform: scale(0.6605); transform-origin: top left; }
+        .j5-zoom-col:last-child .j5-big { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both; }
+
+        .j5-zoom-nota {
+            font-size: 1.1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .j5-zoom-nota strong { color: var(--wine-base); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .j5-stage *, .j5-stage { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+        }
+
+        /* ===== El filtro universal por dentro ===== */
+        .ft-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .ft-mock { padding: 10px 14px; }
+        .ft-mock svg { width: 100%; height: 248px; display: block; }
+        .ft-mock:hover { transform: none; }
+
+        .slide.active .ft-drop { animation: ftAbre 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.45s both; transform-origin: 252px 72px; }
+
+        @keyframes ftAbre {
+            from { opacity: 0; transform: translateY(-10px) scaleY(0.6); }
+            to { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .ft-grid .anatomy-item span:not(.pin) { font-size: 0.95rem; }
+
+        .llm-card { gap: 10px; padding: 14px 20px 16px; }
+        .llm-card:hover { transform: none; }
+
+        .llm-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .llm-head h3 { font-size: 1.25rem; }
+
+        .llm-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .llm-step {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px 12px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+        }
+
+        .llm-step .route-who { align-self: flex-start; min-width: 0; padding: 2px 10px; }
+        .llm-step strong { font-size: 1rem; color: var(--text-heading); }
+        .llm-step > span:last-child { font-size: 0.9rem; line-height: 1.35; color: var(--text-muted); }
+
+        .llm-arrow {
+            align-self: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--wine-base);
+        }
+
+        /* ===================== CLASE 04 ===================== */
+        .agenda.cinco { grid-template-columns: repeat(5, 1fr); }
+
+        /* ¿Nativo o personalizado? */
+        .nv-grid { grid-template-columns: 1fr 1fr; }
+        .nv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .nv-list li { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 3px solid var(--card-border); }
+        .nv-grid .cv-col:last-child .nv-list li { border-left-color: var(--wine-base); }
+        .nv-list strong { font-size: 1.1rem; color: var(--text-heading); }
+        .nv-list span { font-size: 1rem; line-height: 1.4; color: var(--text-muted); }
+
+        /* PBIX contra PBIP */
+        .code-vs { display: grid; grid-template-columns: 1fr 1.25fr; gap: 22px; }
+        .cv-col { gap: 12px; padding: 18px 22px 20px; }
+        .cv-box { width: 100%; height: 170px; display: block; }
+        .cv-text { font-size: 1.05rem; line-height: 1.45; color: var(--text-sub); }
+        .cv-text strong { color: var(--text-heading); }
+
+        .ft-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px 14px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .ft-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 4px 8px 4px calc(8px + var(--n) * 22px);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .ft-note { font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; color: var(--text-dim); }
+        .ft-row.hot { background: var(--wine-soft); color: var(--wine-base); }
+        .ft-row.hot .ft-note { color: var(--wine-base); }
+
+        /* Tubería de la orden maestra */
+        .pipe { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
+
+        .pipe-step {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 16px 16px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .pipe-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -12px;
+            top: 18px;
+            z-index: 2;
+            font-weight: 800;
+            color: var(--wine-base);
+        }
+
+        .pipe-n {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pipe-step .route-who { align-self: flex-start; min-width: 0; padding: 2px 10px; }
+        .pipe-step strong { font-size: 1.08rem; color: var(--text-heading); }
+        .pipe-step > span:last-child { font-size: 0.95rem; line-height: 1.4; color: var(--text-muted); }
+
+        .slide.active .pipe-step { animation: slideElemFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .slide.active .pipe-step:nth-child(2) { animation-delay: 0.08s; }
+        .slide.active .pipe-step:nth-child(3) { animation-delay: 0.16s; }
+        .slide.active .pipe-step:nth-child(4) { animation-delay: 0.24s; }
+        .slide.active .pipe-step:nth-child(5) { animation-delay: 0.32s; }
+
+        .pipe-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .pipe-note {
+            padding: 12px 16px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .pipe-note.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .pipe-note.warn strong { color: var(--accent-gold); }
+        .pipe-note.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .pipe-note.good strong { color: var(--accent-emerald); }
+
+        /* El prompt del analista director */
+        .dir-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: center; }
+        .dir-prompt { gap: 10px; padding: 18px 22px; }
+
+        .dir-text {
+            font-family: var(--font-mono);
+            font-size: 1.04rem;
+            font-weight: 600;
+            line-height: 1.85;
+            color: var(--text-heading);
+        }
+
+        mark { padding: 2px 4px; border-radius: 5px; color: inherit; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+        mark.m1, .dot.m1 { background: rgba(180, 83, 9, 0.18); }
+        mark.m2, .dot.m2 { background: rgba(109, 40, 217, 0.16); }
+        mark.m3, .dot.m3 { background: rgba(3, 105, 161, 0.16); }
+        mark.m4, .dot.m4 { background: rgba(4, 120, 87, 0.17); }
+
+        .dir-pieces { display: flex; flex-direction: column; gap: 12px; }
+        .dir-piece { display: flex; align-items: flex-start; gap: 12px; }
+        .dir-piece strong { display: block; font-size: 1.12rem; color: var(--text-heading); }
+        .dir-piece span:not(.dot) { display: block; font-size: 0.98rem; line-height: 1.4; color: var(--text-muted); }
+
+        .dot { width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0; margin-top: 3px; }
+        .dot.m1 { box-shadow: inset 0 0 0 2px #b45309; }
+        .dot.m2 { box-shadow: inset 0 0 0 2px #6d28d9; }
+        .dot.m3 { box-shadow: inset 0 0 0 2px #0369a1; }
+        .dot.m4 { box-shadow: inset 0 0 0 2px #047857; }
+
+        .check-big { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800; color: var(--accent-emerald); }
+        .filtro-table td:first-child { width: 200px; }
+
+        /* Taller 1 con captura */
+        .t1-grid { grid-template-columns: 1fr 520px; }
+        .shot { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--accent-emerald-border); background: #ffffff; }
+
+        /* Lo que la IA decide sola */
+        .dec-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: stretch; }
+
+        .dec-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            font-size: 1.05rem;
+        }
+
+        .dec-table th { background: var(--wine-dark); color: #ffffff; text-align: left; padding: 10px 16px; font-size: 0.95rem; }
+        .dec-table td { padding: 10px 16px; border-bottom: 1px solid #f1e7ea; color: var(--text-sub); }
+        .dec-table td:first-child { font-weight: 800; color: var(--text-heading); }
+        .dec-table tr:last-child td { border-bottom: none; }
+
+        .cls-chip { padding: 3px 10px; border-radius: 8px; background: var(--accent-purple-bg); color: var(--accent-purple); font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+
+        .dec-side { gap: 10px; padding: 20px 22px; }
+        .dec-side p { font-size: 1.05rem; line-height: 1.5; color: var(--text-sub); }
+        .dec-side strong { color: var(--text-heading); }
+
+        /* ===== Pídele más a la IA ===== */
+        .ideas-content { gap: 8px; justify-content: flex-start; padding-top: 4px; }
+        .ideas-top { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .ideas-bottom { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .idea-demo, .idea { gap: 7px; padding: 10px 13px; }
+        .idea-demo:hover, .idea:hover { transform: none; }
+
+        .idea-head { display: flex; align-items: center; gap: 8px; }
+        .idea-head h3 { margin-right: auto; }
+        .idea-head h3 { font-size: 1.08rem; }
+
+        .idea-chip { flex-shrink: 0; padding: 3px 10px; border-radius: 999px; font-size: 0.84rem; font-weight: 800; white-space: nowrap; }
+        .idea-chip.ok { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+        .idea-chip.warn { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .prompt-copy.mini { display: block; padding: 7px 8px 7px 11px; margin-top: auto; }
+        .prompt-copy.mini .prompt-copy-text { font-size: 0.78rem; line-height: 1.36; }
+        .prompt-copy.mini .copy-prompt-btn { float: right; margin: 0 0 4px 8px; padding: 3px 11px; font-size: 0.82rem; }
+
+        /* Tooltip en vivo */
+        .tt-wrap { position: relative; height: 116px; }
+        .tt-svg { width: 100%; height: 116px; display: block; }
+        .tt-pt { cursor: pointer; }
+        .tt-pt circle { transition: r 0.15s ease; }
+        .tt-pt.on circle { r: 8; }
+
+        .tt-box {
+            position: absolute;
+            top: 0;
+            min-width: 168px;
+            padding: 8px 12px;
+            background: #ffffff;
+            border: 1px solid #f3c7a8;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(76, 5, 25, 0.16);
+            font-size: 0.86rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            pointer-events: none;
+            transition: left 0.18s ease, top 0.18s ease;
+        }
+
+        .tt-box b { display: block; font-size: 0.95rem; color: var(--text-heading); }
+        .tt-box .up { color: var(--accent-emerald); font-weight: 800; }
+        .tt-box .down { color: var(--accent-danger); font-weight: 800; }
+
+        /* Tarjeta con botones y desplegable */
+        .kd-wrap { display: grid; grid-template-columns: 1fr 190px; gap: 12px; align-items: start; height: 116px; }
+
+        .kd-card {
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1.5px solid #fbd5bd;
+            border-top: 4px solid #E8590C;
+            border-radius: 12px;
+        }
+
+        .kd-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .kd-lbl { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #71717a; }
+        .kd-seg { display: inline-flex; padding: 2px; border-radius: 999px; background: #fdf0e8; }
+
+        .kd-btn {
+            padding: 3px 10px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #9a3412;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .kd-btn.activo { background: #E8590C; color: #ffffff; }
+        .kd-val { margin: 4px 0 4px; font-size: 1.75rem; font-weight: 800; line-height: 1; color: #c2410c; }
+        .kd-val.cambia { animation: kdCambia 0.35s ease; }
+
+        @keyframes kdCambia {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kd-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; background: #e6f9f0; color: #1a7a4a; font-size: 0.84rem; font-weight: 800; }
+
+        .kd-det { border: 1.5px solid #fbd5bd; border-radius: 12px; background: #ffffff; }
+        .kd-det summary { padding: 8px 12px; font-size: 0.88rem; font-weight: 800; color: #c2410c; cursor: pointer; list-style: none; }
+        .kd-det summary::-webkit-details-marker { display: none; }
+        .kd-det summary::after { content: ' ▾'; }
+        .kd-det[open] summary::after { content: ' ▴'; }
+        .kd-rows { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 0 12px 10px; font-size: 0.86rem; color: var(--text-sub); animation: kdCambia 0.3s ease; }
+        .kd-rows b { color: var(--text-heading); }
+
+        /* Detalle al pasar el ratón */
+        .hv-card { position: relative; height: 50px; border-radius: 12px; background: #ffffff; border: 1.5px solid #fbd5bd; overflow: hidden; cursor: default; }
+        .hv-front, .hv-back { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 14px; transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease; }
+        .hv-front { justify-content: space-between; }
+        .hv-front b { font-size: 1.6rem; color: #c2410c; }
+        .hv-back { justify-content: space-between; gap: 8px; background: #fff7ed; transform: translateY(100%); opacity: 0; font-size: 0.84rem; color: var(--text-sub); }
+        .hv-back span { display: flex; flex-direction: column; }
+        .hv-back b { font-size: 1rem; color: #c2410c; }
+        .hv-card:hover .hv-front, .hv-card:focus .hv-front { transform: translateY(-100%); opacity: 0; }
+        .hv-card:hover .hv-back, .hv-card:focus .hv-back { transform: translateY(0); opacity: 1; }
+
+        /* Frase dinámica */
+        .fr-txt { display: block; min-height: 50px; padding: 8px 14px; border-radius: 12px; background: #fff7ed; border-left: 4px solid #E8590C; font-size: 0.95rem; line-height: 1.4; color: var(--text-sub); }
+        .fr-txt b { color: #c2410c; }
+
+        /* ===== Así se ve un visual.json ===== */
+        .vj-grid { display: grid; grid-template-columns: 1fr 390px; gap: 20px; align-items: stretch; }
+
+        .vj-code { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #fbfaf8; border: 1px solid #ece4e6; box-shadow: var(--card-shadow); }
+        .vj-bar { display: flex; justify-content: space-between; gap: 12px; padding: 8px 14px; background: #f3eef0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
+        .vj-lines { color: var(--wine-base); white-space: nowrap; }
+
+        .vj-code pre {
+            margin: 0;
+            padding: 12px 6px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #52525b;
+            white-space: pre;
+            overflow: hidden;
+        }
+
+        .jk { color: #7c3aed; }
+        .js { color: #b45309; }
+        .jn { color: #0369a1; }
+        .jz { display: inline-block; width: calc(100% - 4px); margin-left: -4px; padding-left: 4px; border-left: 4px solid transparent; border-radius: 0 6px 6px 0; }
+        .jz.z1 { background: rgba(3, 105, 161, 0.08); border-left-color: #0369a1; }
+        .jz.z2 { background: rgba(4, 120, 87, 0.08); border-left-color: #047857; }
+        .jz.z3 { background: rgba(180, 83, 9, 0.08); border-left-color: #b45309; }
+
+        .sw { border-radius: 4px; transition: background 0.3s ease; }
+        .sw.cambio { background: #bbf7d0; color: #166534; animation: vjFlash 0.7s ease; }
+        @keyframes vjFlash { 0% { background: #fde68a; } 100% { background: #bbf7d0; } }
+
+        .vj-side { display: flex; flex-direction: column; gap: 8px; }
+        .vj-ley { display: flex; align-items: flex-start; gap: 10px; }
+        .vj-ley strong { display: block; font-size: 1.02rem; color: var(--text-heading); }
+        .vj-ley span:not(.vj-n) { display: block; font-size: 0.92rem; line-height: 1.3; color: var(--text-muted); }
+        .vj-n { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: #ffffff; }
+        .vj-ley.z1 .vj-n { background: #0369a1; }
+        .vj-ley.z2 .vj-n { background: #047857; }
+        .vj-ley.z3 .vj-n { background: #b45309; }
+
+        .vj-demo { margin-top: auto; display: flex; flex-direction: column; gap: 9px; padding: 11px 13px; border-radius: 14px; background: var(--wine-soft); }
+
+        .vj-tabs { display: flex; gap: 6px; }
+
+        .vj-tab {
+            flex: 1;
+            padding: 5px 6px;
+            border: 1.5px solid #e8c9d2;
+            border-radius: 999px;
+            background: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--wine-base);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .vj-tab.activo { background: var(--wine-base); border-color: var(--wine-base); color: #ffffff; }
+        .vj-prompt { min-height: 2.9em; font-family: var(--font-mono); font-size: 0.86rem; font-weight: 600; line-height: 1.45; color: var(--text-heading); }
+        .vj-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 76px; }
+
+        .vj-card {
+            width: 136px;
+            height: 72px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            background: #ffffff;
+            border: 1px solid #ebe7e5;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(140, 156, 168, 0.25);
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .vj-card b { font-family: 'Segoe UI', var(--font-sans); font-size: 1.5rem; font-weight: 600; line-height: 1.1; color: #1F2933; transition: color 0.4s ease, font-size 0.4s ease; }
+        .vj-card span { font-size: 0.78rem; color: #6B7A86; white-space: nowrap; }
+        .vj-card.ancha { width: 240px; }
+        .vj-card.grande b { font-size: 1.95rem; font-weight: 800; }
+        .vj-card.cambia { animation: kdCambia 0.4s ease; }
+        .vj-btn { flex-shrink: 0; }
+
+        /* ===================== CLASE 05 ===================== */
+        .t1-grid { grid-template-columns: 1fr 520px; }
+        .shot { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--accent-emerald-border); background: #ffffff; }
+        .agenda.siete { grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        .agenda.siete li { padding-left: 14px; padding-right: 10px; }
+        .agenda.siete strong { font-size: 1rem; }
+        .agenda.siete .agenda-gain { font-size: 0.85rem; }
+
+        /* Qué hay dentro de un .pbiviz */
+        .pv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+        .pv-col { display: flex; flex-direction: column; gap: 10px; }
+        .pv-t { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); }
+        .pv-pasos { display: flex; flex-direction: column; gap: 7px; margin: 0; padding: 0; list-style: none; }
+        .pv-pasos li { display: flex; align-items: center; gap: 12px; padding: 8px 14px; border-radius: 12px; background: #ffffff; border: 1px solid var(--card-border); }
+        .pv-n { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: #E8590C; font-weight: 800; color: #ffffff; }
+        .pv-pasos div { display: flex; flex-direction: column; gap: 1px; }
+        .pv-pasos code { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700; color: var(--wine-base); }
+        .pv-pasos span:not(.pv-n) { font-size: 0.95rem; color: var(--text-sub); }
+        .pv-code { display: flex; flex-direction: column; gap: 5px; padding: 10px 14px; border-radius: 12px; background: #fff7f2; border: 1px dashed #f3c4a8; }
+        .pv-code-t { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #9a3412; }
+        .pv-code code { font-family: var(--font-mono); font-size: 0.86rem; color: #3f3f46; }
+        .pv-code b { color: #c2410c; }
+        .pv-quiz { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+
+        .pv-q {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            min-height: 106px;
+            padding: 10px 14px;
+            border: 1.5px solid var(--card-border);
+            border-left: 5px solid #d4d4d8;
+            border-radius: 12px;
+            background: #ffffff;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .pv-q-t { font-size: 1rem; font-weight: 700; line-height: 1.3; color: #27272a; }
+        .pv-q-a { display: none; font-size: 0.85rem; line-height: 1.35; color: var(--text-sub); }
+        .pv-q-a b { margin-right: 6px; }
+        .pv-q-a code { font-family: var(--font-mono); font-size: 0.8rem; color: #3f3f46; }
+        .pv-q.on .pv-q-a { display: block; animation: kdCambia 0.35s ease; }
+        .pv-q.on[data-r="si"] { border-left-color: #15803d; background: #f0fdf4; }
+        .pv-q.on[data-r="si"] b { color: #15803d; }
+        .pv-q.on[data-r="no"] { border-left-color: #b91c1c; background: #fef2f2; }
+        .pv-q.on[data-r="no"] b { color: #b91c1c; }
+        .pv-q.on[data-r="casi"] { border-left-color: #b45309; background: #fffbeb; }
+        .pv-q.on[data-r="casi"] b { color: #b45309; }
+
+        /* Tu propio filtro */
+        .fp-grid { grid-template-columns: 1fr 470px; }
+        .fp-grid .prompt-copy-text { font-size: 0.92rem; }
+        .fp-card { gap: 10px; }
+        .fp-demo { display: grid; grid-template-columns: repeat(12, 1fr); gap: 5px; padding: 12px 10px 10px; border-radius: 12px; background: #ffffff; border: 1px solid #f0e6e1; }
+
+        .fp-mes {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .fp-mes i { display: block; width: 70%; min-height: 4px; max-height: 70px; border-radius: 3px 3px 0 0; background: #fbd5bd; transition: background 0.2s ease; }
+        .fp-mes { height: 104px; justify-content: flex-end; }
+        .fp-mes span { width: 100%; padding: 4px 0; border-radius: 7px; border: 1.5px solid #f3d3c1; font-size: 0.78rem; font-weight: 800; color: #9a3412; background: #ffffff; transition: background 0.2s ease, color 0.2s ease; }
+        .fp-mes.sel i { background: #E8590C; }
+        .fp-mes.sel span { background: #E8590C; border-color: #E8590C; color: #ffffff; }
+        .fp-mes.vacio { cursor: default; opacity: 0.45; }
+        .fp-estado { font-size: 1rem; color: var(--text-sub); }
+        .fp-estado b { color: #c2410c; }
+        .filtro-table td:first-child { width: 150px; white-space: nowrap; }
+
+        /* Anatomía del bullet chart */
+        .bl-grid { display: grid; grid-template-columns: 1fr 450px; gap: 18px; }
+        .bl-anat, .bl-ocho-card { gap: 10px; padding: 14px 18px; }
+        .bl-ocho-card h3 { font-size: 1.05rem; }
+        .bl-pick, .de-pick, .tg-sucs { display: inline-flex; gap: 6px; padding: 3px; border-radius: 999px; background: #f4eff0; align-self: flex-start; }
+
+        .bl-btn, .de-btn, .tg-suc {
+            padding: 5px 14px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: var(--wine-base);
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .bl-btn.activo, .de-btn.activo, .tg-suc.activo { background: var(--wine-base); color: #ffffff; }
+        .bl-big { width: 100%; height: auto; display: block; }
+        .bl-big .bl-real { transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .bl-ocho { width: 100%; height: auto; display: block; }
+
+        .bl-partes { display: grid; grid-template-columns: 1.25fr 1fr 1.3fr; gap: 12px; }
+        .bl-partes div { display: grid; grid-template-columns: 22px 1fr; column-gap: 8px; align-items: center; }
+        .bl-partes i { width: 18px; height: 12px; border-radius: 3px; }
+        .bl-partes strong { font-size: 1rem; color: var(--text-heading); }
+        .bl-partes span { grid-column: 2; font-size: 0.9rem; line-height: 1.35; color: var(--text-muted); }
+        .bp-barra { background: #E8590C; }
+        .bp-marca { width: 4px !important; height: 18px !important; margin-left: 7px; background: #1f2933; }
+        .bp-banda { background: linear-gradient(90deg, #e7e2df 0 55%, #f1edea 55%); border: 1px solid #e4ddd9; }
+        .bl-lectura { padding: 8px 12px; border-radius: 10px; background: var(--wine-soft); font-size: 1rem; line-height: 1.4; color: var(--text-sub); }
+        .bl-lectura b { color: var(--text-heading); }
+
+        /* Edición en caliente */
+        .verbos { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .verbos-t { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); margin-right: 4px; }
+        .verbo { padding: 7px 14px; border-radius: 999px; background: #ffffff; border: 1px solid var(--card-border); font-size: 1rem; color: var(--text-sub); }
+        .verbo b { color: var(--wine-base); }
+
+        /* Tarjeta de segunda generación */
+        .tg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .tg-card { gap: 10px; padding: 14px 16px; }
+        .tg-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .tg-head h3 { font-size: 1.05rem; }
+
+        .tg-btn {
+            padding: 4px 12px;
+            border: 1.5px solid var(--wine-base);
+            border-radius: 999px;
+            background: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--wine-base);
+            cursor: pointer;
+        }
+
+        .tg-card.on .tg-btn { background: var(--wine-base); color: #ffffff; }
+        .tg-kpi { display: flex; flex-direction: column; gap: 4px; min-height: 150px; padding: 12px 14px; border-radius: 12px; background: #ffffff; border: 1.5px solid #fbd5bd; border-top: 4px solid #E8590C; }
+        .tg-lbl { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #71717a; }
+        .tg-num { font-size: 2rem; font-weight: 800; line-height: 1.1; color: #c2410c; }
+        .tg-note { font-size: 0.95rem; line-height: 1.4; color: var(--text-muted); }
+        .tg-note b.v { color: #15803d; }
+        .tg-note b.a { color: #b45309; }
+        .tg-note b.r { color: #b91c1c; }
+
+        .tg-spark { display: none; flex-direction: column; gap: 2px; }
+        .tg-spark svg { width: 100%; height: 46px; display: block; }
+        .tg-ext { font-size: 0.8rem; color: #71717a; }
+        .tg-ext b { color: #3f3f46; }
+        #tgSpark.on .tg-spark { display: flex; animation: kdCambia 0.4s ease; }
+
+        .tg-luz { display: none; align-items: center; gap: 8px; align-self: flex-start; padding: 3px 12px 3px 8px; border-radius: 999px; font-size: 0.9rem; font-weight: 800; }
+        .tg-luz i { width: 12px; height: 12px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 0 10px currentColor; }
+        #tgSemaforo.on .tg-luz { display: inline-flex; }
+        .tg-luz.v { color: #15803d; background: #dcfce7; }
+        .tg-luz.a { color: #b45309; background: #fef3c7; }
+        .tg-luz.r { color: #b91c1c; background: #fee2e2; }
+        .tg-sucs { display: none; }
+        #tgSemaforo.on .tg-sucs { display: inline-flex; }
+        .tg-suc { padding: 4px 10px; font-size: 0.82rem; }
+        .kd-cambia { animation: kdCambia 0.35s ease; }
+
+        @keyframes kdCambia {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Color que significa algo */
+        .bc-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; }
+        .bc-btn { flex-shrink: 0; margin-bottom: 6px; }
+        .bc-card { padding: 12px 20px; }
+        .bc-list { display: flex; flex-direction: column; gap: 5px; }
+        .bc-row { display: grid; grid-template-columns: 230px 1fr 80px 90px; align-items: center; gap: 12px; }
+        .bc-name { font-size: 0.98rem; font-weight: 600; color: var(--text-sub); }
+        .bc-track { height: 20px; }
+        .bc-bar { display: block; height: 100%; border-radius: 0 5px 5px 0; background: var(--arco); transition: background 0.5s ease; }
+        .bc-card:not(.arco) .bc-bar { background: var(--sig); }
+        .bc-val { font-size: 0.95rem; font-weight: 700; color: var(--text-heading); text-align: right; }
+        .bc-yoy { font-size: 0.95rem; text-align: right; color: #71717a; transition: color 0.4s ease; }
+        .bc-card:not(.arco) .bc-yoy.sube { color: #15803d; }
+        .bc-card:not(.arco) .bc-yoy.baja { color: #b91c1c; }
+
+        /* Doble eje */
+        .de-grid { display: grid; grid-template-columns: 1fr 330px; gap: 18px; }
+        .de-card { gap: 6px; padding: 12px 16px; }
+        .de-top { display: flex; align-items: center; justify-content: space-between; }
+        .de-ley { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
+        .de-ley i { display: inline-block; width: 14px; height: 10px; margin-left: 8px; border-radius: 2px; }
+        .de-ley i.b { background: #fde3d2; }
+        .de-ley i.l { height: 3px; background: #E8590C; }
+        .de-svg { width: 100%; height: auto; display: block; }
+        .de-card.uno .de-dos, .de-card.dos .de-uno { display: none; }
+        .de-side { display: flex; flex-direction: column; gap: 14px; }
+        .de-insight, .de-regla { gap: 6px; padding: 16px 18px; }
+        .de-side strong { font-size: 1.08rem; color: var(--text-heading); }
+        .de-side span { font-size: 1rem; line-height: 1.45; color: var(--text-sub); }
+        .de-side b { color: #c2410c; }
+        .de-insight { border-left: 4px solid #E8590C; }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Top Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Cursor Spotlight -->
+    <div class="cursor-spotlight" id="spotlight"></div>
+
+    <main class="deck" id="deck">
+
+        <!-- ===================================================================
+             DECK CONTAINER (16 DIAPOSITIVAS • PERSONALIZACIÓN VISUAL AVANZADA)
+             =================================================================== -->
+
+        <!-- ===================================================================
+             SLIDE 01: [PORTADA] PERSONALIZACIÓN VISUAL AVANZADA
+             =================================================================== -->
+        <section class="slide active" data-slide="1" data-type="Portada">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Programa Oficial Datdata • 2026</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Clase 05 de 10</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="cover-grid">
+                    <div>
+                        <span class="badge purple" style="margin-bottom: 0.9rem;">Fase 2 • Diseño visual</span>
+                        <h1>Personalización visual <span class="wine-gradient">avanzada</span></h1>
+                        <p class="slide-subtitle">Tu dashboard ya existe. Hoy le pides a la IA las gráficas que usan los analistas profesionales y tarjetas que cuentan más que un número.</p>
+                        <div class="tag-group" style="margin-top: 1.4rem;">
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--wine-base); box-shadow: 0 0 8px var(--wine-base);"></span><span>Bullet charts</span></div>
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></span><span>Tarjetas con tendencia</span></div>
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald);"></span><span>Edición en caliente</span></div>
+                        </div>
+                    </div>
+                    <figure class="cover-art">
+                        <svg viewBox="0 0 470 412" fill="none" aria-hidden="true">
+                            <circle cx="236" cy="206" r="190" fill="rgba(136, 19, 55, 0.045)" />
+                            <rect x="30" y="70" width="410" height="270" rx="22" fill="#ffffff" stroke="#e4dcef" stroke-width="2.5" />
+                            <text x="56" y="108" font-family="var(--font-sans)" font-size="17" font-weight="800" fill="#3f3f46">Ventas contra meta · 2026</text>
+                            <g transform="translate(56 124)"><text x="0" y="17" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#52525b">CDMX</text><rect x="92" y="0" width="172.2" height="24" fill="#e7e2df" /><rect x="264.2" y="0" width="19.1" height="24" fill="#f1edea" /><rect class="bl-real" x="92" y="7.2" width="206.6" height="9.6" rx="2" fill="#E8590C" /><rect x="281.8" y="2.9" width="3" height="18.2" fill="#1f2933" /><text x="322" y="17" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#15803d">108.0 %</text><text x="0" y="51" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#52525b">Querétaro</text><rect x="92" y="34" width="172.2" height="24" fill="#e7e2df" /><rect x="264.2" y="34" width="19.1" height="24" fill="#f1edea" /><rect class="bl-real" x="92" y="41.2" width="206.1" height="9.6" rx="2" fill="#E8590C" /><rect x="281.8" y="36.9" width="3" height="18.2" fill="#1f2933" /><text x="322" y="51" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#15803d">107.7 %</text><text x="0" y="85" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#52525b">León</text><rect x="92" y="68" width="172.2" height="24" fill="#e7e2df" /><rect x="264.2" y="68" width="19.1" height="24" fill="#f1edea" /><rect class="bl-real" x="92" y="75.2" width="193.2" height="9.6" rx="2" fill="#E8590C" /><rect x="281.8" y="70.9" width="3" height="18.2" fill="#1f2933" /><text x="322" y="85" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#15803d">101.0 %</text><text x="0" y="119" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#52525b">Monterrey</text><rect x="92" y="102" width="172.2" height="24" fill="#e7e2df" /><rect x="264.2" y="102" width="19.1" height="24" fill="#f1edea" /><rect class="bl-real" x="92" y="109.2" width="181.2" height="9.6" rx="2" fill="#E8590C" /><rect x="281.8" y="104.9" width="3" height="18.2" fill="#1f2933" /><text x="322" y="119" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">94.7 %</text><text x="0" y="153" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#52525b">Puebla</text><rect x="92" y="136" width="172.2" height="24" fill="#e7e2df" /><rect x="264.2" y="136" width="19.1" height="24" fill="#f1edea" /><rect class="bl-real" x="92" y="143.2" width="179.7" height="9.6" rx="2" fill="#E8590C" /><rect x="281.8" y="138.9" width="3" height="18.2" fill="#1f2933" /><text x="322" y="153" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">93.9 %</text><text x="0" y="187" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#52525b">Guadalajara</text><rect x="92" y="170" width="172.2" height="24" fill="#e7e2df" /><rect x="264.2" y="170" width="19.1" height="24" fill="#f1edea" /><rect class="bl-real" x="92" y="177.2" width="177.4" height="9.6" rx="2" fill="#E8590C" /><rect x="281.8" y="172.9" width="3" height="18.2" fill="#1f2933" /><text x="322" y="187" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">92.7 %</text></g>
+                            <path d="M424 34 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 Z" fill="#fda4af" />
+                            <circle cx="420" cy="350" r="30" fill="#D97757" stroke="#ffffff" stroke-width="4" />
+                            <path d="M420 334 l4 11 l11 4 l-11 4 l-4 11 l-4 -11 l-11 -4 l11 -4 Z" fill="#ffffff" />
+                        </svg>
+                        <figcaption>La gráfica que compara <strong>real contra meta</strong> en una sola línea.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 02: [AGENDA] DE UN DASHBOARD QUE MUESTRA A UNO QUE EXPLICA
+             =================================================================== -->
+        <section class="slide" data-slide="2" data-type="Agenda">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Agenda • Clase 05</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge ">Agenda</span>
+                    <span class="slide-number">02 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>De un dashboard que muestra a uno que <span class="wine-gradient">explica</span></h2>
+                    <p class="slide-subtitle">Sobre tu dashboard de la Clase 04: cada taller cambia o agrega una pieza sin tocar lo demás.</p>
+                </div>
+
+                <ol class="agenda siete">
+                    <li><span class="agenda-num">0</span><strong>Prepara tu proyecto</strong><span class="agenda-gain">El de la Clase 04</span></li>
+                    <li><span class="agenda-num">1</span><strong>Tu propio filtro</strong><span class="agenda-gain">En un segundo chat</span></li>
+                    <li><span class="agenda-num">2</span><strong>Bullet chart</strong><span class="agenda-gain">Real contra meta</span></li>
+                    <li><span class="agenda-num">3</span><strong>Tarjetas que explican</strong><span class="agenda-gain">Tendencia y semáforo</span></li>
+                    <li><span class="agenda-num">4</span><strong>Tooltip propio</strong><span class="agenda-gain">Una mini página</span></li>
+                    <li><span class="agenda-num">5</span><strong>Página de categorías</strong><span class="agenda-gain">Crecimiento y doble eje</span></li>
+                    <li><span class="agenda-num">6</span><strong>Revísalo como director</strong><span class="agenda-gain">Filtra y comprueba</span></li>
+                </ol>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>El dashboard no se rehace.</strong> Se edita en caliente: le dices a la IA qué cambiar y qué conservar, y el resto del dashboard queda igual.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 03: [TALLER 0] PREPARA TU PROYECTO
+             =================================================================== -->
+        <section class="slide" data-slide="3" data-type="Taller 0: Prepara tu proyecto">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 0 • Preparación</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">03 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 0 · Prepara tu <span class="wine-gradient">proyecto</span></h2>
+                    <p class="slide-subtitle">Trabajas sobre el .pbip de la Clase 04, con sus dos páginas: Resumen y Nativo vs personalizado.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="card steps-card">
+                        <h3>Antes del primer prompt</h3>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Abre tu .pbip de la Clase 04</strong><span>El que tiene el dashboard de la orden maestra.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Guarda con Ctrl+S</strong><span>La IA recarga tu reporte varias veces: lo que no esté guardado se pierde.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Abre un chat nuevo en tu agente</strong><span>Y pega el prompt de la derecha para que revise el proyecto.</span></div></li>
+                        </ol>
+                        <p class="stuck"><strong>¿No terminaste la Clase 04?</strong> Corre primero su orden maestra: los talleres de hoy editan ese dashboard.</p>
+                    </div>
+
+                    <div class="taller-side">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 3 · Que la IA revise tu proyecto</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Revisa el proyecto de Power BI que tengo abierto: dime qué páginas tiene, qué visuales hay en cada una y qué versión de la Metodología 2 tengo instalada. No cambies nada.</p>
+                        </div>
+                        <div class="check-card">
+                            <span class="check-title">Lo que debes ver</span>
+                            <p class="check-note">Que encontró las 2 páginas, qué visuales tiene cada una y que la versión de la metodología es la <strong>2.1.1</strong> o posterior.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 04: [TALLER 1] TU PROPIO FILTRO
+             Paso 1 al inicio, en un segundo chat; paso 2 al final de la clase.
+             =================================================================== -->
+        <section class="slide" data-slide="4" data-type="Taller 1: Tu propio filtro">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 1 • Un visual hecho por ti</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">04 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 1 · Tu propio <span class="wine-gradient">filtro</span></h2>
+                    <p class="slide-subtitle">Un visual que no existe en ninguna tienda: la IA lo programa en un segundo chat mientras seguimos con los demás talleres.</p>
+                </div>
+
+                <div class="taller-grid fp-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 1 · Ahora, en un chat nuevo</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea un visual personalizado nuevo de Power BI para mi dashboard de la ferretería: un filtro de meses en forma de línea de tiempo, con los meses del año en una fila de botones y una mini barra encima de cada uno con sus ventas; que al hacer clic en un mes filtre la página y con Ctrl+clic permita elegir varios. Usa los colores de mi dashboard. Solo constrúyelo y empaquétalo como .pbiviz en la carpeta de mi proyecto: no toques el reporte, porque en otro chat estoy trabajando en él.</p>
+                        </div>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 2 · Al final, en tu chat principal</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Ya importé mi filtro de meses al reporte. Ponlo en la página Categorías, arriba de las gráficas, con los meses y las ventas del año analizado, y guarda.</p>
+                        </div>
+                        <p class="tip"><strong>Entre el paso 1 y el 2:</strong> en el panel Visualizaciones, en los tres puntos, elige «Importar un objeto visual desde un archivo» y busca el .pbiviz en la carpeta de tu proyecto.</p>
+                    </div>
+
+                    <div class="check-card fp-card">
+                        <span class="check-title">Así funciona · maqueta con las ventas de 2026</span>
+                        <div class="fp-demo" id="fpDemo" role="group" aria-label="Filtro de meses de ejemplo">
+                            <button type="button" class="fp-mes" data-i="0"><i style="height:59%"></i><span>Ene</span></button>
+                            <button type="button" class="fp-mes" data-i="1"><i style="height:68%"></i><span>Feb</span></button>
+                            <button type="button" class="fp-mes" data-i="2"><i style="height:78.8%"></i><span>Mar</span></button>
+                            <button type="button" class="fp-mes" data-i="3"><i style="height:81.9%"></i><span>Abr</span></button>
+                            <button type="button" class="fp-mes" data-i="4"><i style="height:100%"></i><span>May</span></button>
+                            <button type="button" class="fp-mes" data-i="5"><i style="height:84.8%"></i><span>Jun</span></button>
+                            <button type="button" class="fp-mes" data-i="6"><i style="height:65.8%"></i><span>Jul</span></button>
+                            <button type="button" class="fp-mes" data-i="7"><i style="height:69.9%"></i><span>Ago</span></button>
+                            <button type="button" class="fp-mes" data-i="8"><i style="height:69.7%"></i><span>Sep</span></button>
+                            <button type="button" class="fp-mes vacio" data-i="9" disabled><i style="height:4%"></i><span>Oct</span></button>
+                            <button type="button" class="fp-mes vacio" data-i="10" disabled><i style="height:4%"></i><span>Nov</span></button>
+                            <button type="button" class="fp-mes vacio" data-i="11" disabled><i style="height:4%"></i><span>Dic</span></button>
+                        </div>
+                        <p class="fp-estado" id="fpEstado">Todos los meses · <b>$26.7 M</b></p>
+                        <p class="check-note">Haz clic en un mes, o Ctrl+clic para sumar varios. En la prueba real la IA lo construyó en 4 minutos; el tuyo puede verse distinto.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 05: [TEORÍA] QUÉ HAY DENTRO DE UN .PBIVIZ
+             Cada tarjeta de la derecha se voltea con un clic: pregunta al grupo antes de voltearla.
+             =================================================================== -->
+        <section class="slide" data-slide="5" data-type="Teoría: Qué hay dentro de un .pbiviz">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Cómo se construye un visual</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">05 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Qué hay dentro de un <span class="wine-gradient">.pbiviz</span></h2>
+                    <p class="slide-subtitle">Lo que tu segundo chat está haciendo ahora: escribir un programa pequeño que Power BI ejecuta dentro de una caja cerrada.</p>
+                </div>
+
+                <div class="pv-grid">
+                    <div class="pv-col">
+                        <span class="pv-t">Cómo se construye · tu filtro de meses</span>
+                        <ol class="pv-pasos">
+                            <li><span class="pv-n">1</span><div><code>capabilities.json</code><span>Qué recibe: los campos <b>Mes</b> y <b>Ventas</b>, y las opciones del panel Formato.</span></div></li>
+                            <li><span class="pv-n">2</span><div><code>src/visual.ts</code><span>Cómo se dibuja y qué hace al clic: 250 líneas de TypeScript.</span></div></li>
+                            <li><span class="pv-n">3</span><div><code>pbiviz package</code><span>Compila el código con Node y las herramientas de Microsoft.</span></div></li>
+                            <li><span class="pv-n">4</span><div><code>LineaTiempoMeses.pbiviz</code><span>Un archivo de <b>8 KB</b> que se importa al reporte.</span></div></li>
+                        </ol>
+                        <div class="pv-code"><span class="pv-code-t">La línea de visual.ts que filtra tu página</span><code>this.host.<b>applyJsonFilter</b>(filtro, "general", "filter", FilterAction.merge);</code></div>
+                    </div>
+
+                    <div class="pv-col">
+                        <span class="pv-t">¿Lo puede hacer? · clic para ver la respuesta</span>
+                        <div class="pv-quiz">
+                            <button type="button" class="pv-q" data-r="si"><span class="pv-q-t">Filtrar la página al hacer clic en un mes</span><span class="pv-q-a"><b>Sí</b>Con <code>applyJsonFilter</code>: así lo hace tu filtro.</span></button>
+                            <button type="button" class="pv-q" data-r="si"><span class="pv-q-t">Resaltar una barra en las demás gráficas</span><span class="pv-q-a"><b>Sí</b>Con <code>selectionManager.select</code>.</span></button>
+                            <button type="button" class="pv-q" data-r="si"><span class="pv-q-t">Mostrar su propio tooltip</span><span class="pv-q-a"><b>Sí</b>Con <code>tooltipService.show</code>.</span></button>
+                            <button type="button" class="pv-q" data-r="no"><span class="pv-q-t">Crear una medida nueva en el modelo</span><span class="pv-q-a"><b>No</b>La API solo le deja leer los datos, nunca escribir en el modelo.</span></button>
+                            <button type="button" class="pv-q" data-r="no"><span class="pv-q-t">Cambiar el color de otra gráfica</span><span class="pv-q-a"><b>No</b>Solo controla su propio recuadro.</span></button>
+                            <button type="button" class="pv-q" data-r="casi"><span class="pv-q-t">Traer datos de internet</span><span class="pv-q-a"><b>Con permiso</b>Hay que declarar <code>WebAccess</code> en <code>privileges</code>; el tuyo lo tiene vacío.</span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span>La IA no puede inventar funciones: solo combina las que Microsoft ya escribió en la API de visuales. Si la función no existe, tu visual no puede hacerlo, aunque se lo pidas.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 06: [TALLER 1] EL BULLET CHART
+             =================================================================== -->
+        <section class="slide" data-slide="6" data-type="Taller 2: El bullet chart">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 2 • Edición en caliente</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">06 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 2 · El <span class="wine-gradient">bullet chart</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: mientras la IA cambia la gráfica, vemos por qué el bullet chart es la mejor forma de comparar contra una meta.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">En la página Resumen, reemplaza el ranking de ventas por sucursal por un bullet chart: una barra por sucursal con sus ventas al corte, una marca con su meta al corte y bandas de fondo al 90 % y al 100 % de la meta. Ordénalas de mayor a menor % de cumplimiento y mantén el mismo lugar, tamaño y estilo.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Mientras trabaja, seguimos con la teoría.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide guardar, hazlo con Ctrl+S</strong><span>Y dile que continúe.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="bullet.png" alt="Página Resumen con el bullet chart de ventas contra meta por sucursal" />
+                        <p class="check-note">Prueba real. Arriba CDMX Coyoacán (108.0 %) y Querétaro Juriquilla (107.7 %); abajo Zapopan Bodega (91.4 %) y Saltillo Centro (91.2 %).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 07: [TEORÍA] ANATOMÍA DE UN BULLET CHART
+             Elige una sucursal para ver cómo se lee.
+             =================================================================== -->
+        <section class="slide" data-slide="7" data-type="Teoría: Anatomía de un bullet chart">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Real contra meta</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">07 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Anatomía de un <span class="wine-gradient">bullet chart</span></h2>
+                    <p class="slide-subtitle">Lo inventó Stephen Few para reemplazar a los velocímetros: dice lo mismo en una línea en lugar de un círculo.</p>
+                </div>
+
+                <div class="bl-grid">
+                    <div class="card bl-anat">
+                        <div class="bl-pick" role="group" aria-label="Sucursal">
+                            <button type="button" class="bl-btn activo" data-i="2">León Industrial</button>
+                            <button type="button" class="bl-btn" data-i="7">Saltillo Centro</button>
+                            <button type="button" class="bl-btn" data-i="0">CDMX Coyoacán</button>
+                        </div>
+                        <svg class="bl-big" viewBox="0 0 640 150" fill="none" role="img" aria-label="Bullet chart de una sucursal con sus partes señaladas">
+                            <g id="blBig"></g>
+                        </svg>
+                        <div class="bl-partes">
+                            <div><i class="bp-barra"></i><strong>Barra</strong><span id="blReal">Ventas al corte</span></div>
+                            <div><i class="bp-marca"></i><strong>Marca</strong><span id="blMeta">Meta al corte</span></div>
+                            <div><i class="bp-banda"></i><strong>Bandas</strong><span>Hasta el 90 % y del 90 al 100 % de la meta</span></div>
+                        </div>
+                        <p class="bl-lectura" id="blLectura"></p>
+                    </div>
+                    <div class="card bl-ocho-card">
+                        <h3>Las 8 sucursales en el espacio de un velocímetro</h3>
+                        <svg class="bl-ocho" viewBox="0 0 430 256" fill="none" role="img" aria-label="Bullet chart de las 8 sucursales ordenadas por cumplimiento de meta"><text x="0" y="23" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">CDMX Coyoacán</text><rect x="150" y="6" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="6" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="13.2" width="197.2" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="8.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="23" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#15803d">108.0 %</text><text x="0" y="54" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">Querétaro Juriquilla</text><rect x="150" y="37" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="37" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="44.2" width="196.7" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="39.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="54" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#15803d">107.7 %</text><text x="0" y="85" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">León Industrial</text><rect x="150" y="68" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="68" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="75.2" width="184.4" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="70.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="85" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#15803d">101.0 %</text><text x="0" y="116" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">Monterrey Cumbres</text><rect x="150" y="99" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="99" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="106.2" width="173" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="101.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="116" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">94.7 %</text><text x="0" y="147" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">Puebla Angelópolis</text><rect x="150" y="130" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="130" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="137.2" width="171.5" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="132.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="147" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">93.9 %</text><text x="0" y="178" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">Guadalajara Centro</text><rect x="150" y="161" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="161" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="168.2" width="169.3" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="163.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="178" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">92.7 %</text><text x="0" y="209" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">Zapopan Bodega</text><rect x="150" y="192" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="192" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="199.2" width="166.9" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="194.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="209" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">91.4 %</text><text x="0" y="240" font-family="var(--font-sans)" font-size="13" font-weight="600" fill="#3f3f46">Saltillo Centro</text><rect x="150" y="223" width="164.3" height="24" fill="#e7e2df" /><rect x="314.3" y="223" width="18.3" height="24" fill="#f1edea" /><rect class="bl-real" x="150" y="230.2" width="166.5" height="9.6" rx="2" fill="#E8590C" /><rect x="331.1" y="225.9" width="3" height="18.2" fill="#1f2933" /><text x="370" y="240" font-family="var(--font-sans)" font-size="14" font-weight="800" fill="#b91c1c">91.2 %</text></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 08: [TEORÍA] EDICIÓN EN CALIENTE
+             =================================================================== -->
+        <section class="slide" data-slide="8" data-type="Teoría: Edición en caliente">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Cómo pedir un cambio</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">08 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Edición en <span class="wine-gradient">caliente</span></h2>
+                    <p class="slide-subtitle">Un buen prompt de cambio dice tres cosas. Así lo está leyendo tu agente ahora mismo.</p>
+                </div>
+
+                <div class="dir-grid">
+                    <div class="card dir-prompt">
+                        <span class="vs-tag custom">El prompt que pegaste</span>
+                        <p class="dir-text">«<mark class="m1">En la página Resumen, reemplaza el ranking de ventas por sucursal por un bullet chart</mark>: una barra por sucursal con sus ventas al corte, una marca con su meta al corte y bandas de fondo al 90 % y al 100 % de la meta. <mark class="m3">Ordénalas de mayor a menor % de cumplimiento</mark> y <mark class="m2">mantén el mismo lugar, tamaño y estilo</mark>.»</p>
+                    </div>
+                    <div class="dir-pieces">
+                        <div class="dir-piece"><span class="dot m1"></span><div><strong>Qué cambia</strong><span>Dónde está y por qué se reemplaza.</span></div></div>
+                        <div class="dir-piece"><span class="dot m2"></span><div><strong>Qué se conserva</strong><span>Sin esto, la IA puede rehacer la página.</span></div></div>
+                        <div class="dir-piece"><span class="dot m3"></span><div><strong>Tu criterio</strong><span>Orden, umbrales y colores: lo que solo tú sabes.</span></div></div>
+                    </div>
+                </div>
+
+                <div class="verbos">
+                    <span class="verbos-t">Verbos que funcionan</span>
+                    <span class="verbo"><b>Reemplaza</b> X por Y</span>
+                    <span class="verbo"><b>Agrega</b> a X …</span>
+                    <span class="verbo"><b>Quita</b> X</span>
+                    <span class="verbo"><b>Mueve</b> X arriba de Y</span>
+                    <span class="verbo"><b>No cambies</b> nada más</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 09: [TALLER 2] TARJETAS QUE EXPLICAN
+             =================================================================== -->
+        <section class="slide" data-slide="9" data-type="Taller 3: Tarjetas que explican">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 3 • Tarjetas de segunda generación</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">09 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 3 · Tarjetas que <span class="wine-gradient">explican</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: a Ticket promedio le agregas su tendencia y a Margen % un semáforo con tu regla de negocio.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">En las tarjetas KPI de la página Resumen: en Ticket promedio agrega debajo del número una mini gráfica de línea con el ticket promedio de cada mes del año analizado, y en Margen % agrega un semáforo: verde si es 28 % o más, amarillo de 27 % a 28 % y rojo debajo de 27 %. Tiene que funcionar con HTML Content Secure y no cambies nada más.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Mientras trabaja, vemos qué hace mejor a una tarjeta.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Sin filtros, el semáforo sale amarillo</strong><span>El margen de 2026 es 27.3 %.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="tarjetas.png" alt="Tarjetas KPI con mini gráfica de tendencia y semáforo" />
+                        <p class="check-note">Prueba real. El semáforo sale en amarillo con 27.3 % y la mini línea marca mayo como el mes más alto ($2,769) y julio como el más bajo ($2,086).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 10: [TEORÍA] LA TARJETA DE SEGUNDA GENERACIÓN
+             Cada tarjeta tiene su botón: compara el antes y el después.
+             =================================================================== -->
+        <section class="slide" data-slide="10" data-type="Teoría: La tarjeta de segunda generación">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Tarjetas KPI</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">10 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>La tarjeta de segunda <span class="wine-gradient">generación</span></h2>
+                    <p class="slide-subtitle">Un número solo no dice si es bueno o malo. Tres mejoras le dan contexto sin ocupar más espacio.</p>
+                </div>
+
+                <div class="tg-grid">
+                    <div class="card tg-card" id="tgEscala"><div class="tg-head"><h3>1 · Escala que se lee</h3><button type="button" class="tg-btn" data-t="tgEscala">Aplicar</button></div><div class="tg-kpi"><span class="tg-lbl">Ventas 2026</span><b class="tg-num" data-a="$26,748,960" data-b="$26.7 M">$26,748,960</b></div><p class="tg-note">La IA elige miles (<b>K</b>) o millones (<b>M</b>) según el tamaño del número.</p></div>
+                    <div class="card tg-card" id="tgSpark"><div class="tg-head"><h3>2 · Su tendencia</h3><button type="button" class="tg-btn" data-t="tgSpark">Aplicar</button></div><div class="tg-kpi"><span class="tg-lbl">Ticket promedio 2026</span><b class="tg-num">$2,422</b><div class="tg-spark"><svg class="tk-spark" viewBox="0 0 220 46" fill="none" aria-hidden="true"><path d="M0 38.4 L27.5 13.8 L55 14.2 L82.5 17.2 L110 4 L137.5 12.7 L165 42 L192.5 38.8 L220 31.7 L220 46 L0 46 Z" fill="#E8590C" opacity="0.12" /><path d="M0 38.4 L27.5 13.8 L55 14.2 L82.5 17.2 L110 4 L137.5 12.7 L165 42 L192.5 38.8 L220 31.7" stroke="#E8590C" stroke-width="2.2" stroke-linejoin="round" /><circle cx="110" cy="4" r="3.5" fill="#E8590C" /><circle cx="165" cy="42" r="3.5" fill="#ffffff" stroke="#E8590C" stroke-width="2" /></svg><span class="tg-ext"><b>Máx.</b> may $2,769 · <b>Mín.</b> jul $2,086</span></div></div><p class="tg-note">Una mini gráfica de línea (sparkline) con los 9 meses, dentro de la tarjeta.</p></div>
+                    <div class="card tg-card" id="tgSemaforo"><div class="tg-head"><h3>3 · Su semáforo</h3><button type="button" class="tg-btn" data-t="tgSemaforo">Aplicar</button></div><div class="tg-kpi"><span class="tg-lbl">Margen % · <span id="tgSuc">Todas</span></span><b class="tg-num" id="tgMargen">27.3 %</b><span class="tg-luz" id="tgLuz"><i></i><span id="tgLuzTxt">Amarillo</span></span></div><div class="tg-sucs" role="group" aria-label="Sucursal"><button type="button" class="tg-suc activo" data-m="27.3" data-n="Todas">Todas</button><button type="button" class="tg-suc" data-m="31.0" data-n="Querétaro">Querétaro</button><button type="button" class="tg-suc" data-m="26.1" data-n="Zapopan">Zapopan</button></div><p class="tg-note">Regla: <b class="v">verde</b> desde 28 %, <b class="a">amarillo</b> de 27 a 28 % y <b class="r">rojo</b> debajo de 27 %.</p></div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>El semáforo es tu regla de negocio, no la de la IA.</strong> Si no le das los umbrales, inventa unos. Díselos con números.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 11: [TALLER 4] UN TOOLTIP CON SU PROPIA PÁGINA
+             =================================================================== -->
+        <section class="slide" data-slide="11" data-type="Taller 4: Un tooltip con su propia página">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 4 • Tooltip personalizado</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">11 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 4 · Un tooltip con su propia <span class="wine-gradient">página</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: al pasar el ratón por una sucursal del bullet chart aparece una mini página con su historia.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Crea un tooltip personalizado para el bullet chart de la página Resumen: que al pasar el ratón por una sucursal aparezca una mini página con sus ventas por mes del año analizado en una gráfica pequeña, su margen % y la categoría que más le crece contra el año anterior al corte.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Es el más largo de la clase: mientras, vemos para qué sirve el color.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide cerrar y volver a abrir Power BI, hazlo</strong><span>La página del tooltip es nueva: no aparece con solo recargar.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Pasa el ratón por Saltillo Centro</strong><span>Debe decir Herramientas manuales ▲ 19.8 %.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="tooltip.png" alt="Página de tooltip con ventas por mes, margen y categoría que más crece" />
+                        <p class="check-note">Prueba real, sin sucursal elegida. Al pasar por León Industrial dice Pinturas y acabados ▲ 20.4 %.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 12: [TEORÍA] COLOR QUE SIGNIFICA ALGO
+             Botón: pasa del arcoíris al color con significado.
+             =================================================================== -->
+        <section class="slide" data-slide="12" data-type="Teoría: Color que significa algo">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Barras ordenadas</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">12 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="bc-head">
+                    <div>
+                        <h2>Color que <span class="wine-gradient">significa algo</span></h2>
+                        <p class="slide-subtitle">Ventas por categoría en 2026 y su crecimiento contra 2025, al corte. ¿Qué categorías van cayendo?</p>
+                    </div>
+                    <button type="button" class="reveal-btn bc-btn" id="bcBtn">Darle significado</button>
+                </div>
+
+                <div class="card bc-card arco" id="bcCard"><div class="bc-list"><div class="bc-row"><span class="bc-name">Materiales de construcción</span><span class="bc-track"><i class="bc-bar" style="width:100%;--arco:#6366f1;--sig:#fdba8c"></i></span><span class="bc-val">$11.1 M</span><b class="bc-yoy sube">▲ 8.2 %</b></div><div class="bc-row"><span class="bc-name">Pinturas y acabados</span><span class="bc-track"><i class="bc-bar" style="width:38%;--arco:#06b6d4;--sig:#fdba8c"></i></span><span class="bc-val">$4.2 M</span><b class="bc-yoy sube">▲ 4.0 %</b></div><div class="bc-row"><span class="bc-name">Herramientas eléctricas</span><span class="bc-track"><i class="bc-bar" style="width:26.1%;--arco:#22c55e;--sig:#fdba8c"></i></span><span class="bc-val">$2.9 M</span><b class="bc-yoy sube">▲ 15.3 %</b></div><div class="bc-row"><span class="bc-name">Tornillería y fijación</span><span class="bc-track"><i class="bc-bar" style="width:19.9%;--arco:#eab308;--sig:#fdba8c"></i></span><span class="bc-val">$2.2 M</span><b class="bc-yoy sube">▲ 5.0 %</b></div><div class="bc-row"><span class="bc-name">Plomería</span><span class="bc-track"><i class="bc-bar" style="width:17.1%;--arco:#f97316;--sig:#d4d4d8"></i></span><span class="bc-val">$1.9 M</span><b class="bc-yoy baja">▼ 2.9 %</b></div><div class="bc-row"><span class="bc-name">Material eléctrico</span><span class="bc-track"><i class="bc-bar" style="width:11.2%;--arco:#ec4899;--sig:#fdba8c"></i></span><span class="bc-val">$1.3 M</span><b class="bc-yoy sube">▲ 7.2 %</b></div><div class="bc-row"><span class="bc-name">Seguridad industrial</span><span class="bc-track"><i class="bc-bar" style="width:8.6%;--arco:#8b5cf6;--sig:#d4d4d8"></i></span><span class="bc-val">$1.0 M</span><b class="bc-yoy baja">▼ 1.6 %</b></div><div class="bc-row"><span class="bc-name">Jardinería</span><span class="bc-track"><i class="bc-bar" style="width:8.3%;--arco:#14b8a6;--sig:#d4d4d8"></i></span><span class="bc-val">$0.9 M</span><b class="bc-yoy baja">▼ 7.4 %</b></div><div class="bc-row"><span class="bc-name">Herramientas manuales</span><span class="bc-track"><i class="bc-bar" style="width:7.9%;--arco:#f43f5e;--sig:#fdba8c"></i></span><span class="bc-val">$0.9 M</span><b class="bc-yoy sube">▲ 9.0 %</b></div><div class="bc-row"><span class="bc-name">Cerrajería y herrajes</span><span class="bc-track"><i class="bc-bar" style="width:3.2%;--arco:#84cc16;--sig:#d4d4d8"></i></span><span class="bc-val">$0.4 M</span><b class="bc-yoy baja">▼ 28.4 %</b></div></div></div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Si todo tiene color, nada destaca.</strong> Ordena de mayor a menor y usa el color solo para lo que hay que ver: aquí, lo que cae.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 13: [TALLER 3] PÁGINA DE CATEGORÍAS
+             =================================================================== -->
+        <section class="slide" data-slide="13" data-type="Taller 5: Página de categorías">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 5 • Gráficas especializadas</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">13 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 5 · Página de <span class="wine-gradient">categorías</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: una página nueva con dos gráficas especializadas. Mientras trabaja, vemos cuándo sirven.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Agrega una página llamada «Categorías» con la misma barra de filtros y dos gráficas: arriba, las ventas por categoría del año analizado en barras horizontales de mayor a menor, con una etiqueta del crecimiento contra el año anterior al corte, en verde si crece y en rojo si cae; abajo, las ventas por mes en barras y el Margen % en una línea con área suave en un segundo eje.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Mientras trabaja, vemos cuándo sirve un doble eje.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide cerrar y volver a abrir Power BI, hazlo</strong><span>Una página nueva no aparece con solo recargar.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="categorias.png" alt="Página Categorías con barras ordenadas y gráfica de doble eje" />
+                        <p class="check-note">Prueba real. Materiales de construcción encabeza con $11.1 M; Cerrajería y herrajes cae 28.4 %.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 14: [TEORÍA] EL DOBLE EJE
+             Botón: compara un solo eje contra dos ejes.
+             =================================================================== -->
+        <section class="slide" data-slide="14" data-type="Teoría: El doble eje">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Dos medidas, dos escalas</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">14 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>El doble <span class="wine-gradient">eje</span></h2>
+                    <p class="slide-subtitle">Ventas en pesos y margen en porcentaje no caben en la misma escala. El segundo eje le da a cada una la suya.</p>
+                </div>
+
+                <div class="de-grid">
+                    <div class="card de-card uno" id="deCard">
+                        <div class="de-top">
+                            <div class="de-pick" role="group" aria-label="Ejes">
+                                <button type="button" class="de-btn activo" data-m="uno">Un eje</button>
+                                <button type="button" class="de-btn" data-m="dos">Dos ejes</button>
+                            </div>
+                            <span class="de-ley"><i class="b"></i>Ventas <i class="l"></i>Margen %</span>
+                        </div>
+                        <svg class="de-svg" viewBox="0 0 600 236" fill="none" role="img" aria-label="Ventas por mes de 2026 en barras y margen en línea"><line x1="58" x2="560" y1="214" y2="214" stroke="#eee8e5" /><text x="50" y="218" font-family="var(--font-sans)" font-size="11" fill="#71717a" text-anchor="end">$0</text><line x1="58" x2="560" y1="167.3" y2="167.3" stroke="#eee8e5" /><text x="50" y="171.3" font-family="var(--font-sans)" font-size="11" fill="#71717a" text-anchor="end">$1 M</text><line x1="58" x2="560" y1="120.7" y2="120.7" stroke="#eee8e5" /><text x="50" y="124.7" font-family="var(--font-sans)" font-size="11" fill="#71717a" text-anchor="end">$2 M</text><line x1="58" x2="560" y1="74" y2="74" stroke="#eee8e5" /><text x="50" y="78" font-family="var(--font-sans)" font-size="11" fill="#71717a" text-anchor="end">$3 M</text><line x1="58" x2="560" y1="27.3" y2="27.3" stroke="#eee8e5" /><text x="50" y="31.3" font-family="var(--font-sans)" font-size="11" fill="#71717a" text-anchor="end">$4 M</text><rect x="68.9" y="105.3" width="34" height="108.7" rx="4" fill="#fde3d2" /><text x="85.9" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Ene</text><rect x="124.7" y="88.9" width="34" height="125.1" rx="4" fill="#fde3d2" /><text x="141.7" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Feb</text><rect x="180.4" y="68.8" width="34" height="145.2" rx="4" fill="#fde3d2" /><text x="197.4" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Mar</text><rect x="236.2" y="63.3" width="34" height="150.7" rx="4" fill="#fde3d2" /><text x="253.2" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Abr</text><rect x="292" y="29.9" width="34" height="184.1" rx="4" fill="#fde3d2" /><text x="309" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">May</text><rect x="347.8" y="57.8" width="34" height="156.2" rx="4" fill="#fde3d2" /><text x="364.8" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Jun</text><rect x="403.6" y="92.8" width="34" height="121.2" rx="4" fill="#fdba8c" /><text x="420.6" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Jul</text><rect x="459.3" y="85.3" width="34" height="128.7" rx="4" fill="#fde3d2" /><text x="476.3" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Ago</text><rect x="515.1" y="85.7" width="34" height="128.3" rx="4" fill="#fde3d2" /><text x="532.1" y="231" font-family="var(--font-sans)" font-size="12" font-weight="600" fill="#71717a" text-anchor="middle">Sep</text><g class="de-dos"><path d="M85.9 67 L141.7 145.4 L197.4 132.3 L253.2 138.9 L309 129.1 L364.8 112.7 L420.6 50.7 L476.3 60.5 L532.1 89.9 L532.1 214 L85.9 214 Z" fill="#E8590C" opacity="0.08" /><path d="M85.9 67 L141.7 145.4 L197.4 132.3 L253.2 138.9 L309 129.1 L364.8 112.7 L420.6 50.7 L476.3 60.5 L532.1 89.9" stroke="#E8590C" stroke-width="3" stroke-linejoin="round" /><circle cx="85.9" cy="67" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="141.7" cy="145.4" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="197.4" cy="132.3" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="253.2" cy="138.9" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="309" cy="129.1" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="364.8" cy="112.7" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="420.6" cy="50.7" r="6" fill="#E8590C" stroke="#E8590C" stroke-width="2.5" /><circle cx="476.3" cy="60.5" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><circle cx="532.1" cy="89.9" r="4" fill="#ffffff" stroke="#E8590C" stroke-width="2.5" /><text x="568" y="218" font-family="var(--font-sans)" font-size="11" fill="#E8590C" font-weight="700">24 %</text><text x="568" y="152.7" font-family="var(--font-sans)" font-size="11" fill="#E8590C" font-weight="700">26 %</text><text x="568" y="87.3" font-family="var(--font-sans)" font-size="11" fill="#E8590C" font-weight="700">28 %</text><text x="568" y="22" font-family="var(--font-sans)" font-size="11" fill="#E8590C" font-weight="700">30 %</text><text x="420.6" y="36.7" font-family="var(--font-sans)" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">29.0 %</text></g><g class="de-uno"><path d="M85.9 214 L141.7 214 L197.4 214 L253.2 214 L309 214 L364.8 214 L420.6 214 L476.3 214 L532.1 214" stroke="#E8590C" stroke-width="3" /><text x="309" y="202" font-family="var(--font-sans)" font-size="13" font-weight="800" fill="#9a3412" text-anchor="middle">El margen (27 %) queda pegado al cero</text></g></svg>
+                    </div>
+                    <div class="de-side">
+                        <div class="card de-insight"><strong>Lo que aparece con dos ejes</strong><span>En julio las ventas bajan a <b>$2.6 M</b> y el margen sube a su máximo, <b>29.0 %</b>: se vende menos, pero más caro.</span></div>
+                        <div class="card de-regla"><strong>Úsalo solo si…</strong><span>las dos medidas tienen escalas distintas, cada eje dice su unidad y la línea tiene el color de su eje.</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 15: [TALLER 4] REVÍSALO COMO DIRECTOR
+             =================================================================== -->
+        <section class="slide" data-slide="15" data-type="Taller 6: Revísalo como director">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 6 • Criterio</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">15 / 16</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 6 · Revísalo como <span class="wine-gradient">director</span></h2>
+                    <p class="slide-subtitle">Lo nuevo tiene que responder a los filtros. Pruébalo tú: la captura de la IA no hace clics.</p>
+                </div>
+
+                <div class="taller-grid">
+                    <div class="taller-main">
+                        <div class="card steps-card">
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Instala tu filtro</strong><span>Importa el .pbiviz y pega el paso 2 del taller 1.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>En Resumen, elige Querétaro y luego Zapopan</strong><span>El semáforo pasa de verde a rojo y el bullet deja una sola barra.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>En Categorías, haz clic en «May» en tu filtro</strong><span>Las dos gráficas cambian a mayo; con Ctrl+clic suma junio.</span></div></li>
+                            <li><span class="step-n">4</span><div><strong>Quita el filtro y busca lo que más cae</strong><span>Y el mes de mayor margen.</span></div></li>
+                        </ol>
+                        </div>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Si algo no cuadra, pega una captura y esto</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Te paso una captura de mi dashboard con un filtro puesto. Dime si el bullet chart, el semáforo y las gráficas de Categorías responden al filtro y corrige lo que no.</p>
+                        </div>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver · 2026, enero a septiembre</span>
+                        <table class="value-table filtro-table">
+                            <tr><td>Querétaro</td><td>Margen 31.0 % en verde · meta al 107.7 %</td></tr>
+                            <tr><td>Zapopan</td><td>Margen 26.1 % en rojo · meta al 91.4 %</td></tr>
+                            <tr><td>La que más cae</td><td>Cerrajería y herrajes ▼ 28.4 %</td></tr>
+                            <tr><td>Mayor margen</td><td>Julio · 29.0 %</td></tr>
+                        </table>
+                        <p class="check-note">Las cifras pueden salir abreviadas: lo que importa es que coincidan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 16: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             =================================================================== -->
+        <section class="slide" data-slide="16" data-type="Cierre: Preguntas">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Cierre • Clase 05</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Cierre</span>
+                    <span class="slide-number">16 / 16</span>
+                </div>
+            </header>
+            <div class="slide-content">
+                <div class="closing-grid">
+                    <div class="closing-main">
+                        <svg class="closing-art" viewBox="0 0 300 150" fill="none" aria-hidden="true">
+                            <rect x="20" y="16" width="160" height="96" rx="26" fill="#881337" />
+                            <path d="M60 112 L48 140 L88 112 Z" fill="#881337" />
+                            <text x="100" y="86" text-anchor="middle" font-family="var(--font-sans)" font-size="62" font-weight="800" fill="#ffffff">?</text>
+                            <rect x="150" y="46" width="130" height="80" rx="24" fill="#ffffff" stroke="#D97757" stroke-width="4" />
+                            <path d="M244 126 L258 146 L222 126 Z" fill="#ffffff" stroke="#D97757" stroke-width="4" stroke-linejoin="round" />
+                            <line x1="223" y1="126" x2="243" y2="126" stroke="#ffffff" stroke-width="6" />
+                            <circle cx="190" cy="86" r="7" fill="#D97757" />
+                            <circle cx="215" cy="86" r="7" fill="#D97757" />
+                            <circle cx="240" cy="86" r="7" fill="#D97757" />
+                        </svg>
+                        <h1 class="closing-title"><span class="wine-gradient">¿Preguntas?</span></h1>
+                        <p class="slide-subtitle">Este es el espacio para tus dudas sobre el bullet chart, las tarjetas, la página de categorías o lo que viene en el curso.</p>
+                    </div>
+
+                    <div class="card linkedin-card">
+                        <div class="linkedin-head">
+                            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#0A66C2" /><text x="20" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">in</text></svg>
+                            <div>
+                                <strong>Conecta conmigo</strong>
+                                <span>en LinkedIn</span>
+                            </div>
+                        </div>
+                        <svg class="qr" viewBox="-2 -2 41 41" aria-label="Código QR del perfil de LinkedIn" role="img">
+                            <rect x="-2" y="-2" width="41" height="41" fill="#ffffff" />
+                            <path fill="#1e1115" d="M0 0h7v1h-7zM8 0h1v1h-1zM12 0h2v1h-2zM16 0h1v1h-1zM18 0h2v1h-2zM24 0h1v1h-1zM30 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h6v1h-6zM19 1h1v1h-1zM21 1h2v1h-2zM25 1h1v1h-1zM28 1h1v1h-1zM30 1h1v1h-1zM36 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h3v1h-3zM16 2h2v1h-2zM21 2h1v1h-1zM23 2h3v1h-3zM28 2h1v1h-1zM30 2h1v1h-1zM32 2h3v1h-3zM36 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h1v1h-1zM17 3h3v1h-3zM21 3h2v1h-2zM25 3h2v1h-2zM30 3h1v1h-1zM32 3h3v1h-3zM36 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM15 4h3v1h-3zM22 4h1v1h-1zM24 4h3v1h-3zM30 4h1v1h-1zM32 4h3v1h-3zM36 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h3v1h-3zM20 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h7v1h-7zM10 7h2v1h-2zM18 7h2v1h-2zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h2v1h-2zM0 8h1v1h-1zM2 8h1v1h-1zM6 8h2v1h-2zM11 8h1v1h-1zM16 8h4v1h-4zM31 8h1v1h-1zM34 8h1v1h-1zM36 8h1v1h-1zM0 9h3v1h-3zM4 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM11 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM27 9h2v1h-2zM30 9h2v1h-2zM33 9h4v1h-4zM1 10h2v1h-2zM5 10h3v1h-3zM9 10h2v1h-2zM12 10h3v1h-3zM16 10h1v1h-1zM18 10h2v1h-2zM21 10h3v1h-3zM25 10h1v1h-1zM27 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM36 10h1v1h-1zM0 11h1v1h-1zM3 11h2v1h-2zM7 11h2v1h-2zM11 11h1v1h-1zM13 11h4v1h-4zM18 11h1v1h-1zM22 11h3v1h-3zM26 11h1v1h-1zM29 11h2v1h-2zM0 12h1v1h-1zM3 12h1v1h-1zM5 12h2v1h-2zM9 12h6v1h-6zM16 12h1v1h-1zM19 12h2v1h-2zM23 12h2v1h-2zM27 12h2v1h-2zM30 12h1v1h-1zM33 12h1v1h-1zM36 12h1v1h-1zM2 13h2v1h-2zM5 13h1v1h-1zM9 13h1v1h-1zM12 13h6v1h-6zM19 13h2v1h-2zM23 13h3v1h-3zM27 13h5v1h-5zM33 13h1v1h-1zM36 13h1v1h-1zM0 14h4v1h-4zM6 14h1v1h-1zM8 14h2v1h-2zM12 14h1v1h-1zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h2v1h-2zM27 14h1v1h-1zM33 14h2v1h-2zM36 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM15 15h1v1h-1zM17 15h1v1h-1zM19 15h2v1h-2zM23 15h2v1h-2zM26 15h1v1h-1zM30 15h4v1h-4zM2 16h1v1h-1zM4 16h6v1h-6zM11 16h1v1h-1zM13 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM30 16h2v1h-2zM36 16h1v1h-1zM1 17h2v1h-2zM7 17h3v1h-3zM14 17h1v1h-1zM20 17h4v1h-4zM26 17h3v1h-3zM30 17h2v1h-2zM33 17h4v1h-4zM0 18h1v1h-1zM2 18h5v1h-5zM9 18h3v1h-3zM15 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM30 18h2v1h-2zM34 18h1v1h-1zM36 18h1v1h-1zM0 19h4v1h-4zM5 19h1v1h-1zM8 19h3v1h-3zM12 19h3v1h-3zM18 19h3v1h-3zM23 19h2v1h-2zM28 19h6v1h-6zM0 20h9v1h-9zM12 20h1v1h-1zM14 20h3v1h-3zM20 20h1v1h-1zM22 20h3v1h-3zM28 20h1v1h-1zM30 20h2v1h-2zM33 20h1v1h-1zM35 20h1v1h-1zM0 21h1v1h-1zM3 21h3v1h-3zM8 21h1v1h-1zM10 21h1v1h-1zM14 21h3v1h-3zM19 21h2v1h-2zM23 21h2v1h-2zM27 21h4v1h-4zM36 21h1v1h-1zM0 22h1v1h-1zM3 22h1v1h-1zM5 22h3v1h-3zM10 22h3v1h-3zM15 22h1v1h-1zM17 22h3v1h-3zM21 22h1v1h-1zM23 22h1v1h-1zM26 22h3v1h-3zM30 22h1v1h-1zM33 22h2v1h-2zM36 22h1v1h-1zM2 23h1v1h-1zM5 23h1v1h-1zM18 23h1v1h-1zM22 23h2v1h-2zM28 23h1v1h-1zM31 23h3v1h-3zM36 23h1v1h-1zM0 24h1v1h-1zM3 24h1v1h-1zM6 24h2v1h-2zM10 24h3v1h-3zM16 24h5v1h-5zM22 24h2v1h-2zM28 24h1v1h-1zM30 24h2v1h-2zM35 24h2v1h-2zM5 25h1v1h-1zM8 25h3v1h-3zM13 25h2v1h-2zM16 25h3v1h-3zM21 25h3v1h-3zM25 25h1v1h-1zM27 25h1v1h-1zM30 25h2v1h-2zM34 25h1v1h-1zM36 25h1v1h-1zM0 26h2v1h-2zM4 26h1v1h-1zM6 26h6v1h-6zM14 26h1v1h-1zM16 26h1v1h-1zM19 26h2v1h-2zM23 26h1v1h-1zM25 26h4v1h-4zM30 26h2v1h-2zM33 26h2v1h-2zM36 26h1v1h-1zM2 27h1v1h-1zM4 27h2v1h-2zM7 27h3v1h-3zM12 27h2v1h-2zM15 27h2v1h-2zM18 27h1v1h-1zM22 27h1v1h-1zM24 27h1v1h-1zM26 27h2v1h-2zM29 27h2v1h-2zM33 27h1v1h-1zM35 27h1v1h-1zM0 28h2v1h-2zM3 28h1v1h-1zM6 28h1v1h-1zM8 28h4v1h-4zM13 28h1v1h-1zM16 28h1v1h-1zM18 28h1v1h-1zM20 28h1v1h-1zM24 28h1v1h-1zM28 28h6v1h-6zM35 28h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h4v1h-4zM19 29h2v1h-2zM23 29h2v1h-2zM28 29h1v1h-1zM32 29h1v1h-1zM35 29h2v1h-2zM0 30h7v1h-7zM8 30h1v1h-1zM10 30h3v1h-3zM14 30h3v1h-3zM19 30h2v1h-2zM22 30h3v1h-3zM28 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM36 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM9 31h4v1h-4zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM22 31h3v1h-3zM26 31h3v1h-3zM32 31h1v1h-1zM35 31h1v1h-1zM0 32h1v1h-1zM2 32h3v1h-3zM6 32h1v1h-1zM9 32h4v1h-4zM15 32h1v1h-1zM17 32h1v1h-1zM19 32h1v1h-1zM24 32h1v1h-1zM27 32h6v1h-6zM35 32h2v1h-2zM0 33h1v1h-1zM2 33h3v1h-3zM6 33h1v1h-1zM9 33h3v1h-3zM14 33h1v1h-1zM17 33h1v1h-1zM19 33h1v1h-1zM23 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM32 33h2v1h-2zM0 34h1v1h-1zM2 34h3v1h-3zM6 34h1v1h-1zM8 34h1v1h-1zM12 34h1v1h-1zM15 34h1v1h-1zM17 34h1v1h-1zM19 34h2v1h-2zM23 34h1v1h-1zM29 34h1v1h-1zM31 34h2v1h-2zM34 34h1v1h-1zM36 34h1v1h-1zM0 35h1v1h-1zM6 35h1v1h-1zM10 35h1v1h-1zM13 35h2v1h-2zM18 35h2v1h-2zM27 35h3v1h-3zM32 35h2v1h-2zM0 36h7v1h-7zM8 36h2v1h-2zM12 36h1v1h-1zM14 36h2v1h-2zM19 36h1v1h-1zM23 36h2v1h-2zM26 36h1v1h-1zM28 36h1v1h-1zM30 36h2v1h-2zM36 36h1v1h-1z" />
+                        </svg>
+                        <span class="linkedin-url">linkedin.com/in/<br>francisco-ricardo-hernandez-astorga-7709b53b8</span>
+                    </div>
+                </div>
+
+                <div class="next-class">
+                    <span class="badge purple">Próxima clase</span>
+                    <span><strong>Clase 06</strong> · Experiencia de usuario y filtros 100 % personalizables: barra de filtros, cuadrícula y el Filtro Universal+.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================
+         BOTTOM NAVIGATION DOCK
+         =================================================================== -->
+    <nav class="nav-dock" id="navDock">
+        <button class="nav-btn" id="prevBtn" title="Diapositiva Anterior (Flecha Izquierda)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <span class="nav-counter" id="navCounter">01 / 16</span>
+
+        <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <div class="nav-divider"></div>
+
+        <button class="nav-btn" id="overviewBtn" title="Ver Todas las Diapositivas (Tecla 'O')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+
+        <button class="nav-btn" id="fullscreenBtn" title="Pantalla Completa (Tecla 'F')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+    </nav>
+
+    <!-- ===================================================================
+         OVERVIEW MODAL ('O' KEY)
+         =================================================================== -->
+    <div class="overview-modal" id="overviewModal">
+        <div class="overview-header">
+            <div>
+                <h2 style="font-size:1.6rem; color:#fff;">Índice General de Diapositivas</h2>
+                <p style="color:#94a3b8; font-size:0.9rem;">Haz clic en cualquier tarjeta para navegar directamente.</p>
+            </div>
+            <button class="nav-btn" id="closeOverviewBtn" style="color:#fff; background:rgba(255,255,255,0.1);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="overview-grid" id="overviewGrid"></div>
+    </div>
+
+    <!-- ===================================================================
+         SCRIPTS & CONTROLES INTERACTIVOS
+         =================================================================== -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const navCounter = document.getElementById('navCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const deck = document.getElementById('deck');
+        const navDock = document.getElementById('navDock');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const overviewBtn = document.getElementById('overviewBtn');
+        const overviewModal = document.getElementById('overviewModal');
+        const closeOverviewBtn = document.getElementById('closeOverviewBtn');
+        const overviewGrid = document.getElementById('overviewGrid');
+        const spotlight = document.getElementById('spotlight');
+
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        // Actualizar Diapositiva
+        function updateSlide(newIndex) {
+            if (newIndex < 0) newIndex = 0;
+            if (newIndex >= totalSlides) newIndex = totalSlides - 1;
+
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = newIndex;
+            slides[currentSlideIndex].classList.add('active');
+
+            const progressPct = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPct}%`;
+
+            const currentFormatted = String(currentSlideIndex + 1).padStart(2, '0');
+            const totalFormatted = String(totalSlides).padStart(2, '0');
+            navCounter.textContent = `${currentFormatted} / ${totalFormatted}`;
+
+            prevBtn.style.opacity = currentSlideIndex === 0 ? '0.35' : '1';
+            nextBtn.style.opacity = currentSlideIndex === totalSlides - 1 ? '0.35' : '1';
+
+            // Guardar la diapositiva en la URL (#4) para que recargar no regrese a la portada
+            try {
+                history.replaceState(null, '', `#${currentSlideIndex + 1}`);
+            } catch (err) { /* algunos navegadores lo bloquean en file:// */ }
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                updateSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                updateSlide(currentSlideIndex - 1);
+            }
+        }
+
+        // Lienzo fijo 1280×720 escalado para llenar la ventana (ver .deck en el CSS).
+        // `zoom` mantiene el texto nítido; con transform: scale se vería borroso.
+        function fitStage() {
+            const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+            deck.style.zoom = scale;
+        }
+        window.addEventListener('resize', fitStage);
+        fitStage();
+
+        // Pantalla Completa
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // Overview Modal
+        function buildOverviewGrid() {
+            overviewGrid.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const title = slide.querySelector('h1, h2')?.innerText || `Diapositiva ${index + 1}`;
+                const type = slide.getAttribute('data-type') || 'Contenido';
+                const card = document.createElement('div');
+                card.className = 'overview-card';
+                card.innerHTML = `
+                    <span class="num">${String(index + 1).padStart(2, '0')}</span>
+                    <span class="type">${type}</span>
+                    <span class="name">${title}</span>
+                `;
+                card.addEventListener('click', () => {
+                    updateSlide(index);
+                    overviewModal.classList.remove('open');
+                });
+                overviewGrid.appendChild(card);
+            });
+        }
+
+        overviewBtn.addEventListener('click', () => {
+            buildOverviewGrid();
+            overviewModal.classList.add('open');
+        });
+
+        closeOverviewBtn.addEventListener('click', () => overviewModal.classList.remove('open'));
+        overviewModal.addEventListener('click', (e) => {
+            if (e.target === overviewModal) overviewModal.classList.remove('open');
+        });
+
+        // Controles de Teclado
+        window.addEventListener('keydown', (e) => {
+            if (overviewModal.classList.contains('open')) {
+                if (e.key === 'Escape' || e.key === 'o' || e.key === 'O') {
+                    overviewModal.classList.remove('open');
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'o' || e.key === 'O') {
+                buildOverviewGrid();
+                overviewModal.classList.add('open');
+            } else if (e.key === 'Home') {
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                updateSlide(totalSlides - 1);
+            }
+        });
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Barra de navegación: solo aparece con el ratón cerca del borde inferior
+        window.addEventListener('mousemove', (e) => {
+            const nearBottom = e.clientY > window.innerHeight - 110;
+            document.body.classList.toggle('dock-visible', nearBottom || navDock.matches(':hover'));
+        });
+        document.addEventListener('mouseleave', () => document.body.classList.remove('dock-visible'));
+
+        // Spotlight Cursor
+        window.addEventListener('mousemove', (e) => {
+            if (spotlight) {
+                spotlight.style.opacity = '1';
+                spotlight.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            }
+        });
+        document.addEventListener('mouseleave', () => {
+            if (spotlight) spotlight.style.opacity = '0';
+        });
+
+        // ===================================================================
+        // TALLERES: COPIAR PROMPTS
+        // ===================================================================
+        document.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const texto = btn.closest('.prompt-copy').querySelector('.prompt-copy-text').textContent.trim();
+                const avisar = (ok) => {
+                    btn.textContent = ok ? 'Copiado ✓' : 'Selecciona y Ctrl+C';
+                    btn.classList.toggle('copiado', ok);
+                    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2000);
+                };
+                // Respaldo para file:// o navegadores sin permiso de portapapeles
+                const respaldo = () => {
+                    const area = document.createElement('textarea');
+                    area.value = texto;
+                    document.body.appendChild(area);
+                    area.select();
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                    area.remove();
+                    avisar(ok);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(texto).then(() => avisar(true), respaldo);
+                } else {
+                    respaldo();
+                }
+                btn.blur();
+            });
+        });
+
+        // ===================================================================
+        // REVELAR RESPUESTAS (talleres)
+        // ===================================================================
+        document.querySelectorAll('.reveal-btn[data-target]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.getElementById(btn.dataset.target).classList.add('revealed');
+                btn.blur();
+            });
+        });
+
+
+
+        // ===================================================================
+        // CLASE 05: demostraciones (bullet chart, tarjetas, color y doble eje)
+        // ===================================================================
+        (() => {
+            const SUC = [["CDMX Coyoacán",1469496,1361000],["Querétaro Juriquilla",1508083,1400000],["León Industrial",5652800,5597000],["Monterrey Cumbres",3851928,4067000],["Puebla Angelópolis",2312956,2463000],["Guadalajara Centro",3197644,3449000],["Zapopan Bodega",6206095,6791000],["Saltillo Centro",2549959,2796000]];
+            const NAR = '#E8590C';
+            const g = document.getElementById('blBig');
+            if (!g) return;
+            const pct = (f) => (Math.round(f * 1000) / 10).toFixed(1) + ' %';
+            const mill = (v) => '$' + (v / 1e6).toFixed(2) + ' M';
+            function pintar(i) {
+                const [n, v, m] = SUC[i], f = v / m, x = 20, w = 600, y = 30, h = 56, max = 1.15;
+                const px = (k) => x + (Math.min(k, max) / max) * w;
+                g.innerHTML =
+                    '<rect x="' + x + '" y="' + y + '" width="' + (px(0.9) - x) + '" height="' + h + '" fill="#e7e2df" />' +
+                    '<rect x="' + px(0.9) + '" y="' + y + '" width="' + (px(1) - px(0.9)) + '" height="' + h + '" fill="#f1edea" />' +
+                                        '<rect class="bl-real" x="' + x + '" y="' + (y + 18) + '" width="0" height="20" rx="3" fill="' + NAR + '" />' +
+                    '<rect x="' + (px(1) - 2) + '" y="' + (y + 6) + '" width="4" height="' + (h - 12) + '" fill="#1f2933" />' +
+                    '<text x="' + px(0.9) + '" y="' + (y + h + 20) + '" font-family="var(--font-sans)" font-size="13" fill="#71717a" text-anchor="middle">90 %</text>' +
+                    '<text x="' + px(1) + '" y="' + (y + h + 40) + '" font-family="var(--font-sans)" font-size="13" font-weight="800" fill="#1f2933" text-anchor="middle">Meta · ' + mill(m) + '</text>' +
+                    '<text x="' + Math.min(px(f), x + w) + '" y="' + (y - 8) + '" font-family="var(--font-sans)" font-size="15" font-weight="800" fill="' + (f >= 1 ? '#15803d' : '#b91c1c') + '" text-anchor="' + (f > 1.02 ? 'end' : 'middle') + '">' + mill(v) + ' · ' + pct(f) + '</text>';
+                requestAnimationFrame(() => requestAnimationFrame(() => g.querySelector('.bl-real').setAttribute('width', px(f) - x)));
+                document.getElementById('blReal').textContent = 'Ventas al corte: ' + mill(v);
+                document.getElementById('blMeta').textContent = 'Meta al corte: ' + mill(m);
+                const falta = m - v;
+                document.getElementById('blLectura').innerHTML = '<b>' + n + '</b> ' + (f >= 1
+                    ? 'pasó su meta: la barra cruza la marca. Va al ' + pct(f) + '.'
+                    : 'no llega: la barra se queda antes de la marca. Va al ' + pct(f) + ' y le faltan ' + mill(falta) + '.');
+            }
+            document.querySelectorAll('.bl-btn').forEach((b) => b.addEventListener('click', () => {
+                document.querySelectorAll('.bl-btn').forEach((o) => o.classList.toggle('activo', o === b));
+                pintar(+b.dataset.i); b.blur();
+            }));
+            pintar(2);
+
+            // Tarjetas: antes y después
+            document.querySelectorAll('.tg-btn').forEach((b) => b.addEventListener('click', () => {
+                const card = document.getElementById(b.dataset.t), on = !card.classList.contains('on');
+                card.classList.toggle('on', on);
+                b.textContent = on ? 'Quitar' : 'Aplicar';
+                const num = card.querySelector('.tg-num[data-a]');
+                if (num) { num.textContent = on ? num.dataset.b : num.dataset.a; num.classList.remove('kd-cambia'); void num.offsetWidth; num.classList.add('kd-cambia'); }
+                if (b.dataset.t === 'tgSemaforo') luz();
+                b.blur();
+            }));
+            function luz() {
+                const act = document.querySelector('.tg-suc.activo'), m = +act.dataset.m;
+                const c = m >= 28 ? 'v' : m >= 27 ? 'a' : 'r';
+                document.getElementById('tgMargen').textContent = m.toFixed(1) + ' %';
+                document.getElementById('tgSuc').textContent = act.dataset.n;
+                const l = document.getElementById('tgLuz');
+                l.className = 'tg-luz ' + c;
+                document.getElementById('tgLuzTxt').textContent = { v: 'Verde', a: 'Amarillo', r: 'Rojo' }[c];
+            }
+            document.querySelectorAll('.tg-suc').forEach((b) => b.addEventListener('click', () => {
+                document.querySelectorAll('.tg-suc').forEach((o) => o.classList.toggle('activo', o === b));
+                luz(); b.blur();
+            }));
+            luz();
+
+            // Color con significado
+            const bcBtn = document.getElementById('bcBtn');
+            bcBtn.addEventListener('click', () => {
+                const card = document.getElementById('bcCard'), arco = card.classList.toggle('arco');
+                bcBtn.textContent = arco ? 'Darle significado' : 'Volver al arcoíris';
+                bcBtn.blur();
+            });
+
+            // ¿Lo puede hacer? Cada tarjeta muestra u oculta su respuesta
+            document.querySelectorAll('.pv-q').forEach((b) => b.addEventListener('click', () => { b.classList.toggle('on'); b.blur(); }));
+
+            // Maqueta del filtro de meses: clic elige uno, Ctrl+clic suma o quita
+            const VM = [2329524,2681672,3110617,3229853,3945811,3346874,2596612,2758786,2749211], NOM = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre'];
+            const fpSel = new Set();
+            function fpPintar() {
+                document.querySelectorAll('.fp-mes').forEach((b) => b.classList.toggle('sel', fpSel.has(+b.dataset.i)));
+                const est = document.getElementById('fpEstado');
+                if (!fpSel.size) { est.innerHTML = 'Todos los meses · <b>$26.7 M</b>'; return; }
+                const tot = [...fpSel].reduce((a, i) => a + VM[i], 0);
+                const nombres = [...fpSel].sort((a, b) => a - b).map((i) => NOM[i]);
+                est.innerHTML = (nombres.length > 3 ? nombres.length + ' meses' : nombres.join(', ')) + ' · <b>$' + (tot / 1e6).toFixed(2) + ' M</b>';
+            }
+            document.querySelectorAll('.fp-mes:not(.vacio)').forEach((b) => b.addEventListener('click', (e) => {
+                const i = +b.dataset.i;
+                if (e.ctrlKey || e.metaKey) { fpSel.has(i) ? fpSel.delete(i) : fpSel.add(i); }
+                else if (fpSel.size === 1 && fpSel.has(i)) fpSel.clear();
+                else { fpSel.clear(); fpSel.add(i); }
+                fpPintar(); b.blur();
+            }));
+
+            // Doble eje
+            document.querySelectorAll('.de-btn').forEach((b) => b.addEventListener('click', () => {
+                document.querySelectorAll('.de-btn').forEach((o) => o.classList.toggle('activo', o === b));
+                const card = document.getElementById('deCard');
+                card.classList.remove('uno', 'dos'); card.classList.add(b.dataset.m);
+                b.blur();
+            }));
+        })();
+
+        // Inicializar en la diapositiva de la URL (#4) o en la portada
+        function slideFromHash() {
+            const n = parseInt(location.hash.slice(1), 10);
+            return Number.isInteger(n) ? n - 1 : 0;
+        }
+        window.addEventListener('hashchange', () => updateSlide(slideFromHash()));
+        updateSlide(slideFromHash());
+    </script>
+</body>
+
+</html>
