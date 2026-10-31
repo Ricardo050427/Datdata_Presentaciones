@@ -2345,6 +2345,11 @@
         .agenda.siete strong { font-size: 1rem; }
         .agenda.siete .agenda-gain { font-size: 0.85rem; }
 
+        /* Liga del cierre */
+        .liga-btn { display: grid; place-items: center; width: 52px; height: 52px; margin-top: 10px; border: 1.5px solid var(--wine-base); border-radius: 14px; background: var(--wine-soft); font: inherit; font-size: 1.6rem; font-weight: 800; color: var(--wine-base); cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+        .liga-btn:hover { background: var(--wine-base); color: #ffffff; }
+        .liga-btn.copiado { border-color: var(--accent-emerald); background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
         /* Taller 0 */
         .t0-side .prompt-copy-text { font-size: 0.9rem; }
 
@@ -3280,6 +3285,7 @@
                         </svg>
                         <h1 class="closing-title"><span class="wine-gradient">¿Preguntas?</span></h1>
                         <p class="slide-subtitle">Este es el espacio para tus dudas sobre el bullet chart, las tarjetas, la página de categorías o lo que viene en el curso.</p>
+                        <button class="liga-btn" type="button" data-liga="https://docs.google.com/forms/d/e/1FAIpQLSc_g59kR8A76GaMcJUZL2p8mbzAT8ReXh_i3o2etDS9BuXWJw/viewform?usp=publish-editor" aria-label="Copiar liga">?</button>
                     </div>
 
                     <div class="card linkedin-card">
@@ -3614,6 +3620,15 @@
                 bcBtn.textContent = arco ? 'Darle significado' : 'Volver al arcoíris';
                 bcBtn.blur();
             });
+
+            // Botón «?» del cierre: copia la liga guardada en data-liga
+            document.querySelectorAll('.liga-btn').forEach((b) => b.addEventListener('click', () => {
+                const liga = b.dataset.liga;
+                const listo = () => { b.textContent = '✓'; b.classList.add('copiado'); setTimeout(() => { b.textContent = '?'; b.classList.remove('copiado'); }, 1500); };
+                const respaldo = () => { const a = document.createElement('textarea'); a.value = liga; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch (e) {} a.remove(); listo(); };
+                if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(liga).then(listo, respaldo); else respaldo();
+                b.blur();
+            }));
 
             // ¿Lo puede hacer? Cada tarjeta muestra u oculta su respuesta
             document.querySelectorAll('.pv-q').forEach((b) => b.addEventListener('click', () => { b.classList.toggle('on'); b.blur(); }));
