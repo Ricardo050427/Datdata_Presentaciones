@@ -2345,6 +2345,9 @@
         .agenda.siete strong { font-size: 1rem; }
         .agenda.siete .agenda-gain { font-size: 0.85rem; }
 
+        /* Taller 0 */
+        .t0-side .prompt-copy-text { font-size: 0.9rem; }
+
         /* Qué hay dentro de un .pbiviz */
         .pv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
         .pv-col { display: flex; flex-direction: column; gap: 10px; }
@@ -2663,22 +2666,30 @@
                         <ol class="step-list">
                             <li><span class="step-n">1</span><div><strong>Abre tu .pbip de la Clase 04</strong><span>El que tiene el dashboard de la orden maestra.</span></div></li>
                             <li><span class="step-n">2</span><div><strong>Guarda con Ctrl+S</strong><span>La IA recarga tu reporte varias veces: lo que no esté guardado se pierde.</span></div></li>
-                            <li><span class="step-n">3</span><div><strong>Abre un chat nuevo en tu agente</strong><span>Y pega el prompt de la derecha para que revise el proyecto.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>En un chat nuevo, corrige tu skill</strong><span>La regla de tiempo de la Clase 02. Al terminar, Ctrl+S.</span></div></li>
+                            <li><span class="step-n">4</span><div><strong>En el mismo chat, que revise tu proyecto</strong><span>Sin cambiar nada.</span></div></li>
                         </ol>
                         <p class="stuck"><strong>¿No terminaste la Clase 04?</strong> Corre primero su orden maestra: los talleres de hoy editan ese dashboard.</p>
                     </div>
 
-                    <div class="taller-side">
+                    <div class="taller-side t0-side">
                         <div class="prompt-copy">
                             <div class="prompt-copy-head">
-                                <span>Paso 3 · Que la IA revise tu proyecto</span>
+                                <span>Paso 3 · Corrige tu skill</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">En mi skill medidas-ferreteria y en las medidas de mi modelo, la última fecha con ventas tiene que ser la de todo el modelo, la misma con cualquier filtro: calcúlala con REMOVEFILTERS() en lugar de REMOVEFILTERS(DimCalendario). Corrige todas las medidas que la usan y comprueba con DAX el crecimiento de Herramientas manuales en Saltillo Centro de enero a septiembre de 2026 contra el mismo tramo de 2025.</p>
+                        </div>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Paso 4 · Que la IA revise tu proyecto</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
                             <p class="prompt-copy-text">Revisa el proyecto de Power BI que tengo abierto: dime qué páginas tiene, qué visuales hay en cada una y qué versión de la Metodología 2 tengo instalada. No cambies nada.</p>
                         </div>
                         <div class="check-card">
                             <span class="check-title">Lo que debes ver</span>
-                            <p class="check-note">Que encontró las 2 páginas, qué visuales tiene cada una y que la versión de la metodología es la <strong>2.1.1</strong> o posterior.</p>
+                            <p class="check-note">Saltillo Centro con Herramientas manuales en <strong>19.8 %</strong>; tus 2 páginas y la metodología en la <strong>2.1.1</strong> o posterior.</p>
                         </div>
                     </div>
                 </div>
