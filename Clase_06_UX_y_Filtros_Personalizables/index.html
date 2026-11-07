@@ -2465,13 +2465,14 @@
         .cq-grid { display: grid; grid-template-columns: 1fr 440px; gap: 20px; }
         .cq-demo { gap: 10px; }
         .cq-top { display: flex; align-items: center; justify-content: space-between; }
-        .cq-lienzo { position: relative; width: 100%; aspect-ratio: 1600 / 520; border-radius: 10px; background: #fffaf7; border: 1.5px solid #f3dccf; }
+        .cq-lienzo { position: relative; width: 100%; aspect-ratio: 1440 / 520; border-radius: 10px; background: #fffaf7; border: 1.5px solid #f3dccf; }
         .cq-col { position: absolute; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: #ffffff; border: 1.5px solid #fbd5bd; border-top: 4px solid #E8590C; font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700; color: #9a3412; transition: left 0.3s ease, width 0.3s ease; }
         .cq-gap { position: absolute; top: 46%; height: 2px; background: #a1a1aa; }
         .cq-x { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-dim); }
         .cq-side { display: flex; flex-direction: column; gap: 12px; }
         .cq-formula { gap: 8px; }
         .cq-f { font-size: 1.02rem; font-weight: 700; line-height: 1.35; color: #27272a; }
+        .cq-nota { font-size: 0.9rem; line-height: 1.4; color: var(--text-sub); }
         .cq-calc { font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.5; color: #9a3412; }
 
         /* Juego · El dashboard del becario */
@@ -2755,7 +2756,7 @@
             <div class="slide-content">
                 <div>
                     <h2>Taller 0 · Prepara tu <span class="wine-gradient">proyecto</span></h2>
-                    <p class="slide-subtitle">Trabajas sobre el .pbip de la Clase 05, con Resumen, Nativo vs personalizado y Categorías.</p>
+                    <p class="slide-subtitle">Trabajas sobre el .pbip de la Clase 05, con Cómo vamos, Nativo vs personalizado y Categorías.</p>
                 </div>
 
                 <div class="taller-grid">
@@ -2822,11 +2823,11 @@
                                 <span>Copia y pega en tu agente</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text">Mi reporte tiene una barra de filtros distinta en cada página. Quiero una sola barra para todo el reporte: en Resumen y en Categorías pon arriba el Filtro Universal+ con Año, Sucursal, Categoría y Canal, con los años de mayor a menor, y debajo, a todo lo ancho, mi filtro de meses. Sincronízalos entre las dos páginas, para que lo que elija en una siga elegido en la otra, y acomoda lo demás para que nada se encime. No toques la página Nativo vs personalizado.</p>
+                            <p class="prompt-copy-text">Quiero una sola barra de filtros para todo el reporte: en Cómo vamos y en Categorías pon arriba el Filtro Universal+ con Año, Sucursal, Categoría y Canal, con los años de mayor a menor, y debajo, a todo lo ancho, mi filtro de meses. Sincronízalos entre las dos páginas, para que lo que elija en una siga elegido en la otra; si mi filtro de meses no se puede sincronizar, agrégale esa opción. Si alguna página tiene un año fijo en sus filtros, quítalo para que mande la barra. Acomoda lo demás para que nada se encime y no toques la página Nativo vs personalizado.</p>
                         </div>
                         <ol class="step-list">
                             <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Mientras trabaja, vemos cómo una barra te sigue de página.</span></div></li>
-                            <li><span class="step-n">2</span><div><strong>Si te pide guardar, hazlo con Ctrl+S</strong><span>Y dile que continúe.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide importar tu filtro de meses o guardar, hazlo</strong><span>Importar: Visualizaciones → ··· → Importar un objeto visual desde un archivo. Guardar: Ctrl+S. Y dile que continúe.</span></div></li>
                         </ol>
                     </div>
 
@@ -2834,7 +2835,7 @@
                         <span class="check-title">Lo que debes ver</span>
                         <div class="bm-demo" id="bmDemo" aria-label="Maqueta de la barra de filtros"></div>
                         <div class="bm-meses"><span>Ene</span><span>Feb</span><span>Mar</span><span>Abr</span><span class="sel">May</span><span>Jun</span><span>Jul</span><span>Ago</span><span>Sep</span></div>
-                        <p class="check-note">Maqueta: haz clic en un campo. Así se usa la barra: las opciones salen en la misma fila y «Listo» la cierra. En la prueba real, el agente tardó 3 minutos.</p>
+                        <p class="check-note">Maqueta: haz clic en un campo. Así se usa la barra: las opciones salen en la misma fila y «Listo» la cierra. En la prueba real, el agente tardó 5 minutos: hizo sincronizable tu filtro de meses y quitó el 2026 fijo de Categorías.</p>
                     </div>
                 </div>
             </div>
@@ -2859,7 +2860,7 @@
             <div class="slide-content">
                 <div>
                     <h2>Filtros que te siguen de <span class="wine-gradient">página</span></h2>
-                    <p class="slide-subtitle">Elige 2025 en Resumen y pasa a Categorías. Sin sincronizar, el director tiene que volver a elegirlo en cada página.</p>
+                    <p class="slide-subtitle">Elige 2025 en Cómo vamos y pasa a Categorías. Sin sincronizar, el director tiene que volver a elegirlo en cada página.</p>
                 </div>
 
                 <div class="sy-grid">
@@ -2870,7 +2871,7 @@
                                 <button type="button" class="sy-modo" data-m="si">Sincronizada</button>
                             </div>
                             <div class="sy-tabs" role="group" aria-label="Página">
-                                <button type="button" class="sy-tab activo" data-p="0">Resumen</button>
+                                <button type="button" class="sy-tab activo" data-p="0">Cómo vamos</button>
                                 <button type="button" class="sy-tab" data-p="1">Categorías</button>
                             </div>
                         </div>
@@ -2878,7 +2879,7 @@
                             <div class="sy-bar"><span class="sy-lbl">Año</span><button type="button" class="sy-anio activo" data-a="2026">2026</button><button type="button" class="sy-anio" data-a="2025">2025</button><button type="button" class="sy-anio" data-a="2024">2024</button><button type="button" class="sy-anio" data-a="2023">2023</button></div>
                             <div class="sy-kpi"><span class="sy-kt" id="syKt">Ventas del año</span><b id="syKv">$26.7 M</b><span class="sy-ka" id="syKa">2026 · enero a septiembre</span></div>
                         </div>
-                        <p class="sy-msg" id="syMsg">Elige un año en Resumen y luego pasa a Categorías.</p>
+                        <p class="sy-msg" id="syMsg">Elige un año en Cómo vamos y luego pasa a Categorías.</p>
                     </div>
 
                     <div class="sy-side">
@@ -2889,7 +2890,7 @@
                         <ul class="sy-reglas">
                             <li><b>Mismo grupo</b> en todas las barras que deben ir juntas.</li>
                             <li><b>Mismos campos</b>: una barra con Mes no se sincroniza con una de MesCorto.</li>
-                            <li><b>Solo filtros que lo permiten</b>: el Filtro Universal+ y tu filtro de meses sí; el filtro clásico no.</li>
+                            <li><b>Solo filtros que lo permiten</b>: el Filtro Universal+ sí; tu filtro de meses, solo si se lo agregas (por eso el prompt lo pide); el filtro clásico no.</li>
                         </ul>
                     </div>
                 </div>
@@ -2984,7 +2985,7 @@
                                 <span>Copia y pega en tu agente</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text">En la página Resumen, acomoda las gráficas de abajo en 3 columnas iguales: la tendencia mensual, el bullet chart por sucursal y una gráfica nueva de ventas por canal del año analizado. Mismo margen y la misma separación entre todos los visuales, alineados con la barra y las tarjetas, y no cambies nada más.</p>
+                            <p class="prompt-copy-text">En la página Cómo vamos, acomoda las gráficas de abajo en 3 columnas iguales: la tendencia mensual, el bullet chart por sucursal y una gráfica nueva de ventas por canal con su crecimiento contra el año anterior. Mismo margen y la misma separación entre todos los visuales, alineados con la barra y las tarjetas, y no cambies nada más.</p>
                         </div>
                         <ol class="step-list">
                             <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Mientras trabaja, vemos cómo se lee un dashboard.</span></div></li>
@@ -2994,8 +2995,8 @@
 
                     <div class="check-card shot-card">
                         <span class="check-title">Lo que debes ver</span>
-                        <img class="shot" src="columnas.png" alt="Página Resumen con tres gráficas del mismo ancho" />
-                        <p class="check-note">Prueba real, 6 minutos: tres columnas de 506.67 de ancho. En ventas por canal, Sitio web crece 34.8 % y Venta en obra cae 3.5 %.</p>
+                        <img class="shot" src="columnas.png" alt="Página Cómo vamos con tres gráficas del mismo ancho" />
+                        <p class="check-note">Prueba real, 3 minutos: tres columnas de 453.33 de ancho. En ventas por canal, Sitio web crece 34.8 % y Venta en obra cae 3.5 %.</p>
                     </div>
                 </div>
             </div>
@@ -3071,7 +3072,7 @@
                 <div class="cq-grid">
                     <div class="card cq-demo">
                         <div class="cq-top">
-                            <span class="pv-t">Tu lienzo · 1600 × 900</span>
+                            <span class="pv-t">Tu lienzo · 1440 × 1080</span>
                             <div class="sy-pick" role="group" aria-label="Columnas">
                                 <button type="button" class="cq-btn" data-n="2">2 columnas</button>
                                 <button type="button" class="cq-btn activo" data-n="3">3 columnas</button>
@@ -3086,6 +3087,7 @@
                             <span class="pv-t">El ancho de cada columna</span>
                             <p class="cq-f">ancho = (lienzo − 2 × margen − separaciones) ÷ columnas</p>
                             <p class="cq-calc" id="cqCalc"></p>
+                            <p class="cq-nota">1440 × 1080 es el lienzo de la metodología. Si pides otro tamaño, la fórmula es la misma.</p>
                         </div>
                         <div class="card sy-code">
                             <span class="pv-code-t">Y lo escribe en el visual.json</span>
@@ -3125,7 +3127,7 @@
 
                 <div class="bj-grid">
                     <div class="card bj-dash" id="bjDash">
-                        <div class="bj-top"><span class="bj-tit">Cómo vamos en 2026 <button type="button" class="bj-pin" data-n="8">8</button></span><span class="bj-tabs"><button type="button" class="bj-pin" data-n="9">9</button><i class="on">Resumen · 2025</i><i>Categorías · 2026</i></span></div>
+                        <div class="bj-top"><span class="bj-tit">Cómo vamos en 2026 <button type="button" class="bj-pin" data-n="8">8</button></span><span class="bj-tabs"><button type="button" class="bj-pin" data-n="9">9</button><i class="on">Cómo vamos · 2025</i><i>Categorías · 2026</i></span></div>
                         <div class="bj-kpis"><span><b>$26.7 M</b></span><span><b>27.3 %</b></span><span><b>$2,422</b></span><span><b>95.8 %</b></span><button type="button" class="bj-pin" data-n="4">4</button></div>
                         <div class="bj-charts">
                             <div class="bj-c bj-c1"><svg viewBox="0 0 200 90" preserveAspectRatio="none"><path d="M6 70 C 40 60, 60 40, 90 46 S 150 18, 194 30" stroke="#E8590C" stroke-width="3" fill="none" /></svg><button type="button" class="bj-pin" data-n="5">5</button></div>
@@ -3185,7 +3187,7 @@
                                 <span>Copia y pega en tu agente</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text" id="esPrompt">En Resumen y en Categorías, cambia el estilo de la barra de filtros a «Píldoras», con los botones del mismo ancho. No cambies los colores ni nada más.</p>
+                            <p class="prompt-copy-text" id="esPrompt">En Cómo vamos y en Categorías, cambia el estilo de la barra de filtros a «Píldoras», con los botones del mismo ancho. No cambies los colores ni nada más.</p>
                         </div>
                         <ol class="step-list">
                             <li><span class="step-n">1</span><div><strong>Elige un estilo a la izquierda</strong><span>El prompt cambia solo.</span></div></li>
@@ -3220,25 +3222,25 @@
                 <div class="taller-grid">
                     <div class="taller-main">
                         <ol class="step-list">
-                            <li><span class="step-n">1</span><div><strong>En Resumen, clic en Año y elige 2025</strong><span>Las opciones salen en la misma barra, de mayor a menor. «Listo» para volver.</span></div></li>
+                            <li><span class="step-n">1</span><div><strong>En Cómo vamos, clic en Año: quita 2026 y elige 2025</strong><span>Viene 2026 elegido; si solo das clic en 2025, quedan los dos. «Listo» para volver.</span></div></li>
                             <li><span class="step-n">2</span><div><strong>Pasa a Categorías</strong><span>Año debe seguir en 2025.</span></div></li>
-                            <li><span class="step-n">3</span><div><strong>En Categorías, haz clic en «May»</strong><span>Y regresa a Resumen: mayo debe seguir elegido.</span></div></li>
-                            <li><span class="step-n">4</span><div><strong>Quita los filtros</strong><span>«Limpiar» borra la barra; el mes se quita con otro clic en «May».</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>En Categorías, haz clic en «May»</strong><span>Y regresa a Cómo vamos: mayo debe seguir elegido.</span></div></li>
+                            <li><span class="step-n">4</span><div><strong>Quita los filtros</strong><span>«Limpiar» borra la barra; el mes se quita con «Todo el año».</span></div></li>
                         </ol>
                         <div class="prompt-copy">
                             <div class="prompt-copy-head">
                                 <span>Si algo no se conservó, pega dos capturas y esto</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text">Te paso dos capturas de mi reporte: Resumen con un filtro puesto y Categorías después de cambiar de página. Dime si la barra y el filtro de meses conservaron lo que elegí y corrige lo que no.</p>
+                            <p class="prompt-copy-text">Te paso dos capturas de mi reporte: Cómo vamos con un filtro puesto y Categorías después de cambiar de página. Dime si la barra y el filtro de meses conservaron lo que elegí y corrige lo que no.</p>
                         </div>
                     </div>
 
                     <div class="check-card">
                         <span class="check-title">Lo que debes ver</span>
                         <table class="ctl">
-                            <tr><th>Filtro</th><th>Resumen · Ventas</th><th>Categorías · Materiales</th></tr>
-                            <tr><td>Sin filtros (2026)</td><td>$26.7 M</td><td>$11.1 M</td></tr>
+                            <tr><th>Filtro</th><th>Cómo vamos · Ventas</th><th>Categorías · Materiales</th></tr>
+                            <tr><td>Al abrir (2026)</td><td>$26.7 M</td><td>$11.1 M</td></tr>
                             <tr><td>2025</td><td>$34.0 M</td><td>$13.6 M</td></tr>
                             <tr><td>2025 + mayo</td><td>$3.8 M</td><td>$1.6 M</td></tr>
                         </table>
@@ -3642,11 +3644,11 @@
             };
             document.querySelectorAll('.sy-modo').forEach((b) => b.addEventListener('click', () => {
                 sy.modo = b.dataset.m; sy.pag = 0; sy.sel = ['2026', '2026'];
-                syPintar('Elige un año en Resumen y luego pasa a Categorías.'); b.blur();
+                syPintar('Elige un año en Cómo vamos y luego pasa a Categorías.'); b.blur();
             }));
             document.querySelectorAll('.sy-anio').forEach((b) => b.addEventListener('click', () => {
                 if (sy.modo === 'si') sy.sel = [b.dataset.a, b.dataset.a]; else sy.sel[sy.pag] = b.dataset.a;
-                syPintar('Elegiste <b>' + b.dataset.a + '</b> en ' + (sy.pag === 0 ? 'Resumen' : 'Categorías') + '. Ahora cambia de página.'); b.blur();
+                syPintar('Elegiste <b>' + b.dataset.a + '</b> en ' + (sy.pag === 0 ? 'Cómo vamos' : 'Categorías') + '. Ahora cambia de página.'); b.blur();
             }));
             document.querySelectorAll('.sy-tab').forEach((b) => b.addEventListener('click', () => {
                 const antes = sy.sel[sy.pag]; sy.pag = +b.dataset.p;
@@ -3688,8 +3690,8 @@
                 b.blur();
             }));
 
-            // La cuadrícula en números: lienzo 1600, margen 24, separación 16
-            const W = 1600, M = 24, G = 16;
+            // La cuadrícula en números: lienzo 1440, margen 24, separación 16
+            const W = 1440, M = 24, G = 16;
             const cqPintar = (n) => {
                 const w = (W - 2 * M - (n - 1) * G) / n;
                 const r = (x) => Math.round(x * 100) / 100, d2 = r;
@@ -3697,8 +3699,8 @@
                 document.getElementById('cqLienzo').innerHTML = xs.map((x, i) => '<div class="cq-col" style="left:' + (x / W * 100) + '%;width:' + (w / W * 100) + '%;top:8%;height:84%">' + Math.round(w) + '</div>').join('')
                     + xs.slice(1).map((x) => '<span class="cq-gap" style="left:' + ((x - G) / W * 100) + '%;width:' + (G / W * 100) + '%"></span>').join('');
                 document.getElementById('cqX').innerHTML = xs.map((x) => '<span>x = ' + Math.round(x) + '</span>').join('');
-                document.getElementById('cqCalc').innerHTML = '(1600 − 2 × 24 − ' + (n - 1) + ' × 16) ÷ ' + n + ' = <b>' + r(w) + '</b>';
-                document.getElementById('cqJson').innerHTML = '<span class="k">"position"</span>: {<br>&nbsp;&nbsp;<span class="k">"x"</span>: ' + d2(xs[n - 1]) + ', <span class="k">"y"</span>: 558,<br>&nbsp;&nbsp;<span class="k">"width"</span>: <b>' + d2(w) + '</b>, <span class="k">"height"</span>: 318<br>}';
+                document.getElementById('cqCalc').innerHTML = '(1440 − 2 × 24 − ' + (n - 1) + ' × 16) ÷ ' + n + ' = <b>' + r(w) + '</b>';
+                document.getElementById('cqJson').innerHTML = '<span class="k">"position"</span>: {<br>&nbsp;&nbsp;<span class="k">"x"</span>: ' + d2(xs[n - 1]) + ', <span class="k">"y"</span>: 536,<br>&nbsp;&nbsp;<span class="k">"width"</span>: <b>' + d2(w) + '</b>, <span class="k">"height"</span>: 520<br>}';
                 document.querySelectorAll('.cq-btn').forEach((b) => b.classList.toggle('activo', +b.dataset.n === n));
             };
             document.querySelectorAll('.cq-btn').forEach((b) => b.addEventListener('click', () => { cqPintar(+b.dataset.n); b.blur(); }));
@@ -3789,7 +3791,7 @@
 
             // Tu estilo de barra: la vista previa y el prompt cambian con el estilo
             const esPrompt = document.getElementById('esPrompt');
-            const ES_TXT = "En Resumen y en Categorías, cambia el estilo de la barra de filtros a «@@», con los botones del mismo ancho. No cambies los colores ni nada más.";
+            const ES_TXT = "En Cómo vamos y en Categorías, cambia el estilo de la barra de filtros a «@@», con los botones del mismo ancho. No cambies los colores ni nada más.";
             document.querySelectorAll('.es-btn').forEach((b) => b.addEventListener('click', () => {
                 document.querySelectorAll('.es-btn').forEach((x) => x.classList.toggle('activo', x === b));
                 document.getElementById('esPrev').dataset.v = b.dataset.v;
