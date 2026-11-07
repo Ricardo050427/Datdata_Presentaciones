@@ -2429,9 +2429,13 @@
         /* Jerarquía de lectura */
         .jq-grid { display: grid; grid-template-columns: 1fr 470px; gap: 20px; }
         .jq-mock { display: grid; grid-template-rows: 34px 74px 150px 56px; gap: 10px; padding: 16px; background: #fffaf7; }
-        .jq-z { border-radius: 10px; transition: opacity 0.25s ease, box-shadow 0.25s ease; }
-        .jq-mock[data-z]:not([data-z="0"]) .jq-z { opacity: 0.25; }
-        .jq-mock[data-z="f"] .jq-f, .jq-mock[data-z="1"] .jq-k, .jq-mock[data-z="2"] .jq-c, .jq-mock[data-z="3"] .jq-d { opacity: 1; box-shadow: 0 0 0 3px #E8590C; }
+        .jq-z { border-radius: 10px; transition: opacity 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease; }
+        .jq-mock[data-z]:not([data-z="0"]) .jq-z { opacity: 0.3; filter: grayscale(1); }
+        .jq-mock.jq-mock.jq-mock[data-z="f"] .jq-f, .jq-mock.jq-mock.jq-mock[data-z="1"] .jq-k, .jq-mock.jq-mock.jq-mock[data-z="2"] .jq-c, .jq-mock.jq-mock.jq-mock[data-z="3"] .jq-d { opacity: 1; filter: none; background: #ffe8d9; box-shadow: 0 0 0 4px #E8590C, 0 8px 24px rgba(232, 89, 12, 0.3); }
+        .jq-mock.jq-mock.jq-mock[data-z="1"] .jq-k, .jq-mock.jq-mock.jq-mock[data-z="2"] .jq-c { padding: 8px; margin: -8px; }
+        .jq-mock.jq-mock.jq-mock[data-z="1"] .jq-k i, .jq-mock.jq-mock.jq-mock[data-z="2"] .jq-c i { border-color: #E8590C; }
+        .jq-mock.jq-mock.jq-mock[data-z="f"] .jq-f, .jq-mock.jq-mock.jq-mock[data-z="3"] .jq-d { border-color: #E8590C; }
+        .jq-mock.jq-mock.jq-mock[data-z="f"] .jq-f span, .jq-mock.jq-mock.jq-mock[data-z="3"] .jq-d span { color: #9a3412; }
         .jq-f { display: flex; align-items: center; padding: 0 14px; background: #ffffff; border: 1.5px solid #f3c4a8; }
         .jq-f span, .jq-d span { font-size: 0.9rem; font-weight: 800; color: #9a3412; }
         .jq-k { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -2455,7 +2459,9 @@
             cursor: pointer;
         }
 
-        .jq-btn.activo { border-color: #E8590C; background: #fff7f2; }
+        .jq-btn.activo { border-color: #E8590C; background: #E8590C; box-shadow: 0 6px 18px rgba(232, 89, 12, 0.3); }
+        .jq-btn.activo .jq-n { background: #ffffff; color: #E8590C; }
+        .jq-btn.activo strong, .jq-btn.activo span:not(.jq-n) { color: #ffffff; }
         .jq-n { display: grid; place-items: center; flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--wine-base); font-weight: 800; color: #ffffff; }
         .jq-btn div { display: flex; flex-direction: column; gap: 1px; }
         .jq-btn strong { font-size: 1.05rem; color: #27272a; }
