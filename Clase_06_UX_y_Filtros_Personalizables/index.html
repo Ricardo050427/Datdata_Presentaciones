@@ -2474,6 +2474,138 @@
         .cq-f { font-size: 1.02rem; font-weight: 700; line-height: 1.35; color: #27272a; }
         .cq-calc { font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.5; color: #9a3412; }
 
+        /* Juego · El dashboard del becario */
+        .bj-grid { display: grid; grid-template-columns: 1fr 440px; align-items: start; gap: 18px; }
+        .bj-dash { display: grid; grid-template-rows: 40px 64px 1fr 46px; gap: 12px; height: 392px; padding: 16px; background: #fffaf7; }
+        .bj-top { display: flex; align-items: center; justify-content: space-between; }
+        .bj-tit { display: flex; align-items: center; gap: 8px; font-size: 1.1rem; font-weight: 800; color: #27272a; }
+        .bj-tabs { display: flex; align-items: center; gap: 6px; }
+        .bj-tabs i { padding: 5px 10px; border-radius: 8px; border: 1.5px solid #f3c4a8; background: #ffffff; font-style: normal; font-size: 0.8rem; font-weight: 700; color: #9a3412; }
+        .bj-tabs i.on { background: #E8590C; border-color: #E8590C; color: #ffffff; }
+        .bj-kpis { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .bj-kpis span { display: flex; align-items: center; padding: 0 12px; border-radius: 10px; background: #ffffff; border: 1.5px solid #fbd5bd; border-top: 4px solid #E8590C; }
+        .bj-kpis b { font-size: 1.25rem; color: #c2410c; }
+        .bj-charts { display: flex; align-items: flex-start; gap: 6px; }
+        .bj-c { position: relative; display: flex; flex-direction: column; justify-content: center; gap: 7px; padding: 10px; border-radius: 10px; background: #ffffff; border: 1.5px solid #e4dcef; }
+        .bj-c1 { width: 44%; height: 92%; margin-top: 2%; }
+        .bj-c1 svg { width: 100%; height: 100%; }
+        .bj-c2 { width: 24%; height: 70%; margin-top: 9%; }
+        .bj-c3 { width: 30%; height: 100%; margin-left: 10px; }
+        .bj-c i { display: block; height: 12px; border-radius: 3px; background: #fdba8c; }
+        .bj-bar { display: flex; align-items: center; gap: 5px; padding: 0 10px; border-radius: 10px; background: #ffffff; border: 1.5px solid #f3c4a8; }
+        .bj-lbl { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #71717a; }
+        .bj-bar em { padding: 3px 8px; border-radius: 999px; border: 1.5px solid #f3c4a8; font-style: normal; font-size: 0.82rem; font-weight: 700; color: #9a3412; }
+        .bj-sep { width: 12px; }
+
+        .bj-pin {
+            display: grid;
+            flex: 0 0 auto;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            border: 2.5px solid #ffffff;
+            border-radius: 50%;
+            background: var(--wine-base);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            font: inherit;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .bj-pin.mal { background: #dc2626; }
+        .bj-pin.bien { background: #16a34a; }
+        .bj-kpis .bj-pin, .bj-c .bj-pin { position: absolute; right: -10px; top: -12px; }
+        .bj-bar .bj-pin { margin: 0 3px; }
+        .bj-side { display: flex; flex-direction: column; gap: 10px; min-height: 480px; }
+        .bj-marcador { gap: 8px; padding: 12px 16px; }
+        .bj-cuenta { font-size: 1.15rem; font-weight: 800; color: #27272a; }
+        .bj-acciones { display: flex; gap: 8px; }
+        .bj-acciones button { padding: 7px 16px; border: 1.5px solid var(--wine-base); border-radius: 10px; background: #ffffff; font: inherit; font-size: 0.95rem; font-weight: 800; color: var(--wine-base); cursor: pointer; }
+        .bj-acciones .bj-todo { background: var(--wine-base); color: #ffffff; }
+        .bj-lista { display: flex; flex-direction: column; gap: 5px; margin: 0; padding: 0; list-style: none; }
+        .bj-lista li { display: none; align-items: center; gap: 10px; padding: 4px 12px; border-radius: 10px; background: #ffffff; border: 1px solid var(--card-border); border-left: 5px solid #d4d4d8; animation: kdCambia 0.3s ease; }
+        .bj-lista li.on { display: flex; }
+        .bj-lista li[data-v="mal"] { border-left-color: #dc2626; }
+        .bj-lista li[data-v="bien"] { border-left-color: #16a34a; }
+        .bj-lista li > b { display: grid; place-items: center; flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; background: #3f3f46; font-size: 0.85rem; color: #ffffff; }
+        .bj-lista li[data-v="mal"] > b { background: #dc2626; }
+        .bj-lista li[data-v="bien"] > b { background: #16a34a; }
+        .bj-lista div { display: flex; flex-direction: column; gap: 1px; }
+        .bj-lista strong { font-size: 0.92rem; line-height: 1.25; color: #27272a; }
+        .bj-lista li > span { font-size: 0.95rem; font-weight: 700; line-height: 1.25; color: #27272a; }
+
+        /* Juego · Arma el dashboard del director */
+        .ad-pregunta { display: grid; grid-template-columns: 1fr 380px; gap: 18px; }
+        .ad-q { gap: 12px; padding: 18px 22px; }
+        .ad-q h3 { min-height: 2.6em; font-size: 1.45rem; line-height: 1.3; color: #27272a; }
+        .ad-mini { height: 210px; padding: 14px; border-radius: 12px; background: #fffaf7; border: 1px solid #f3dccf; }
+        .ad-mini > * { height: 100%; }
+        .ad-votos { display: flex; gap: 12px; }
+        .ad-votos button { flex: 1; padding: 12px 0; border-radius: 12px; font: inherit; font-size: 1.15rem; font-weight: 800; cursor: pointer; }
+        .ad-si { border: 2px solid #15803d; background: #f0fdf4; color: #15803d; }
+        .ad-no { border: 2px solid #b91c1c; background: #fef2f2; color: #b91c1c; }
+        .ad-progreso { gap: 10px; }
+        .ad-progreso ol { display: flex; flex-direction: column; gap: 6px; margin: 0; padding: 0; list-style: none; }
+        .ad-progreso li { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-radius: 10px; background: #ffffff; border: 1px solid var(--card-border); font-size: 0.95rem; color: var(--text-sub); }
+        .ad-progreso li b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: #e4e4e7; font-size: 0.8rem; color: #3f3f46; }
+        .ad-progreso li.si b { background: var(--wine-base); color: #ffffff; }
+        .ad-progreso li.no { opacity: 0.55; text-decoration: line-through; }
+        .ad-progreso li.ahora { border-color: var(--wine-base); color: #27272a; font-weight: 700; }
+
+        .ad-final { display: grid; grid-template-columns: 1fr 440px; gap: 18px; }
+        .ad-final[hidden] { display: none; }
+        .ad-dash { display: flex; flex-direction: column; gap: 10px; height: 470px; padding: 14px; background: #fffaf7; }
+        .ad-dash > .ad-row { display: grid; gap: 10px; }
+        .ad-dash .ad-r-f { flex: 0 0 34px; }
+        .ad-dash .ad-r-k { flex: 0 0 96px; }
+        .ad-dash .ad-r-c { flex: 1 1 0; min-height: 0; }
+        .ad-dash .ad-r-t { flex: 0 0 104px; }
+        .ad-vacio { display: grid; place-items: center; flex: 1; font-size: 1.2rem; font-weight: 700; color: #a1a1aa; }
+        .ad-dash.ruido { background: repeating-linear-gradient(135deg, #fde68a 0 18px, #bfdbfe 18px 36px, #fecaca 36px 54px, #bbf7d0 54px 72px); }
+        .ad-dash.ruido .ad-el { box-shadow: 0 0 0 3px #a855f7; }
+        .ad-dash.ruido .ad-kpis span:nth-child(1) b { color: #2563eb; }
+        .ad-dash.ruido .ad-kpis span:nth-child(2) b { color: #16a34a; }
+        .ad-dash.ruido .ad-kpis span:nth-child(3) b { color: #9333ea; }
+        .ad-dash.ruido .ad-kpis span:nth-child(4) b { color: #db2777; }
+
+        .ad-el { min-width: 0; min-height: 0; border-radius: 10px; background: #ffffff; border: 1.5px solid #e4dcef; overflow: hidden; }
+        .ad-filtros { display: flex; align-items: center; gap: 8px; padding: 0 10px; border-color: #f3c4a8; }
+        .ad-filtros i { padding: 4px 12px; border-radius: 999px; border: 1.5px solid #f3c4a8; font-style: normal; font-size: 0.8rem; font-weight: 700; color: #9a3412; }
+        .ad-filtros i.on { background: #E8590C; border-color: #E8590C; color: #ffffff; }
+        .ad-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 8px; background: transparent; border: none; }
+        .ad-kpis span { display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 0 10px; border-radius: 10px; background: #ffffff; border: 1.5px solid #fbd5bd; border-top: 4px solid #E8590C; }
+        .ad-kpis b { font-size: 1.1rem; color: #c2410c; }
+        .ad-el.ad-kpis span svg { flex: 0 0 14px; width: 100%; height: 14px; }
+        .ad-gauge, .ad-pastel, .ad-tend, .ad-bullet, .ad-tabla { display: flex; flex-direction: column; padding: 8px 10px; }
+        .ad-el > em { font-style: normal; font-size: 0.75rem; font-weight: 800; color: #52525b; }
+        .ad-el svg { flex: 1; width: 100%; min-height: 0; }
+        .ad-pastel div { flex: 1; aspect-ratio: 1; max-height: 100%; margin: 4px auto 0; border-radius: 50%; background: conic-gradient(#e8590c 0 22%, #2563eb 0 34%, #16a34a 0 44%, #9333ea 0 53%, #eab308 0 61%, #db2777 0 69%, #0891b2 0 77%, #65a30d 0 84%, #f97316 0 92%, #6b7280 0 100%); }
+        .ad-bullet div { display: flex; flex: 1; flex-direction: column; justify-content: space-around; }
+        .ad-bullet p { position: relative; height: 12px; border-radius: 3px; background: #ece7e4; }
+        .ad-bullet p i { position: absolute; left: 0; top: 2px; height: 8px; border-radius: 2px; background: #E8590C; }
+        .ad-bullet p u { position: absolute; top: -2px; width: 3px; height: 16px; background: #27272a; }
+        .ad-tabla { gap: 3px; }
+        .ad-tabla p { display: grid; grid-template-columns: 1.2fr 1fr 1.6fr 1fr 0.8fr; gap: 6px; font-family: var(--font-mono); font-size: 0.6rem; line-height: 1.25; color: #71717a; white-space: nowrap; overflow: hidden; }
+        .ad-tabla p:first-of-type { font-weight: 800; color: #3f3f46; }
+        .ad-mini .ad-kpis b { font-size: 1.6rem; }
+        .ad-mini .ad-filtros i { font-size: 1rem; padding: 6px 16px; }
+        .ad-mini .ad-tabla p { font-size: 0.8rem; }
+        .ad-mini.ruido { background: repeating-linear-gradient(135deg, #fde68a 0 18px, #bfdbfe 18px 36px, #fecaca 36px 54px, #bbf7d0 54px 72px); }
+
+        .ad-side { display: flex; flex-direction: column; gap: 10px; }
+        .ad-nota { gap: 6px; padding: 12px 16px; }
+        .ad-pct { display: flex; align-items: baseline; gap: 12px; }
+        .ad-pct b { font-size: 2.6rem; line-height: 1; color: var(--wine-base); }
+        .ad-pct span { font-size: 1.05rem; font-weight: 800; color: #27272a; }
+        .ad-otra { align-self: flex-start; padding: 6px 14px; border: 1.5px solid var(--wine-base); border-radius: 10px; background: #ffffff; font: inherit; font-size: 0.9rem; font-weight: 800; color: var(--wine-base); cursor: pointer; }
+        .ad-lista { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 0; list-style: none; }
+        .ad-lista li { padding: 4px 12px; border-radius: 10px; background: #ffffff; border: 1px solid var(--card-border); border-left: 5px solid #16a34a; font-size: 0.82rem; line-height: 1.3; color: var(--text-sub); }
+        .ad-lista li.mal { border-left-color: #dc2626; }
+        .ad-lista li strong { color: #27272a; }
+
         /* Tu estilo de barra */
         .es-grid { display: grid; grid-template-columns: 560px 1fr; gap: 20px; }
         .es-demo { gap: 16px; }
@@ -2519,7 +2651,7 @@
     <main class="deck" id="deck">
 
         <!-- ===================================================================
-             DECK CONTAINER (12 DIAPOSITIVAS • EXPERIENCIA DE USUARIO Y FILTROS)
+             DECK CONTAINER (14 DIAPOSITIVAS • EXPERIENCIA DE USUARIO Y FILTROS)
              =================================================================== -->
 
         <!-- ===================================================================
@@ -2580,7 +2712,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge ">Agenda</span>
-                    <span class="slide-number">02 / 12</span>
+                    <span class="slide-number">02 / 14</span>
                 </div>
             </header>
 
@@ -2616,7 +2748,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">03 / 12</span>
+                    <span class="slide-number">03 / 14</span>
                 </div>
             </header>
 
@@ -2673,7 +2805,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">04 / 12</span>
+                    <span class="slide-number">04 / 14</span>
                 </div>
             </header>
 
@@ -2720,7 +2852,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">05 / 12</span>
+                    <span class="slide-number">05 / 14</span>
                 </div>
             </header>
 
@@ -2781,7 +2913,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">06 / 12</span>
+                    <span class="slide-number">06 / 14</span>
                 </div>
             </header>
 
@@ -2835,7 +2967,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">07 / 12</span>
+                    <span class="slide-number">07 / 14</span>
                 </div>
             </header>
 
@@ -2881,7 +3013,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">08 / 12</span>
+                    <span class="slide-number">08 / 14</span>
                 </div>
             </header>
 
@@ -2926,7 +3058,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">09 / 12</span>
+                    <span class="slide-number">09 / 14</span>
                 </div>
             </header>
 
@@ -2970,10 +3102,59 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 10: [TALLER 3] TU ESTILO DE BARRA
+             SLIDE 10: [JUEGO] EL DASHBOARD DEL BECARIO
+             El chat escribe los números de los errores; luego se revela uno por uno o todos.
+             =================================================================== -->
+        <section class="slide" data-slide="10" data-type="Juego: El dashboard del becario">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Juego • Encuentra los errores</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Juego</span>
+                    <span class="slide-number">10 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>El dashboard del <span class="wine-gradient">becario</span></h2>
+                    <p class="slide-subtitle">Tiene 6 errores de experiencia de usuario y 3 cosas bien hechas. Escribe en el chat los números de los errores.</p>
+                </div>
+
+                <div class="bj-grid">
+                    <div class="card bj-dash" id="bjDash">
+                        <div class="bj-top"><span class="bj-tit">Cómo vamos en 2026 <button type="button" class="bj-pin" data-n="8">8</button></span><span class="bj-tabs"><button type="button" class="bj-pin" data-n="9">9</button><i class="on">Resumen · 2025</i><i>Categorías · 2026</i></span></div>
+                        <div class="bj-kpis"><span><b>$26.7 M</b></span><span><b>27.3 %</b></span><span><b>$2,422</b></span><span><b>95.8 %</b></span><button type="button" class="bj-pin" data-n="4">4</button></div>
+                        <div class="bj-charts">
+                            <div class="bj-c bj-c1"><svg viewBox="0 0 200 90" preserveAspectRatio="none"><path d="M6 70 C 40 60, 60 40, 90 46 S 150 18, 194 30" stroke="#E8590C" stroke-width="3" fill="none" /></svg><button type="button" class="bj-pin" data-n="5">5</button></div>
+                            <div class="bj-c bj-c2"><i style="width:92%"></i><i style="width:70%"></i><i style="width:55%"></i><i style="width:38%"></i><i style="width:24%"></i><button type="button" class="bj-pin" data-n="6">6</button></div>
+                            <div class="bj-c bj-c3"><i style="width:90%;background:#e8590c"></i><i style="width:66%;background:#2563eb"></i><i style="width:50%;background:#16a34a"></i><i style="width:36%;background:#9333ea"></i><i style="width:22%;background:#eab308"></i><button type="button" class="bj-pin" data-n="7">7</button></div>
+                        </div>
+                        <div class="bj-bar"><button type="button" class="bj-pin" data-n="1">1</button><span class="bj-lbl">Año</span><em>2023</em><em>2024</em><em>2025</em><em>2026</em><button type="button" class="bj-pin" data-n="3">3</button><span class="bj-sep"></span><span class="bj-lbl">Mes</span><em>Abr</em><em>Ago</em><em>Dic</em><em>Ene</em><em>Feb</em><button type="button" class="bj-pin" data-n="2">2</button></div>
+                    </div>
+
+                    <div class="bj-side">
+                        <div class="card bj-marcador">
+                            <span class="pv-t">Marcador · clic en cada número</span>
+                            <p class="bj-cuenta" id="bjCuenta">0 de 6 errores revelados</p>
+                            <div class="bj-acciones">
+                                <button type="button" class="bj-todo" id="bjTodo">Revelar todo</button>
+                                <button type="button" class="bj-reset" id="bjReset">Reiniciar</button>
+                            </div>
+                        </div>
+                        <ol class="bj-lista" id="bjLista"><li data-n="1" data-v="mal"><b>1</b><span>✗ Filtros hasta abajo: van arriba de todo</span></li><li data-n="2" data-v="mal"><b>2</b><span>✗ Meses en orden de texto, no de calendario</span></li><li data-n="3" data-v="mal"><b>3</b><span>✗ Años al revés: el actual va primero</span></li><li data-n="4" data-v="bien"><b>4</b><span>✓ KPIs arriba y a todo lo ancho</span></li><li data-n="5" data-v="mal"><b>5</b><span>✗ Sin cuadrícula: anchos y alturas distintas</span></li><li data-n="6" data-v="bien"><b>6</b><span>✓ Ranking ordenado de mayor a menor</span></li><li data-n="7" data-v="mal"><b>7</b><span>✗ Colores que no significan nada</span></li><li data-n="8" data-v="bien"><b>8</b><span>✓ El título dice qué periodo ves</span></li><li data-n="9" data-v="mal"><b>9</b><span>✗ Páginas sin sincronizar: 2025 y 2026</span></li></ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 11: [TALLER 3] TU ESTILO DE BARRA
              Elige un estilo: la vista previa y el prompt cambian.
              =================================================================== -->
-        <section class="slide" data-slide="10" data-type="Taller 3: Tu estilo de barra">
+        <section class="slide" data-slide="11" data-type="Taller 3: Tu estilo de barra">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2981,7 +3162,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">10 / 12</span>
+                    <span class="slide-number">11 / 14</span>
                 </div>
             </header>
 
@@ -3016,9 +3197,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 11: [TALLER 4] PRUÉBALO COMO USUARIO
+             SLIDE 12: [TALLER 4] PRUÉBALO COMO USUARIO
              =================================================================== -->
-        <section class="slide" data-slide="11" data-type="Taller 4: Pruébalo como usuario">
+        <section class="slide" data-slide="12" data-type="Taller 4: Pruébalo como usuario">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -3026,7 +3207,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">11 / 12</span>
+                    <span class="slide-number">12 / 14</span>
                 </div>
             </header>
 
@@ -3068,9 +3249,63 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 12: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             SLIDE 13: [JUEGO] ARMA EL DASHBOARD DEL DIRECTOR
+             El chat vota Sí o No en cada pregunta; al final se arma el dashboard con lo elegido y se califica.
              =================================================================== -->
-        <section class="slide" data-slide="12" data-type="Cierre: Preguntas">
+        <section class="slide" data-slide="13" data-type="Juego: Arma el dashboard del director">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Juego • Decide como analista</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Juego</span>
+                    <span class="slide-number">13 / 14</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Arma el dashboard del <span class="wine-gradient">director</span></h2>
+                    <p class="slide-subtitle" id="adSub">Vota en el chat <b>Sí</b> o <b>No</b>. Hago clic en lo que diga la mayoría y al final vemos el dashboard que armaron.</p>
+                </div>
+
+                <div class="ad-juego" id="adJuego">
+                    <div class="ad-pregunta" id="adPregunta">
+                        <div class="card ad-q">
+                            <span class="pv-t" id="adNum">Pregunta 1 de 8</span>
+                            <h3 id="adTexto"></h3>
+                            <div class="ad-mini" id="adMini"></div>
+                            <div class="ad-votos">
+                                <button type="button" class="ad-si" data-r="1">Sí, agrégalo</button>
+                                <button type="button" class="ad-no" data-r="0">No</button>
+                            </div>
+                        </div>
+                        <div class="card ad-progreso">
+                            <span class="pv-t">Su dashboard hasta ahora</span>
+                            <ol id="adLleva"></ol>
+                        </div>
+                    </div>
+
+                    <div class="ad-final" id="adFinal" hidden>
+                        <div class="card ad-dash" id="adDash"></div>
+                        <div class="ad-side">
+                            <div class="card ad-nota">
+                                <span class="pv-t">Calificación</span>
+                                <div class="ad-pct"><b id="adPct">0 %</b><span id="adVeredicto"></span></div>
+                                <button type="button" class="ad-otra" id="adOtra">Volver a jugar</button>
+                            </div>
+                            <ol class="ad-lista" id="adLista"></ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 14: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             =================================================================== -->
+        <section class="slide" data-slide="14" data-type="Cierre: Preguntas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -3078,7 +3313,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Cierre</span>
-                    <span class="slide-number">12 / 12</span>
+                    <span class="slide-number">14 / 14</span>
                 </div>
             </header>
             <div class="slide-content">
@@ -3133,7 +3368,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <span class="nav-counter" id="navCounter">01 / 12</span>
+        <span class="nav-counter" id="navCounter">01 / 14</span>
 
         <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -3468,6 +3703,89 @@
             };
             document.querySelectorAll('.cq-btn').forEach((b) => b.addEventListener('click', () => { cqPintar(+b.dataset.n); b.blur(); }));
             cqPintar(3);
+
+            // Arma el dashboard del director: 8 preguntas, se arma con lo elegido y se califica
+            const AD = [
+                { id: 'filtros', q: '¿Una barra de filtros arriba, con Año, Sucursal, Categoría y Canal?', n: 'Barra de filtros', c: 'la barra de filtros', ok: true, por: 'primero se elige y luego se lee.' },
+                { id: 'kpis', q: '¿Cuatro tarjetas KPI con su tendencia y su semáforo?', n: 'Tarjetas KPI', c: 'las tarjetas KPI', ok: true, por: 'contestan «¿cómo vamos?» en la primera fila.' },
+                { id: 'gauge', q: '¿Un velocímetro gigante para el cumplimiento de meta?', n: 'Velocímetro', c: 'el velocímetro', ok: false, por: 'un círculo para un solo número; el bullet chart lo dice en una línea.' },
+                { id: 'tend', q: '¿La tendencia mensual contra el año anterior?', n: 'Tendencia mensual', c: 'la tendencia mensual', ok: true, por: 'explica cuándo se subió y cuándo se cayó.' },
+                { id: 'pastel', q: '¿Una gráfica de pastel con las 10 categorías?', n: 'Pastel de 10 categorías', c: 'el pastel de 10 categorías', ok: false, por: 'diez rebanadas no se comparan a ojo; mejor barras ordenadas.' },
+                { id: 'bullet', q: '¿Un bullet chart de ventas contra meta por sucursal?', n: 'Bullet chart', c: 'el bullet chart', ok: true, por: 'real, meta y si va bien, en una línea por sucursal.' },
+                { id: 'tabla', q: '¿Una tabla con todas las ventas del año, renglón por renglón, en la página principal?', n: 'Tabla de todas las ventas', c: 'la tabla de todas las ventas', ok: false, por: 'el detalle va abajo o en otra página.' },
+                { id: 'fondo', q: '¿Un fondo con foto de herramientas y un color distinto en cada gráfica?', n: 'Fondo con foto y colores', c: 'el fondo con foto y colores', ok: false, por: 'decora pero no informa: el color debe significar algo.' },
+            ];
+            const N = '#E8590C';
+            const linea = (d, c) => '<path d="' + d + '" stroke="' + c + '" stroke-width="3" fill="none" stroke-linecap="round" />';
+            const EL = {
+                filtros: () => '<div class="ad-el ad-filtros"><i class="on">2026</i><i>Sucursal</i><i>Categoría</i><i>Canal</i></div>',
+                kpis: () => '<div class="ad-el ad-kpis">' + ['$26.7 M', '27.3 %', '$2,422', '95.8 %'].map((k) => '<span><b>' + k + '</b><svg viewBox="0 0 100 14" preserveAspectRatio="none">' + linea('M2 11 L25 7 L50 9 L75 4 L98 6', '#fdba8c') + '</svg></span>').join('') + '</div>',
+                gauge: () => '<div class="ad-el ad-gauge"><em>Cumplimiento meta</em><svg viewBox="0 0 120 66"><path d="M12 60 A48 48 0 0 1 108 60" stroke="#ece7e4" stroke-width="14" fill="none" /><path d="M12 60 A48 48 0 0 1 104 38" stroke="' + N + '" stroke-width="14" fill="none" /><text x="60" y="58" text-anchor="middle" font-size="16" font-weight="800" fill="#c2410c">95.8 %</text></svg></div>',
+                tend: () => '<div class="ad-el ad-tend"><em>Ventas por mes vs año anterior</em><svg viewBox="0 0 200 80" preserveAspectRatio="none">' + linea('M4 64 C 40 56, 70 38, 100 30 S 150 50, 196 44', '#a1a1aa') + linea('M4 60 C 40 50, 70 26, 100 18 S 150 44, 196 38', N) + '</svg></div>',
+                pastel: () => '<div class="ad-el ad-pastel"><em>Ventas por categoría</em><div></div></div>',
+                bullet: () => '<div class="ad-el ad-bullet"><em>Ventas vs meta por sucursal</em><div>' + [[96, 88], [93, 86], [74, 72], [64, 70], [55, 62]].map(([v, m]) => '<p><i style="width:' + v + '%"></i><u style="left:' + m + '%"></u></p>').join('') + '</div></div>',
+                tabla: () => '<div class="ad-el ad-tabla"><em>Ventas 2026 · todas</em><p><span>Folio</span><span>Fecha</span><span>Producto</span><span>Sucursal</span><span>Total</span></p>' + ['T02-000002', 'T04-000003', 'T01-000004', 'T07-000005', 'T03-000006', 'T05-000007'].map((f, i) => '<p><span>' + f + '</span><span>02/01/2026</span><span>' + ['Foco LED 9 W', 'Contacto dúplex', 'Cemento gris 50 kg', 'Pintura vinílica', 'Taquete 1/4', 'Llave Stillson'][i] + '</span><span>SUC-0' + (i + 1) + '</span><span>$' + [351, 90, 1240, 865, 42, 389][i] + '</span></p>').join('') + '</div>',
+                fondo: () => '<div class="ad-el ad-kpis">' + ['$26.7 M', '27.3 %', '$2,422', '95.8 %'].map((k, i) => '<span><b style="color:' + ['#2563eb', '#16a34a', '#9333ea', '#db2777'][i] + '">' + k + '</b></span>').join('') + '</div>',
+            };
+            let adPaso = 0, adSel = {};
+            const adArmar = () => {
+                const s = (id) => adSel[id] === true;
+                const top = [s('kpis') && EL.kpis(), s('gauge') && EL.gauge()].filter(Boolean);
+                const graf = ['tend', 'pastel', 'bullet'].filter(s).map((id) => EL[id]());
+                let h = '';
+                if (s('filtros')) h += '<div class="ad-row ad-r-f">' + EL.filtros() + '</div>';
+                if (top.length) h += '<div class="ad-row ad-r-k" style="grid-template-columns:' + (top.length === 2 ? '3fr 1fr' : '1fr') + '">' + top.join('') + '</div>';
+                if (graf.length) h += '<div class="ad-row ad-r-c" style="grid-template-columns:repeat(' + graf.length + ',1fr)">' + graf.join('') + '</div>';
+                if (s('tabla')) h += '<div class="ad-row ad-r-t">' + EL.tabla() + '</div>';
+                const dash = document.getElementById('adDash');
+                dash.innerHTML = h || '<p class="ad-vacio">Un dashboard vacío: el director no ve nada.</p>';
+                dash.classList.toggle('ruido', s('fondo'));
+                const bien = AD.filter((x) => adSel[x.id] === x.ok).length;
+                const pct = Math.round((bien / AD.length) * 100);
+                document.getElementById('adPct').textContent = pct + ' %';
+                document.getElementById('adVeredicto').textContent = pct === 100 ? 'Dashboard de director' : pct >= 75 ? 'Casi listo para el director' : pct >= 50 ? 'Le falta criterio' : 'El dashboard del becario';
+                document.getElementById('adLista').innerHTML = AD.map((x) => {
+                    const acerto = adSel[x.id] === x.ok;
+                    return '<li class="' + (acerto ? '' : 'mal') + '">' + (acerto ? '✓ ' : '✗ ') + '<strong>' + (adSel[x.id] ? 'Agregaron' : 'Dejaron fuera') + ' ' + x.c + ':</strong> ' + (x.ok ? 'sí va, ' : 'no va, ') + x.por + '</li>';
+                }).join('');
+            };
+            const adPintar = () => {
+                const fin = adPaso >= AD.length;
+                document.getElementById('adPregunta').hidden = fin;
+                document.getElementById('adFinal').hidden = !fin;
+                document.getElementById('adSub').innerHTML = fin
+                    ? 'Este es el dashboard que armaron. ¿Lo firmaría el director?'
+                    : 'Vota en el chat <b>Sí</b> o <b>No</b>. Hago clic en lo que diga la mayoría y al final vemos el dashboard que armaron.';
+                document.getElementById('adLleva').innerHTML = AD.map((x, i) => '<li class="' + (i < adPaso ? (adSel[x.id] ? 'si' : 'no') : i === adPaso ? 'ahora' : '') + '"><b>' + (i + 1) + '</b>' + (i <= adPaso ? x.n : '¿…?') + '</li>').join('');
+                if (fin) { adArmar(); return; }
+                const x = AD[adPaso];
+                document.getElementById('adNum').textContent = 'Pregunta ' + (adPaso + 1) + ' de ' + AD.length;
+                document.getElementById('adTexto').textContent = x.q;
+                const mini = document.getElementById('adMini');
+                mini.innerHTML = EL[x.id]();
+                mini.classList.toggle('ruido', x.id === 'fondo');
+            };
+            document.querySelectorAll('.ad-votos button').forEach((b) => b.addEventListener('click', () => {
+                adSel[AD[adPaso].id] = b.dataset.r === '1'; adPaso++; adPintar(); b.blur();
+            }));
+            document.getElementById('adOtra').addEventListener('click', (e) => { adPaso = 0; adSel = {}; adPintar(); e.currentTarget.blur(); });
+            adPintar();
+
+            // Juego: cada número se revela con un clic; «Revelar todo» muestra los 9
+            const bjCuenta = () => {
+                const n = document.querySelectorAll('#bjLista li.on[data-v="mal"]').length;
+                document.getElementById('bjCuenta').textContent = n + ' de 6 errores revelados' + (n === 6 ? ' · ¿quién los encontró todos?' : '');
+            };
+            const bjRevelar = (n, on) => {
+                const li = document.querySelector('#bjLista li[data-n="' + n + '"]');
+                const pin = document.querySelector('.bj-pin[data-n="' + n + '"]');
+                const ver = on === undefined ? !li.classList.contains('on') : on;
+                li.classList.toggle('on', ver);
+                pin.classList.toggle(li.dataset.v, ver);
+            };
+            document.querySelectorAll('.bj-pin').forEach((p) => p.addEventListener('click', () => { bjRevelar(p.dataset.n); bjCuenta(); p.blur(); }));
+            document.getElementById('bjTodo').addEventListener('click', (e) => { for (let n = 1; n <= 9; n++) bjRevelar(n, true); bjCuenta(); e.currentTarget.blur(); });
+            document.getElementById('bjReset').addEventListener('click', (e) => { for (let n = 1; n <= 9; n++) bjRevelar(n, false); bjCuenta(); e.currentTarget.blur(); });
 
             // Tu estilo de barra: la vista previa y el prompt cambian con el estilo
             const esPrompt = document.getElementById('esPrompt');
