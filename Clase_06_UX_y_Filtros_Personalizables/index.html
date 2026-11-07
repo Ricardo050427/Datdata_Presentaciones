@@ -2444,6 +2444,30 @@
         .jq-c i { border-radius: 10px; background: #ffffff; border: 1.5px solid #e4dcef; }
         .jq-d { display: flex; align-items: center; justify-content: center; background: #ffffff; border: 1.5px dashed #d4d4d8; }
         .jq-d span { color: #71717a; }
+        .jq-f, .jq-d { position: relative; }
+        .jq-k i, .jq-c i { position: relative; overflow: hidden; }
+        .jq-in { opacity: 0; transform: translateY(6px); transition: opacity 0.3s ease, transform 0.3s ease; }
+        .jq-mock.jq-mock.jq-mock[data-z="f"] .jq-f .jq-in, .jq-mock.jq-mock.jq-mock[data-z="1"] .jq-k .jq-in,
+        .jq-mock.jq-mock.jq-mock[data-z="2"] .jq-c .jq-in, .jq-mock.jq-mock.jq-mock[data-z="3"] .jq-d .jq-in { opacity: 1; transform: none; }
+        .jq-chips { display: flex; gap: 8px; margin-left: 14px; }
+        .jq-chips em { padding: 2px 10px; border-radius: 999px; border: 1.5px solid #E8590C; background: #ffffff; font-style: normal; font-size: 0.78rem; font-weight: 700; color: #9a3412; }
+        .jq-kpi { position: absolute; inset: 0; font-style: normal; display: flex; flex-direction: column; justify-content: center; gap: 1px; padding: 6px 10px; }
+        .jq-kpi small { font-size: 0.68rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: #71717a; }
+        .jq-kpi b { font-size: 1.05rem; line-height: 1.15; color: #c2410c; }
+        .jq-kpi u { font-size: 0.68rem; font-weight: 700; text-decoration: none; }
+        .jq-kpi u.up { color: #16a34a; }
+        .jq-kpi u.dn { color: #dc2626; }
+        .jq-c svg { position: absolute; inset: 14px; width: calc(100% - 28px); height: calc(100% - 28px); }
+        .jq-barras { position: absolute; inset: 14px; display: flex; flex-direction: column; justify-content: space-around; }
+        .jq-barras em { display: block; height: 12px; border-radius: 3px; background: #E8590C; }
+        .jq-cols { position: absolute; inset: 14px; display: flex; align-items: flex-end; justify-content: space-around; border-bottom: 1.5px solid #d4d4d8; }
+        .jq-cols em { display: block; width: 16%; border-radius: 3px 3px 0 0; background: #fdba8c; }
+        .jq-cols em:nth-child(3) { background: #E8590C; }
+        .jq-mock.jq-mock.jq-mock[data-z="3"] .jq-d > span { display: none; }
+        .jq-tabla { position: absolute; inset: 8px 14px; display: flex; flex-direction: column; justify-content: space-around; }
+        .jq-tabla p { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 12px; margin: 0; }
+        .jq-tabla em { display: block; height: 7px; border-radius: 3px; background: #fbd5bd; }
+        .jq-tabla p:first-child em { background: #E8590C; }
         .jq-lista { display: flex; flex-direction: column; gap: 9px; }
 
         .jq-btn {
@@ -3032,10 +3056,10 @@
 
                 <div class="jq-grid">
                     <div class="card jq-mock" id="jqMock" data-z="0">
-                        <div class="jq-z jq-f" data-z="f"><span>Filtros</span></div>
-                        <div class="jq-z jq-k" data-z="1"><i></i><i></i><i></i><i></i></div>
-                        <div class="jq-z jq-c" data-z="2"><i></i><i></i><i></i></div>
-                        <div class="jq-z jq-d" data-z="3"><span>Detalle · tabla o página siguiente</span></div>
+                        <div class="jq-z jq-f" data-z="f"><span>Filtros</span><div class="jq-in jq-chips"><em>Año ▾</em><em>Sucursal ▾</em><em>Categoría ▾</em><em>Canal ▾</em></div></div>
+                        <div class="jq-z jq-k" data-z="1"><i><span class="jq-in jq-kpi"><small>Ventas</small><b>$00.0 M</b><u class="up">▲ 0.0 %</u></span></i><i><span class="jq-in jq-kpi"><small>Margen</small><b>00.0 %</b><u class="dn">▼ 0.0 pp</u></span></i><i><span class="jq-in jq-kpi"><small>Ticket</small><b>$0,000</b><u class="up">▲ 0.0 %</u></span></i><i><span class="jq-in jq-kpi"><small>Meta</small><b>00.0 %</b><u class="up">▲ 0.0 %</u></span></i></div>
+                        <div class="jq-z jq-c" data-z="2"><i><svg class="jq-in" viewBox="0 0 100 60" preserveAspectRatio="none"><polyline points="4,48 20,36 36,40 52,22 68,28 84,14 96,18" fill="none" stroke="#E8590C" stroke-width="3" vector-effect="non-scaling-stroke" /><polyline points="4,52 20,44 36,46 52,34 68,38 84,30 96,32" fill="none" stroke="#a1a1aa" stroke-width="2" stroke-dasharray="4 3" vector-effect="non-scaling-stroke" /></svg></i><i><span class="jq-in jq-barras"><em style="width:88%"></em><em style="width:72%"></em><em style="width:60%"></em><em style="width:46%"></em><em style="width:34%"></em></span></i><i><span class="jq-in jq-cols"><em style="height:70%"></em><em style="height:45%"></em><em style="height:85%"></em><em style="height:30%"></em></span></i></div>
+                        <div class="jq-z jq-d" data-z="3"><span>Detalle · tabla o página siguiente</span><div class="jq-in jq-tabla"><p><em></em><em></em><em></em><em></em></p><p><em></em><em></em><em></em><em></em></p><p><em></em><em></em><em></em><em></em></p></div></div>
                     </div>
 
                     <div class="jq-lista">
