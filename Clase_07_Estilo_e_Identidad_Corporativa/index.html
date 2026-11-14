@@ -1,0 +1,3385 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clase 07: Estilo e identidad corporativa | Datdata</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;600;800&family=Montserrat:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* === MODO CLARO (POR DEFECTO - ALABASTRO & VINO DATDATA) === */
+            --bg-deep: #fbf9f6;
+            --bg-surface: #f4efe9;
+            --slide-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(253, 249, 246, 0.95) 45%, rgba(248, 240, 235, 0.92) 100%);
+            --card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --card-bg-hover: linear-gradient(135deg, #ffffff 0%, rgba(255, 250, 246, 0.98) 50%, rgba(252, 240, 233, 0.95) 100%);
+            --card-border: rgba(136, 19, 55, 0.14);
+            --card-border-hover: rgba(136, 19, 55, 0.45);
+            --card-shadow: 0 4px 20px rgba(136, 19, 55, 0.05);
+            --card-shadow-hover: 0 14px 32px rgba(136, 19, 55, 0.10);
+
+            --deck-shadow: 0 30px 70px -15px rgba(76, 5, 25, 0.09), 0 0 50px -10px rgba(136, 19, 55, 0.05);
+
+            --wine-base: #881337;
+            --wine-dark: #4c0519;
+            --wine-bright: #be123c;
+            --wine-light: #9f1239;
+            --wine-soft: rgba(136, 19, 55, 0.08);
+            --wine-glow: rgba(136, 19, 55, 0.14);
+            --wine-glow-strong: rgba(136, 19, 55, 0.26);
+
+            --accent-gold: #b45309;
+            --accent-gold-bg: rgba(217, 119, 6, 0.1);
+            --accent-gold-border: rgba(217, 119, 6, 0.3);
+
+            --accent-emerald: #047857;
+            --accent-emerald-bg: rgba(5, 150, 105, 0.1);
+            --accent-emerald-border: rgba(5, 150, 105, 0.3);
+
+            --accent-purple: #6d28d9;
+            --accent-purple-bg: rgba(109, 40, 217, 0.1);
+            --accent-purple-border: rgba(109, 40, 217, 0.3);
+
+            --accent-cyan: #0369a1;
+            --accent-cyan-bg: rgba(2, 132, 199, 0.1);
+            --accent-cyan-border: rgba(2, 132, 199, 0.3);
+
+            --accent-danger: #dc2626;
+            --accent-danger-bg: rgba(220, 38, 38, 0.1);
+            --accent-danger-border: rgba(220, 38, 38, 0.3);
+
+            --text-main: #0f172a;
+            --text-heading: #1e1115;
+            --text-sub: #334155;
+            --text-muted: #52525b;
+            --text-dim: #71717a;
+            --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Hover & Spotlight */
+            --spotlight-size: 750px;
+            --spotlight-core-opacity: 0.11;
+            --spotlight-color: #881337;
+
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-border: rgba(136, 19, 55, 0.2);
+            --nav-shadow: 0 10px 30px rgba(136, 19, 55, 0.12);
+            --code-box-bg: #18090e;
+            --code-box-border: rgba(136, 19, 55, 0.4);
+            --tag-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(254, 251, 249, 0.95) 50%, rgba(250, 242, 236, 0.92) 100%);
+            --tag-card-border: rgba(136, 19, 55, 0.15);
+            --tag-card-shadow: 0 4px 14px rgba(136, 19, 55, 0.06);
+            --toggle-bg: linear-gradient(135deg, #f7f1ea 0%, #f1e9e0 100%);
+
+            /* Color de Claude: el coral para dibujos, el tono oscuro para texto legible */
+            --claude-coral: #D97757;
+            --claude-ink: #9a3f1c;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 6% 8%, rgba(136, 19, 55, 0.08) 0%, transparent 42%),
+                radial-gradient(circle at 94% 92%, rgba(180, 83, 9, 0.06) 0%, transparent 46%),
+                linear-gradient(135deg, #fdf8f9 0%, #fbf9f6 45%, #f5ece4 100%);
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        /* Cursor Spotlight */
+        .cursor-spotlight {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--spotlight-size);
+            height: var(--spotlight-size);
+            border-radius: 50%;
+            background: radial-gradient(circle,
+                    rgba(136, 19, 55, var(--spotlight-core-opacity)) 0%,
+                    rgba(190, 18, 60, calc(var(--spotlight-core-opacity) * 0.5)) 40%,
+                    transparent 72%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 50;
+            transition: opacity 0.3s ease;
+            filter: blur(28px);
+            opacity: 0;
+        }
+
+        /* Top Progress Bar */
+        .progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 5px;
+            background: var(--wine-soft);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--wine-dark), var(--wine-base), var(--wine-bright));
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 12px var(--wine-glow);
+        }
+
+        /* LIENZO FIJO 1280×720 (16:9). Todo se diseña en estos píxeles lógicos
+           y el script lo escala con `zoom` para llenar la ventana: a 1920×1080
+           el factor es 1.5, así que 16px lógicos se ven como 24px en pantalla.
+           Lo que ves es exactamente lo que ve la audiencia al compartir pantalla. */
+        .deck {
+            position: relative;
+            width: 1280px;
+            height: 720px;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+
+        /* SLIDE CONTRACT */
+        .slide {
+            position: absolute;
+            inset: 10px;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.97) translateY(14px);
+            transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.45s;
+            padding: 22px 40px 26px;
+            border-radius: 24px;
+            background: var(--slide-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--deck-shadow);
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--wine-base), transparent);
+            opacity: 0.8;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            z-index: 10;
+        }
+
+        /* Staggered Animations */
+
+        .slide.active .slide-header,
+        .slide.active h1,
+        .slide.active h2,
+        .slide.active .slide-subtitle,
+        .slide.active .card {
+            animation: slideElemFadeIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .slide.active .card:nth-child(1) { animation-delay: 0.05s; }
+        .slide.active .card:nth-child(2) { animation-delay: 0.10s; }
+        .slide.active .card:nth-child(3) { animation-delay: 0.15s; }
+        .slide.active .card:nth-child(4) { animation-delay: 0.20s; }
+
+        @keyframes slideElemFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-brand img {
+            height: 24px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-brand-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .badge-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 11px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            border: 1px solid rgba(136, 19, 55, 0.2);
+            box-shadow: 0 2px 6px rgba(136, 19, 55, 0.04);
+            transition: all 0.25s ease;
+        }
+
+        .badge.gold {
+            background: var(--accent-gold-bg);
+            color: var(--accent-gold);
+            border-color: var(--accent-gold-border);
+        }
+
+        .badge.emerald {
+            background: var(--accent-emerald-bg);
+            color: var(--accent-emerald);
+            border-color: var(--accent-emerald-border);
+        }
+
+        .badge.purple {
+            background: var(--accent-purple-bg);
+            color: var(--accent-purple);
+            border-color: var(--accent-purple-border);
+        }
+
+        .badge.cyan {
+            background: var(--accent-cyan-bg);
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan-border);
+        }
+
+        /* Slide Content Area */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 0;
+            gap: 1rem;
+        }
+
+        /* Typography — tamaños en píxeles lógicos del lienzo (×1.5 en pantalla 1080p).
+           Mínimo legible al compartir pantalla: 0.84rem (≈20px reales). */
+        h1 {
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.035em;
+            color: var(--text-heading);
+        }
+
+        h2 {
+            font-size: 2.625rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            color: var(--text-heading);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .wine-gradient {
+            background: linear-gradient(135deg, var(--text-heading) 20%, var(--wine-base) 70%, var(--wine-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .slide-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-sub);
+            max-width: 1040px;
+            line-height: 1.45;
+            margin-top: 0.4rem;
+            font-weight: 450;
+        }
+
+        /* Layout Grids */
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--card-border-hover);
+            box-shadow: var(--card-shadow-hover);
+            background: var(--card-bg-hover);
+        }
+
+        /* Tag Cards */
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        .tag-card {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: 1px solid var(--tag-card-border);
+            background: var(--tag-card-bg);
+            box-shadow: var(--tag-card-shadow);
+            color: var(--text-main);
+        }
+
+        .tag-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .flow-dash {
+            stroke-dasharray: 6 6;
+            animation: flowAnimation 1.4s linear infinite;
+        }
+
+        @keyframes flowAnimation {
+            from { stroke-dashoffset: 24; }
+            to { stroke-dashoffset: 0; }
+        }
+
+/* Interactive Simulator & Stepper */
+
+        /* Número de diapositiva (en la cabecera, junto al tipo Teoría / Práctica) */
+        .slide-number {
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--wine-base);
+            background: var(--wine-soft);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Navigation Dock — oculto por defecto para que no tape contenido en la
+           transmisión; aparece al acercar el ratón al borde inferior. */
+        .nav-dock {
+            position: fixed;
+            bottom: 16px;
+            background: var(--nav-bg);
+            border: 1px solid var(--nav-border);
+            box-shadow: var(--nav-shadow);
+            border-radius: 999px;
+            padding: 6px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 100;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            opacity: 0;
+            transform: translateY(14px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        body.dock-visible .nav-dock {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            transform: scale(1.1);
+        }
+
+        .nav-counter {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            letter-spacing: 0.05em;
+        }
+
+        .nav-divider {
+            width: 1px;
+            height: 18px;
+            background: var(--card-border);
+        }
+
+        /* Overview Modal ('O' Key) */
+        .overview-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(8, 1, 4, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            padding: 40px clamp(20px, 4vw, 60px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overview-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            overflow-y: auto;
+            padding-bottom: 30px;
+        }
+
+        .overview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .overview-card:hover {
+            background: rgba(244, 63, 94, 0.18);
+            border-color: #f43f5e;
+            transform: translateY(-3px);
+        }
+
+        .overview-card .num {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #fb7185;
+            font-weight: 700;
+        }
+
+        .overview-card .name {
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+
+        .overview-card .type {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #94a3b8;
+        }
+
+        /* ===================================================================
+           ILUSTRACIONES — estilo común
+           Escenas planas con los colores de la marca, trazos gruesos y pocas
+           palabras. Los viewBox de los SVG miden lo mismo que su caja en el
+           lienzo, así que font-size dentro del SVG = píxeles lógicos (mín. 14).
+           =================================================================== */
+
+        .rule-callout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+        }
+
+        .rule-callout strong {
+            color: var(--accent-gold);
+        }
+
+        /* Código en línea dentro de hallazgos y respuestas del chat */
+
+        /* Portada */
+        .cover-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .cover-art {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .cover-art svg {
+            width: 470px;
+            height: 412px;
+            display: block;
+        }
+
+        .cover-art figcaption {
+            font-size: 1.05rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .cover-art figcaption strong {
+            color: var(--wine-base);
+        }
+
+        /* Antes / ahora */
+
+        /* ¿Qué es un MCP? */
+
+        .mcp-pieces {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .mcp-piece {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .mcp-piece strong {
+            display: block;
+            font-size: 1.1rem;
+            color: var(--text-heading);
+        }
+
+        .mcp-piece span:not(.mcp-piece-icon) {
+            display: block;
+            font-size: 0.95rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .mcp-piece-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mcp-piece-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .mcp-piece-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .mcp-piece-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+/* Modos de trabajo */
+
+        /* Simulador del handshake */
+
+        /* Consultas en lenguaje natural */
+
+        /* Auditoría */
+
+        .pin {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .pin.gold { background: var(--accent-gold); }
+        .pin.purple { background: var(--accent-purple); }
+
+        /* Solución de problemas */
+
+/* Instalación con una frase */
+
+        .prompt-copy {
+            background: var(--wine-soft);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 10px 16px 14px;
+        }
+
+        .prompt-copy-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .copy-prompt-btn {
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: none;
+            padding: 5px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--wine-base);
+            background: #ffffff;
+            color: var(--wine-base);
+            cursor: pointer;
+        }
+
+        .copy-prompt-btn:hover { background: var(--wine-base); color: #ffffff; }
+        .copy-prompt-btn.copiado { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); color: var(--accent-emerald); }
+
+        .prompt-copy-text {
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.45;
+            color: var(--text-heading);
+            overflow-wrap: anywhere;
+        }
+
+        /* Verificación en la caja de herramientas */
+
+        .pin.cyan { background: var(--accent-cyan); }
+
+        /* Cierre */
+        .closing-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .closing-main {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .closing-art {
+            width: 260px;
+            height: 130px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .closing-title {
+            font-size: 5rem;
+            line-height: 1.05;
+        }
+
+        .linkedin-card {
+            align-items: center;
+            gap: 14px;
+            padding: 22px 24px;
+        }
+
+        .linkedin-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            align-self: stretch;
+        }
+
+        .linkedin-head strong {
+            display: block;
+            font-size: 1.3rem;
+            color: var(--text-heading);
+        }
+
+        .linkedin-head span {
+            display: block;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .qr {
+            width: 250px;
+            height: 250px;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .linkedin-url {
+            font-size: 0.86rem;
+            line-height: 1.4;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .next-class {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        /* ===================== CLASE 02 ===================== */
+
+        /* Agenda */
+        .agenda {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 12px;
+        }
+
+        .agenda li {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 14px 14px 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-top: 4px solid var(--accent-gold);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .agenda strong {
+            font-size: 1.05rem;
+            line-height: 1.25;
+            color: var(--text-heading);
+            flex: 1;
+        }
+
+        .agenda-num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .how-title {
+            margin-bottom: 10px;
+            color: var(--text-sub);
+        }
+
+        .how-grid { grid-template-columns: repeat(4, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Talleres */
+        .taller-grid {
+            display: grid;
+            grid-template-columns: 1fr 470px;
+            gap: 22px;
+            align-items: start;
+        }
+
+        .taller-main,
+        .taller-side {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .prompt-copy-text { font-size: 1rem; line-height: 1.5; }
+
+        .stuck {
+            padding: 10px 14px;
+            border-left: 4px solid var(--accent-gold);
+            background: var(--accent-gold-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .stuck strong { color: var(--accent-gold); }
+
+        .check-card {
+            padding: 14px 18px 16px;
+            background: var(--accent-emerald-bg);
+            border: 1px solid var(--accent-emerald-border);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .check-title {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--accent-emerald);
+        }
+
+        .check-note {
+            font-size: 1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        code {
+            font-family: var(--font-mono);
+            font-size: 0.92em;
+            font-weight: 600;
+            color: var(--wine-base);
+        }
+
+        .value-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+        }
+
+        .value-table td {
+            padding: 5px 4px;
+            border-bottom: 1px solid var(--accent-emerald-border);
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .value-table td:nth-child(even) {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--text-heading);
+            padding-right: 14px;
+        }
+
+        .value-table tr:last-child td { border-bottom: none; }
+        .value-table.big { font-size: 1.12rem; }
+        .value-table.big td { padding: 8px 4px; }
+
+        /* Taller 0: pasos */
+        .steps-card { padding: 18px 22px; gap: 12px; }
+
+        .step-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .step-list strong,
+        .anatomy-item strong {
+            display: block;
+            font-size: 1.08rem;
+            color: var(--text-heading);
+        }
+
+        .step-list span:not(.step-n),
+        .anatomy-item span:not(.pin) {
+            display: block;
+            font-size: 0.98rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+        }
+
+        .step-n {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Taller 0: tarjeta que gira entre CSV y Claude */
+
+        /* La entrada anima el contenedor: en las caras pisaría el giro */
+
+        /* El título deja sitio al selector */
+
+        /* Destello suave del icono al activar Claude */
+
+        @keyframes destello {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(20deg); }
+        }
+
+        /* La cara CSV es más corta: reparte sus pasos en la altura de la tarjeta */
+
+        /* Pines numerados: también admiten texto corto como «1→*» */
+        .pin { min-width: 32px; width: auto; padding: 0 7px; border-radius: 16px; }
+        .pin.wine { background: var(--wine-base); }
+        .pin.emerald { background: var(--accent-emerald); }
+
+        /* Esquema estrella */
+
+        /* Taller 2: hallazgos y correcciones */
+
+        /* Taller 3: calendario */
+
+        /* Anatomía de una medida */
+
+        .anatomy-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .anatomy-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        /* Inteligencia de tiempo */
+
+        /* Taller 6: tabla de control y revelado */
+
+        .reveal-btn {
+            align-self: flex-start;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 8px 22px;
+            border-radius: 10px;
+            border: none;
+            background: var(--wine-base);
+            color: #ffffff;
+            cursor: pointer;
+        }
+
+        .reveal-btn:hover { background: var(--wine-bright); }
+
+        /* Prompt, MCP y skill */
+
+        .role-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.wine { background: var(--wine-soft); color: var(--wine-base); }
+        .role-icon.emerald { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+        /* Cómo pedirle DAX a la IA */
+
+        /* Qué es una skill */
+
+        [hidden] { display: none !important; }
+
+        /* Juego: ¿Prompt, MCP o skill? */
+
+        /* ===================== CLASE 03 ===================== */
+
+        /* Agenda de seis talleres */
+        .agenda.seis { grid-template-columns: repeat(6, 1fr); }
+
+        .agenda-gain {
+            font-size: 0.92rem;
+            line-height: 1.35;
+            color: var(--text-muted);
+        }
+
+        .how-grid.tres { grid-template-columns: repeat(3, 1fr); }
+        .mcp-piece-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        /* Maquetas de Power BI: tarjeta KPI en HTML (paleta por defecto de la skill) */
+        .kpi-mock {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 14px 18px;
+            background: #ffffff;
+            border: 1.5px solid #e0d6f5;
+            border-radius: 14px;
+            box-shadow: 0 2px 10px rgba(102, 51, 153, 0.08);
+        }
+
+        .k-lbl {
+            font-size: 0.86rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #9B59B6;
+        }
+
+        .k-val {
+            font-size: 2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: #3D0080;
+        }
+
+        .k-badge {
+            align-self: flex-start;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 0.92rem;
+            font-weight: 800;
+        }
+
+        .k-badge.up { background: #e6f9f0; color: #1a7a4a; }
+        .k-badge.down { background: #fce8ec; color: #c0142d; }
+
+        .kpi-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .kpi-pair .k-val { font-size: 1.6rem; }
+
+        /* Tarjeta nativa de Power BI */
+        .native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            padding: 18px 10px;
+            background: #ffffff;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .n-val { font-size: 1.85rem; font-weight: 600; color: #252423; }
+        .n-lbl { font-size: 0.95rem; color: #605e5c; }
+
+        /* Nativo vs. personalizado */
+        .vs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .vs-col { gap: 12px; padding: 18px 22px 20px; }
+
+        .vs-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .vs-tag.custom { color: var(--wine-base); }
+
+        .vs-mock {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 14px;
+            align-items: center;
+            padding: 12px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .vs-mock svg { width: 100%; height: 130px; display: block; }
+        .vs-mock .k-val { font-size: 1.6rem; }
+
+        .vs-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .vs-list li {
+            display: flex;
+            gap: 10px;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            color: var(--text-sub);
+        }
+
+        .vs-ok, .vs-no { font-weight: 800; width: 16px; flex-shrink: 0; }
+        .vs-ok { color: var(--accent-emerald); }
+        .vs-no { color: var(--accent-danger); }
+
+        /* Dos caminos para entregar un visual */
+        .route-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+        }
+
+        .route-card { gap: 12px; padding: 18px 22px 20px; }
+        .route-card h3 { font-size: 1.5rem; }
+
+        .route-tag {
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+
+        .route-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .route-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            color: var(--text-sub);
+        }
+
+        .route-who {
+            min-width: 82px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 800;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .route-who.ia { background: var(--wine-soft); color: var(--wine-base); }
+        .route-who.mcp { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .route-who.pbi { background: var(--accent-purple-bg); color: var(--accent-purple); }
+        .route-who.tu { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .route-foot {
+            padding: 9px 14px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1rem;
+            color: var(--text-sub);
+        }
+
+        .route-foot.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .route-foot.good strong { color: var(--accent-emerald); }
+        .route-foot.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .route-foot.warn strong { color: var(--accent-gold); }
+
+        .skill-chip {
+            align-self: flex-start;
+            padding: 5px 12px;
+            border-radius: 8px;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--wine-base);
+        }
+
+        /* Juego de dos opciones */
+
+        /* Talleres */
+        .tip {
+            padding: 9px 14px;
+            border-left: 4px solid var(--accent-purple);
+            background: var(--accent-purple-bg);
+            border-radius: 0 12px 12px 0;
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .tip strong { color: var(--accent-purple); }
+        .check-note strong { color: var(--text-heading); }
+
+        .t3-chart { width: 100%; height: 180px; display: block; }
+
+        .nw { white-space: nowrap; }
+        .filtro-table td { font-size: 0.98rem; }
+        .filtro-table td:first-child { width: 128px; color: var(--text-heading); font-weight: 800; line-height: 1.3; }
+        .filtro-table td:nth-child(even) { font-family: var(--font-sans); font-weight: 700; padding-right: 4px; white-space: nowrap; }
+
+        .notar-table td:first-child { color: var(--text-heading); font-weight: 800; width: 90px; }
+        .notar-table td:nth-child(even) { text-align: left; font-family: var(--font-sans); font-weight: 600; color: var(--text-sub); }
+
+        /* Capas de Deneb */
+        .anat-grid {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .anat-chart { padding: 10px 14px; }
+        .anat-chart svg { width: 100%; height: 300px; display: block; }
+
+        /* Tú eres sus ojos */
+        .eyes-strip svg { width: 100%; height: 156px; display: block; }
+
+        /* Antes de entregar */
+        .limits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .limit-card {
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 18px 22px;
+        }
+
+        .limit-card .role-icon { margin-bottom: 0; flex-shrink: 0; }
+        .role-icon.cyan { background: var(--accent-cyan-bg); color: var(--accent-cyan); }
+        .role-icon.gold { background: var(--accent-gold-bg); color: var(--accent-gold); }
+        .limit-card h3 { font-size: 1.2rem; margin-bottom: 4px; }
+
+        .limit-card p {
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-muted);
+        }
+
+        /* ===== Juego: la prueba de los 5 segundos ===== */
+        .j5-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        @keyframes j5Salta {
+            0% { transform: scale(1); }
+            40% { transform: scale(1.18) rotate(-3deg); }
+            100% { transform: scale(1); }
+        }
+
+        .j5-stage {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
+            height: 448px;
+            padding: 20px 22px;
+            background: #ffffff;
+            border: 2px solid var(--card-border);
+            border-radius: 24px;
+            box-shadow: var(--card-shadow-hover);
+            overflow: hidden;
+        }
+
+        .j5-stage::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 85% 20%, rgba(136, 19, 55, 0.07), transparent 45%);
+            pointer-events: none;
+        }
+
+        .j5-stage.urgente { animation: j5Late 0.5s ease-in-out infinite alternate; }
+
+        @keyframes j5Late {
+            from { box-shadow: var(--card-shadow-hover); border-color: var(--card-border); }
+            to { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.12), var(--card-shadow-hover); border-color: rgba(220, 38, 38, 0.5); }
+        }
+
+        .j5-main {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        .j5-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            border-left: 2px dashed #f1e7ea;
+            padding-left: 18px;
+        }
+
+        /* Anillo de cuenta regresiva */
+        .j5-ring { position: relative; width: 160px; height: 160px; }
+        .j5-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+        .j5-ring-bg { fill: none; stroke: #f4ecef; stroke-width: 12; }
+
+        .j5-ring-fg {
+            fill: none;
+            stroke: var(--wine-base);
+            stroke-width: 12;
+            stroke-linecap: round;
+            stroke-dasharray: 414.69;
+            stroke-dashoffset: 0;
+        }
+
+        .j5-ring.urgente .j5-ring-fg { stroke: var(--accent-danger); }
+
+        .j5-num {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .j5-ring.urgente .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien .j5-ring-fg { stroke: var(--accent-emerald); }
+        .j5-ring.bien .j5-num { color: var(--accent-emerald); }
+        .j5-ring.mal .j5-ring-fg { stroke: var(--accent-danger); }
+        .j5-ring.mal .j5-num { color: var(--accent-danger); }
+        .j5-ring.bien, .j5-ring.mal { animation: j5Salta 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-num.tic { animation: j5Tic 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        @keyframes j5Tic {
+            0% { transform: scale(1.5); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .j5-tag {
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: var(--wine-soft);
+            color: var(--wine-base);
+            text-align: center;
+        }
+
+        .j5-tag.nativo { background: rgba(17, 141, 255, 0.1); color: #0b6bcb; }
+        .j5-tag.personalizado { background: rgba(106, 13, 173, 0.1); color: #6A0DAD; }
+
+        .j5-dots { display: flex; gap: 8px; }
+        .j5-ronda { font-family: var(--font-mono); font-size: 0.86rem; font-weight: 700; color: var(--text-dim); }
+        .j5-tag { white-space: nowrap; }
+
+        .j5-dots i {
+            width: 12px;
+            height: 12px;
+            border-radius: 6px;
+            background: #eadfe3;
+            transition: width 0.35s ease, background 0.35s ease;
+        }
+
+        .j5-dots i.actual { width: 30px; background: var(--wine-base); }
+        .j5-dots i.hecho.nativo { background: #118DFF; }
+        .j5-dots i.hecho.personalizado { background: #6A0DAD; }
+
+        /* Intro */
+        .j5-intro { display: flex; flex-direction: column; gap: 22px; animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .j5-intro h3 { font-size: 2.3rem; line-height: 1.15; letter-spacing: -0.02em; }
+
+        .j5-pasos { display: flex; gap: 14px; }
+
+        .j5-paso {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 14px;
+            background: var(--wine-soft);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-paso:nth-child(2) { animation-delay: 0.1s; }
+        .j5-paso:nth-child(3) { animation-delay: 0.2s; }
+
+        .j5-paso b {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .j5-btn {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--wine-dark), var(--wine-base) 55%, var(--wine-bright));
+            color: #ffffff;
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 26px var(--wine-glow-strong);
+            transition: transform 0.2s ease;
+        }
+
+        .j5-btn:hover { transform: translateY(-3px) scale(1.03); }
+        .j5-btn.pulso { animation: j5Pulso 1.6s ease-in-out infinite; }
+        .j5-btn kbd { font-family: var(--font-mono); font-size: 0.85rem; padding: 2px 8px; border-radius: 6px; background: rgba(255, 255, 255, 0.2); }
+
+        @keyframes j5Pulso {
+            0%, 100% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 0 rgba(190, 18, 60, 0.35); }
+            50% { box-shadow: 0 10px 26px var(--wine-glow-strong), 0 0 0 14px rgba(190, 18, 60, 0); }
+        }
+
+        @keyframes j5Sube {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Visuales (caja fija 760 × 330) */
+        .j5-vis {
+            width: 760px;
+            height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+        }
+
+        .j5-vis > svg { width: 760px; height: 330px; display: block; }
+        .j5-ver { align-self: center; border-radius: 16px; overflow: hidden; border: 1px solid #ece7f3; box-shadow: 0 18px 40px rgba(76, 5, 25, 0.12); animation: j5Entra 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+        @keyframes j5Entra {
+            from { opacity: 0; transform: scale(0.82) rotate(-1.5deg); filter: blur(10px); }
+            to { opacity: 1; transform: scale(1) rotate(0); filter: blur(0); }
+        }
+
+        .j5-native-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 40px 70px;
+            border: 1px solid #e1dfdd;
+            border-radius: 4px;
+            font-family: 'Segoe UI', var(--font-sans);
+        }
+
+        .j5-nv { font-size: 4.4rem; font-weight: 600; color: #252423; line-height: 1.1; }
+        .j5-nl { font-size: 1.3rem; color: #605e5c; }
+
+        .j5-kpi {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 30px 46px;
+            background: #ffffff;
+            border: 2px solid #e0d6f5;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(102, 51, 153, 0.14);
+        }
+
+        .j5-kpi .k-lbl { font-size: 1.1rem; }
+        .j5-kpi .k-val { font-size: 4.4rem; }
+        .j5-kpi .k-badge { font-size: 1.25rem; padding: 6px 16px; }
+
+        .j5-table {
+            width: 560px;
+            border-collapse: collapse;
+            font-family: 'Segoe UI', var(--font-sans);
+            font-size: 1rem;
+            color: #252423;
+        }
+
+        .j5-table th, .j5-table td { padding: 4px 10px; text-align: right; }
+        .j5-table th:first-child, .j5-table td:first-child { text-align: left; }
+        .j5-table th { font-weight: 700; border-bottom: 2px solid #c8c6c4; }
+        .j5-table tbody td { border-bottom: 1px solid #edebe9; }
+        .j5-table tfoot td { font-weight: 700; border-top: 2px solid #c8c6c4; }
+
+        /* Cortina */
+        .j5-curtain {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(110deg, var(--wine-dark), var(--wine-base) 50%, var(--wine-bright));
+            transform: translateX(-102%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .j5-curtain span {
+            font-size: 4.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .j5-curtain.corre { animation: j5Cortina 1s cubic-bezier(0.77, 0, 0.18, 1) both; }
+
+        @keyframes j5Cortina {
+            0% { transform: translateX(-102%); }
+            40%, 60% { transform: translateX(0); }
+            100% { transform: translateX(102%); }
+        }
+
+        /* Pregunta y respuesta */
+        .j5-q {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text-heading);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-opts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 22px;
+        }
+
+        .j5-opt {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 76px;
+            padding: 12px 18px;
+            border-radius: 18px;
+            border: 2px solid var(--card-border);
+            background: #ffffff;
+            box-shadow: var(--card-shadow);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: left;
+            cursor: pointer;
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+            transition: transform 0.18s ease, background 0.2s ease, border-color 0.2s ease, opacity 0.3s ease;
+        }
+
+        .j5-opt:nth-child(1) { animation-delay: 0.12s; }
+        .j5-opt:nth-child(2) { animation-delay: 0.22s; }
+        .j5-opt:nth-child(3) { animation-delay: 0.32s; }
+        .j5-opt:hover:not(:disabled) { transform: translateY(-4px); border-color: var(--wine-base); background: var(--wine-soft); }
+        .j5-opt:disabled { cursor: default; }
+
+        .j5-opt kbd {
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--wine-soft);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--wine-base);
+        }
+
+        .j5-opt.ok { background: var(--accent-emerald-bg); border-color: var(--accent-emerald); box-shadow: 0 0 0 5px var(--accent-emerald-border); animation: j5Brilla 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .j5-opt.ok kbd { background: var(--accent-emerald); color: #ffffff; }
+        .j5-opt.mal { background: var(--accent-danger-bg); border-color: var(--accent-danger); animation: j5Tiembla 0.5s ease; }
+        .j5-opt.apagada { opacity: 0.35; }
+
+        @keyframes j5Brilla {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.07); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes j5Tiembla {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(9px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(4px); }
+        }
+
+        .j5-confeti {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 14px;
+            border-radius: 3px;
+            pointer-events: none;
+            animation: j5Confeti 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes j5Confeti {
+            from { transform: translate(-50%, -50%) rotate(0); opacity: 1; }
+            to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)); opacity: 0; }
+        }
+
+        .j5-resp-q { font-size: 1.35rem; animation: none; }
+        .j5-resp .j5-opts { margin-top: 12px; }
+        .j5-resp .j5-opt { min-height: 60px; font-size: 1.1rem; animation: none; }
+
+        .j5-explica {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-top: 16px;
+            padding: 14px 18px;
+            border-radius: 18px;
+            background: var(--accent-gold-bg);
+            border-left: 5px solid var(--accent-gold);
+            animation: j5Sube 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+        }
+
+        .j5-thumb {
+            width: 380px;
+            height: 165px;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid #ece7f3;
+            background: #ffffff;
+        }
+
+        .j5-thumb .j5-vis { transform: scale(0.5); transform-origin: top left; }
+
+        .j5-explica-txt { display: flex; flex-direction: column; gap: 12px; }
+        .j5-explica p { font-size: 1.08rem; line-height: 1.45; color: var(--text-sub); }
+        .j5-explica p strong { color: var(--accent-gold); }
+        .j5-explica .j5-btn { font-size: 1.05rem; padding: 10px 22px; }
+
+        /* Final: cada nativo junto a su versión personalizada */
+        .j5-stage.final { grid-template-columns: 1fr; }
+        .j5-stage.final .j5-side { display: none; }
+
+        .j5-comp { display: flex; flex-direction: column; gap: 12px; height: 100%; }
+
+        .j5-comp-head {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            animation: j5Sube 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-comp-head h3 { font-size: 1.75rem; letter-spacing: -0.02em; }
+        .j5-comp-hint { flex: 1; font-size: 1rem; font-weight: 600; color: var(--text-dim); }
+        .j5-comp-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-pares {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .j5-par {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 8px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+            transition: transform 0.25s ease, background 0.25s ease;
+            animation: j5Sube 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation-delay: calc(var(--d) * 0.12s + 0.1s);
+        }
+
+        .j5-par:hover { transform: translateY(-5px); background: var(--wine-soft); }
+        .j5-par:hover .j5-mini.personalizado { box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.25), 0 14px 30px rgba(106, 13, 173, 0.18); }
+
+        .j5-par-q {
+            font-size: 1.02rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            text-align: center;
+        }
+
+        .j5-mini {
+            position: relative;
+            width: 320px;
+            height: 139px;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06);
+            transition: box-shadow 0.25s ease;
+        }
+
+        .j5-mini .j5-vis { transform: scale(0.421); transform-origin: top left; }
+
+        .j5-fila { display: flex; gap: 6px; align-items: stretch; }
+
+        .j5-vtag {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #ffffff;
+        }
+
+        .j5-vtag.nativo { background: #118DFF; }
+        .j5-vtag.personalizado { background: #6A0DAD; }
+        .j5-fila:has(.personalizado) { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) both; animation-delay: calc(var(--d) * 0.12s + 0.55s); }
+        .j5-mini.personalizado { border-color: rgba(106, 13, 173, 0.3); }
+
+        @keyframes j5Revela {
+            0% { opacity: 0; transform: translateY(34px) scale(0.86); }
+            60% { opacity: 1; box-shadow: 0 0 0 8px rgba(106, 13, 173, 0.22); }
+            100% { opacity: 1; transform: translateY(0) scale(1); box-shadow: 0 4px 14px rgba(76, 5, 25, 0.06); }
+        }
+
+        .j5-mtag {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            z-index: 1;
+            padding: 2px 9px;
+            border-radius: 999px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .j5-mtag.nativo { background: #118DFF; }
+        .j5-mtag.personalizado { background: #6A0DAD; }
+
+        /* Par en grande */
+        .j5-zoom {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 20px 24px;
+            background: #ffffff;
+            border-radius: 22px;
+            animation: j5Entra 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .j5-zoom-head { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+        .j5-zoom-head h3 { font-size: 1.6rem; letter-spacing: -0.02em; }
+        .j5-zoom-head .j5-btn { font-size: 1rem; padding: 9px 20px; }
+
+        .j5-zoom-par { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+
+        .j5-zoom-col { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+        .j5-zoom-col .j5-mtag { position: static; font-size: 0.95rem; padding: 4px 14px; }
+
+        .j5-big {
+            width: 502px;
+            height: 218px;
+            overflow: hidden;
+            border-radius: 14px;
+            background: #ffffff;
+            border: 1px solid #e7e2ee;
+            box-shadow: 0 12px 30px rgba(76, 5, 25, 0.1);
+        }
+
+        .j5-big .j5-vis { transform: scale(0.6605); transform-origin: top left; }
+        .j5-zoom-col:last-child .j5-big { animation: j5Revela 0.75s cubic-bezier(0.34, 1.4, 0.64, 1) 0.2s both; }
+
+        .j5-zoom-nota {
+            font-size: 1.1rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
+        .j5-zoom-nota strong { color: var(--wine-base); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .j5-stage *, .j5-stage { animation-duration: 0.01s !important; transition-duration: 0.01s !important; }
+        }
+
+        /* ===== El filtro universal por dentro ===== */
+        .ft-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 22px;
+            align-items: center;
+        }
+
+        .ft-mock { padding: 10px 14px; }
+        .ft-mock svg { width: 100%; height: 248px; display: block; }
+        .ft-mock:hover { transform: none; }
+
+        .slide.active .ft-drop { animation: ftAbre 0.7s cubic-bezier(0.34, 1.4, 0.64, 1) 0.45s both; transform-origin: 252px 72px; }
+
+        @keyframes ftAbre {
+            from { opacity: 0; transform: translateY(-10px) scaleY(0.6); }
+            to { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .ft-grid .anatomy-item span:not(.pin) { font-size: 0.95rem; }
+
+        .llm-card { gap: 10px; padding: 14px 20px 16px; }
+        .llm-card:hover { transform: none; }
+
+        .llm-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .llm-head h3 { font-size: 1.25rem; }
+
+        .llm-flow {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .llm-step {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 10px 12px;
+            background: #ffffff;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+        }
+
+        .llm-step .route-who { align-self: flex-start; min-width: 0; padding: 2px 10px; }
+        .llm-step strong { font-size: 1rem; color: var(--text-heading); }
+        .llm-step > span:last-child { font-size: 0.9rem; line-height: 1.35; color: var(--text-muted); }
+
+        .llm-arrow {
+            align-self: center;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--wine-base);
+        }
+
+        /* ===================== CLASE 04 ===================== */
+        .agenda.cinco { grid-template-columns: repeat(5, 1fr); }
+
+        /* ¿Nativo o personalizado? */
+        .nv-grid { grid-template-columns: 1fr 1fr; }
+        .nv-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .nv-list li { display: flex; flex-direction: column; gap: 2px; padding-left: 14px; border-left: 3px solid var(--card-border); }
+        .nv-grid .cv-col:last-child .nv-list li { border-left-color: var(--wine-base); }
+        .nv-list strong { font-size: 1.1rem; color: var(--text-heading); }
+        .nv-list span { font-size: 1rem; line-height: 1.4; color: var(--text-muted); }
+
+        /* PBIX contra PBIP */
+        .code-vs { display: grid; grid-template-columns: 1fr 1.25fr; gap: 22px; }
+        .cv-col { gap: 12px; padding: 18px 22px 20px; }
+        .cv-box { width: 100%; height: 170px; display: block; }
+        .cv-text { font-size: 1.05rem; line-height: 1.45; color: var(--text-sub); }
+        .cv-text strong { color: var(--text-heading); }
+
+        .ft-tree {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 12px 14px;
+            background: #faf9fc;
+            border: 1px solid #ece7f3;
+            border-radius: 14px;
+        }
+
+        .ft-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 4px 8px 4px calc(8px + var(--n) * 22px);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-heading);
+        }
+
+        .ft-note { font-family: var(--font-sans); font-size: 0.9rem; font-weight: 600; color: var(--text-dim); }
+        .ft-row.hot { background: var(--wine-soft); color: var(--wine-base); }
+        .ft-row.hot .ft-note { color: var(--wine-base); }
+
+        /* Tubería de la orden maestra */
+        .pipe { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
+
+        .pipe-step {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 16px 16px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .pipe-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -12px;
+            top: 18px;
+            z-index: 2;
+            font-weight: 800;
+            color: var(--wine-base);
+        }
+
+        .pipe-n {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--wine-base);
+            color: #ffffff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pipe-step .route-who { align-self: flex-start; min-width: 0; padding: 2px 10px; }
+        .pipe-step strong { font-size: 1.08rem; color: var(--text-heading); }
+        .pipe-step > span:last-child { font-size: 0.95rem; line-height: 1.4; color: var(--text-muted); }
+
+        .slide.active .pipe-step { animation: slideElemFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .slide.active .pipe-step:nth-child(2) { animation-delay: 0.08s; }
+        .slide.active .pipe-step:nth-child(3) { animation-delay: 0.16s; }
+        .slide.active .pipe-step:nth-child(4) { animation-delay: 0.24s; }
+        .slide.active .pipe-step:nth-child(5) { animation-delay: 0.32s; }
+
+        .pipe-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .pipe-note {
+            padding: 12px 16px;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.02rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+        }
+
+        .pipe-note.warn { background: var(--accent-gold-bg); border-left: 4px solid var(--accent-gold); }
+        .pipe-note.warn strong { color: var(--accent-gold); }
+        .pipe-note.good { background: var(--accent-emerald-bg); border-left: 4px solid var(--accent-emerald); }
+        .pipe-note.good strong { color: var(--accent-emerald); }
+
+        /* El prompt del analista director */
+        .dir-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: center; }
+        .dir-prompt { gap: 10px; padding: 18px 22px; }
+
+        .dir-text {
+            font-family: var(--font-mono);
+            font-size: 1.04rem;
+            font-weight: 600;
+            line-height: 1.85;
+            color: var(--text-heading);
+        }
+
+        mark { padding: 2px 4px; border-radius: 5px; color: inherit; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+        mark.m1, .dot.m1 { background: rgba(180, 83, 9, 0.18); }
+        mark.m2, .dot.m2 { background: rgba(109, 40, 217, 0.16); }
+        mark.m3, .dot.m3 { background: rgba(3, 105, 161, 0.16); }
+        mark.m4, .dot.m4 { background: rgba(4, 120, 87, 0.17); }
+
+        .dir-pieces { display: flex; flex-direction: column; gap: 12px; }
+        .dir-piece { display: flex; align-items: flex-start; gap: 12px; }
+        .dir-piece strong { display: block; font-size: 1.12rem; color: var(--text-heading); }
+        .dir-piece span:not(.dot) { display: block; font-size: 0.98rem; line-height: 1.4; color: var(--text-muted); }
+
+        .dot { width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0; margin-top: 3px; }
+        .dot.m1 { box-shadow: inset 0 0 0 2px #b45309; }
+        .dot.m2 { box-shadow: inset 0 0 0 2px #6d28d9; }
+        .dot.m3 { box-shadow: inset 0 0 0 2px #0369a1; }
+        .dot.m4 { box-shadow: inset 0 0 0 2px #047857; }
+
+        .check-big { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 800; color: var(--accent-emerald); }
+        .filtro-table td:first-child { width: 200px; }
+
+        /* Taller 1 con captura */
+        .t1-grid { grid-template-columns: 1fr 520px; }
+        .shot { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--accent-emerald-border); background: #ffffff; }
+
+        /* Lo que la IA decide sola */
+        .dec-grid { display: grid; grid-template-columns: 1fr 330px; gap: 22px; align-items: stretch; }
+
+        .dec-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            font-size: 1.05rem;
+        }
+
+        .dec-table th { background: var(--wine-dark); color: #ffffff; text-align: left; padding: 10px 16px; font-size: 0.95rem; }
+        .dec-table td { padding: 10px 16px; border-bottom: 1px solid #f1e7ea; color: var(--text-sub); }
+        .dec-table td:first-child { font-weight: 800; color: var(--text-heading); }
+        .dec-table tr:last-child td { border-bottom: none; }
+
+        .cls-chip { padding: 3px 10px; border-radius: 8px; background: var(--accent-purple-bg); color: var(--accent-purple); font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
+
+        .dec-side { gap: 10px; padding: 20px 22px; }
+        .dec-side p { font-size: 1.05rem; line-height: 1.5; color: var(--text-sub); }
+        .dec-side strong { color: var(--text-heading); }
+
+        /* ===== Pídele más a la IA ===== */
+        .ideas-content { gap: 8px; justify-content: flex-start; padding-top: 4px; }
+        .ideas-top { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .ideas-bottom { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+        .idea-demo, .idea { gap: 7px; padding: 10px 13px; }
+        .idea-demo:hover, .idea:hover { transform: none; }
+
+        .idea-head { display: flex; align-items: center; gap: 8px; }
+        .idea-head h3 { margin-right: auto; }
+        .idea-head h3 { font-size: 1.08rem; }
+
+        .idea-chip { flex-shrink: 0; padding: 3px 10px; border-radius: 999px; font-size: 0.84rem; font-weight: 800; white-space: nowrap; }
+        .idea-chip.ok { background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+        .idea-chip.warn { background: var(--accent-gold-bg); color: var(--accent-gold); }
+
+        .prompt-copy.mini { display: block; padding: 7px 8px 7px 11px; margin-top: auto; }
+        .prompt-copy.mini .prompt-copy-text { font-size: 0.78rem; line-height: 1.36; }
+        .prompt-copy.mini .copy-prompt-btn { float: right; margin: 0 0 4px 8px; padding: 3px 11px; font-size: 0.82rem; }
+
+        /* Tooltip en vivo */
+        .tt-wrap { position: relative; height: 116px; }
+        .tt-svg { width: 100%; height: 116px; display: block; }
+        .tt-pt { cursor: pointer; }
+        .tt-pt circle { transition: r 0.15s ease; }
+        .tt-pt.on circle { r: 8; }
+
+        .tt-box {
+            position: absolute;
+            top: 0;
+            min-width: 168px;
+            padding: 8px 12px;
+            background: #ffffff;
+            border: 1px solid #f3c7a8;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px rgba(76, 5, 25, 0.16);
+            font-size: 0.86rem;
+            line-height: 1.45;
+            color: var(--text-sub);
+            pointer-events: none;
+            transition: left 0.18s ease, top 0.18s ease;
+        }
+
+        .tt-box b { display: block; font-size: 0.95rem; color: var(--text-heading); }
+        .tt-box .up { color: var(--accent-emerald); font-weight: 800; }
+        .tt-box .down { color: var(--accent-danger); font-weight: 800; }
+
+        /* Tarjeta con botones y desplegable */
+        .kd-wrap { display: grid; grid-template-columns: 1fr 190px; gap: 12px; align-items: start; height: 116px; }
+
+        .kd-card {
+            padding: 9px 14px;
+            background: #ffffff;
+            border: 1.5px solid #fbd5bd;
+            border-top: 4px solid #E8590C;
+            border-radius: 12px;
+        }
+
+        .kd-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .kd-lbl { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #71717a; }
+        .kd-seg { display: inline-flex; padding: 2px; border-radius: 999px; background: #fdf0e8; }
+
+        .kd-btn {
+            padding: 3px 10px;
+            border: none;
+            border-radius: 999px;
+            background: transparent;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #9a3412;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .kd-btn.activo { background: #E8590C; color: #ffffff; }
+        .kd-val { margin: 4px 0 4px; font-size: 1.75rem; font-weight: 800; line-height: 1; color: #c2410c; }
+        .kd-val.cambia { animation: kdCambia 0.35s ease; }
+
+        @keyframes kdCambia {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .kd-badge { display: inline-block; padding: 2px 10px; border-radius: 20px; background: #e6f9f0; color: #1a7a4a; font-size: 0.84rem; font-weight: 800; }
+
+        .kd-det { border: 1.5px solid #fbd5bd; border-radius: 12px; background: #ffffff; }
+        .kd-det summary { padding: 8px 12px; font-size: 0.88rem; font-weight: 800; color: #c2410c; cursor: pointer; list-style: none; }
+        .kd-det summary::-webkit-details-marker { display: none; }
+        .kd-det summary::after { content: ' ▾'; }
+        .kd-det[open] summary::after { content: ' ▴'; }
+        .kd-rows { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 0 12px 10px; font-size: 0.86rem; color: var(--text-sub); animation: kdCambia 0.3s ease; }
+        .kd-rows b { color: var(--text-heading); }
+
+        /* Detalle al pasar el ratón */
+        .hv-card { position: relative; height: 50px; border-radius: 12px; background: #ffffff; border: 1.5px solid #fbd5bd; overflow: hidden; cursor: default; }
+        .hv-front, .hv-back { position: absolute; inset: 0; display: flex; align-items: center; padding: 0 14px; transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1), opacity 0.3s ease; }
+        .hv-front { justify-content: space-between; }
+        .hv-front b { font-size: 1.6rem; color: #c2410c; }
+        .hv-back { justify-content: space-between; gap: 8px; background: #fff7ed; transform: translateY(100%); opacity: 0; font-size: 0.84rem; color: var(--text-sub); }
+        .hv-back span { display: flex; flex-direction: column; }
+        .hv-back b { font-size: 1rem; color: #c2410c; }
+        .hv-card:hover .hv-front, .hv-card:focus .hv-front { transform: translateY(-100%); opacity: 0; }
+        .hv-card:hover .hv-back, .hv-card:focus .hv-back { transform: translateY(0); opacity: 1; }
+
+        /* Frase dinámica */
+        .fr-txt { display: block; min-height: 50px; padding: 8px 14px; border-radius: 12px; background: #fff7ed; border-left: 4px solid #E8590C; font-size: 0.95rem; line-height: 1.4; color: var(--text-sub); }
+        .fr-txt b { color: #c2410c; }
+
+        /* ===== Así se ve un visual.json ===== */
+        .vj-grid { display: grid; grid-template-columns: 1fr 390px; gap: 20px; align-items: stretch; }
+
+        .vj-code { display: flex; flex-direction: column; border-radius: 16px; overflow: hidden; background: #fbfaf8; border: 1px solid #ece4e6; box-shadow: var(--card-shadow); }
+        .vj-bar { display: flex; justify-content: space-between; gap: 12px; padding: 8px 14px; background: #f3eef0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; color: var(--text-dim); }
+        .vj-lines { color: var(--wine-base); white-space: nowrap; }
+
+        .vj-code pre {
+            margin: 0;
+            padding: 12px 6px;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #52525b;
+            white-space: pre;
+            overflow: hidden;
+        }
+
+        .jk { color: #7c3aed; }
+        .js { color: #b45309; }
+        .jn { color: #0369a1; }
+        .jz { display: inline-block; width: calc(100% - 4px); margin-left: -4px; padding-left: 4px; border-left: 4px solid transparent; border-radius: 0 6px 6px 0; }
+        .jz.z1 { background: rgba(3, 105, 161, 0.08); border-left-color: #0369a1; }
+        .jz.z2 { background: rgba(4, 120, 87, 0.08); border-left-color: #047857; }
+        .jz.z3 { background: rgba(180, 83, 9, 0.08); border-left-color: #b45309; }
+
+        .sw { border-radius: 4px; transition: background 0.3s ease; }
+        .sw.cambio { background: #bbf7d0; color: #166534; animation: vjFlash 0.7s ease; }
+        @keyframes vjFlash { 0% { background: #fde68a; } 100% { background: #bbf7d0; } }
+
+        .vj-side { display: flex; flex-direction: column; gap: 8px; }
+        .vj-ley { display: flex; align-items: flex-start; gap: 10px; }
+        .vj-ley strong { display: block; font-size: 1.02rem; color: var(--text-heading); }
+        .vj-ley span:not(.vj-n) { display: block; font-size: 0.92rem; line-height: 1.3; color: var(--text-muted); }
+        .vj-n { flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem; color: #ffffff; }
+        .vj-ley.z1 .vj-n { background: #0369a1; }
+        .vj-ley.z2 .vj-n { background: #047857; }
+        .vj-ley.z3 .vj-n { background: #b45309; }
+
+        .vj-demo { margin-top: auto; display: flex; flex-direction: column; gap: 9px; padding: 11px 13px; border-radius: 14px; background: var(--wine-soft); }
+
+        .vj-tabs { display: flex; gap: 6px; }
+
+        .vj-tab {
+            flex: 1;
+            padding: 5px 6px;
+            border: 1.5px solid #e8c9d2;
+            border-radius: 999px;
+            background: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--wine-base);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .vj-tab.activo { background: var(--wine-base); border-color: var(--wine-base); color: #ffffff; }
+        .vj-prompt { min-height: 2.9em; font-family: var(--font-mono); font-size: 0.86rem; font-weight: 600; line-height: 1.45; color: var(--text-heading); }
+        .vj-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; height: 76px; }
+
+        .vj-card {
+            width: 136px;
+            height: 72px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            background: #ffffff;
+            border: 1px solid #ebe7e5;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(140, 156, 168, 0.25);
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .vj-card b { font-family: 'Segoe UI', var(--font-sans); font-size: 1.5rem; font-weight: 600; line-height: 1.1; color: #1F2933; transition: color 0.4s ease, font-size 0.4s ease; }
+        .vj-card span { font-size: 0.78rem; color: #6B7A86; white-space: nowrap; }
+        .vj-card.ancha { width: 240px; }
+        .vj-card.grande b { font-size: 1.95rem; font-weight: 800; }
+        .vj-card.cambia { animation: kdCambia 0.4s ease; }
+        .vj-btn { flex-shrink: 0; }
+
+        /* ===================== CLASE 07 ===================== */
+        .t1-grid { grid-template-columns: 1fr 440px; }
+        .agenda.cuatro { grid-template-columns: repeat(4, 1fr); }
+        .co-n { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--wine-base); font-size: 0.95rem; font-weight: 800; color: #ffffff; }
+        .t2-grid { grid-template-columns: 1fr 520px; }
+        .shot { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--accent-emerald-border); background: #ffffff; }
+
+        /* Liga del cierre */
+        .liga-btn { display: grid; place-items: center; width: 52px; height: 52px; margin-top: 10px; border: 1.5px solid var(--wine-base); border-radius: 14px; background: var(--wine-soft); font: inherit; font-size: 1.6rem; font-weight: 800; color: var(--wine-base); cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+        .liga-btn:hover { background: var(--wine-base); color: #ffffff; }
+        .liga-btn.copiado { border-color: var(--accent-emerald); background: var(--accent-emerald-bg); color: var(--accent-emerald); }
+
+        /* Piezas compartidas */
+        .pv-t { font-family: var(--font-mono); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); }
+        .pv-code-t { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: #9a3412; }
+        .pv-n { display: grid; place-items: center; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--wine-base); font-weight: 800; color: #ffffff; }
+        .sy-pick { display: inline-flex; padding: 3px; border-radius: 999px; background: #f4f4f5; border: 1px solid var(--card-border); }
+        .sy-pick button { padding: 6px 14px; border: none; border-radius: 999px; background: none; font: inherit; font-size: 0.9rem; font-weight: 700; color: var(--text-sub); cursor: pointer; }
+        .sy-pick button.activo { background: var(--wine-base); color: #ffffff; }
+        .sy-code { gap: 8px; padding: 14px 18px; background: #fff7f2; border: 1.5px dashed #f3c4a8; }
+        .sy-code code { font-family: var(--font-mono); font-size: 0.95rem; line-height: 1.6; color: #27272a; white-space: normal; }
+        .sy-code code b { color: #c2410c; }
+
+        /* Biblioteca (Taller 1) */
+        .lib { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 10px; background: #ffffff; border: 1px solid var(--accent-emerald-border); }
+        .lib-f, .lib-doc { display: flex; align-items: center; gap: 8px; font-size: 1rem; color: #27272a; }
+        .lib-doc { margin-left: 26px; }
+        .lib-ic { font-size: 1.1rem; }
+        .lib-sw { display: inline-flex; gap: 3px; margin-left: auto; }
+        .lib-sw i { width: 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.12); }
+
+        /* Maqueta del dashboard */
+        .mk { border-radius: 12px; overflow: hidden; border: 1px solid var(--brd); font-size: 0.8rem; transition: background 0.3s ease; }
+        .mk * { transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, stroke 0.3s ease, box-shadow 0.2s ease; }
+        .mk-hdr { display: flex; align-items: center; justify-content: space-between; height: 38px; padding: 0 14px; background: var(--hdr); color: var(--hdrtxt); }
+        .mk-hdr b { font-size: 0.9rem; }
+        .mk-nav { display: flex; gap: 6px; }
+        .mk-nav i { padding: 3px 10px; border-radius: 6px; border: 1px solid var(--hdrtxt); font-style: normal; font-size: 0.75rem; font-weight: 700; opacity: 0.85; }
+        .mk-nav i.on { background: var(--navon); border-color: var(--navon); color: var(--navontxt); opacity: 1; }
+        .mk-body { display: flex; flex-direction: column; gap: 9px; padding: 10px 12px 12px; background: var(--pg); }
+        .mk-bar { display: flex; gap: 6px; }
+        .mk-bar em { flex: 1; padding: 4px 0; border-radius: 999px; border: 1px solid var(--brd); background: var(--card); text-align: center; font-style: normal; font-size: 0.74rem; font-weight: 700; color: var(--txt2); }
+        .mk-bar em.on { background: var(--acc); border-color: var(--acc); color: var(--acctxt); }
+        .mk-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .mk-card { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: var(--rad); background: var(--card); border: 1px solid var(--brd); }
+        .mk-kpis .mk-card { border-top: 3px solid var(--acc); }
+        .mk-card small { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--txt2); }
+        .mk-card b { font-size: 1.15rem; color: var(--txt); }
+        .mk-s { align-self: flex-start; padding: 1px 7px; border-radius: 999px; font-size: 0.66rem; font-weight: 800; text-decoration: none; }
+        .mk-s.ok { background: var(--okbg); color: var(--oktx); }
+        .mk-s.wa { background: var(--wabg); color: var(--watx); }
+        .mk-s.ko { background: var(--kobg); color: var(--kotx); }
+        .mk-charts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .mk-ch { height: 128px; }
+        .mk-ch small { color: var(--txt); text-transform: none; font-size: 0.74rem; letter-spacing: 0; }
+        .mk-ch svg { flex: 1; width: 100%; }
+        .mk-l1 { fill: none; stroke: var(--acc); stroke-width: 3; vector-effect: non-scaling-stroke; }
+        .mk-l2 { fill: none; stroke: var(--sec); stroke-width: 2; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; }
+        .mk-bul { flex: 1; display: flex; flex-direction: column; justify-content: space-around; }
+        .mk-bul span { display: flex; align-items: center; gap: 5px; }
+        .mk-bul em { display: block; height: 9px; border-radius: 2px; background: var(--acc); }
+        .mk-bul .mk-s { padding: 0 5px; font-size: 0.6rem; }
+        .mk-cols { flex: 1; display: flex; align-items: flex-end; justify-content: space-around; border-bottom: 1px solid var(--brd); }
+        .mk-cols em { display: block; width: 16%; border-radius: 3px 3px 0 0; background: var(--acc); }
+        /* Se apaga solo lo que no está elegido ni contiene algo elegido: así lo iluminado nunca hereda transparencia */
+        .mk.foco [data-rol]:not(.lit):not(:has(.lit)) { opacity: 0.18; filter: grayscale(0.7); }
+        .mk.foco [data-rol].lit { box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px #e11d48; }
+        .mk.foco .mk-body.lit, .mk.foco .mk-hdr.lit { box-shadow: inset 0 0 0 4px #e11d48; }
+        .mk.foco .mk-l1.lit, .mk.foco .mk-l2.lit { stroke-width: 5; box-shadow: none; filter: drop-shadow(0 0 2px #e11d48); }
+
+        /* Anatomía y claro/oscuro */
+        .an-grid { display: grid; grid-template-columns: 1fr 380px; gap: 18px; align-items: start; }
+        .an-demo { gap: 10px; }
+        .an-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .an-roles { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+        .an-rol { display: flex; align-items: center; gap: 9px; padding: 8px 10px; border: 1.5px solid var(--card-border); border-radius: 10px; background: #ffffff; font: inherit; text-align: left; cursor: pointer; }
+        .an-rol.activo { border-color: #e11d48; background: #fff1f2; }
+        .an-rol div { display: flex; flex-direction: column; gap: 1px; }
+        .an-rol strong { font-size: 0.92rem; color: #27272a; }
+        .an-rol span { font-size: 0.76rem; line-height: 1.25; color: var(--text-sub); }
+        .an-sw { flex-shrink: 0; width: 26px; height: 26px; border-radius: 7px; border: 1px solid rgba(0, 0, 0, 0.15); }
+        .an-sw[data-sw="sem"] { background: linear-gradient(90deg, #2F9E44 33%, #F2B705 33% 66%, #E03131 66%) !important; }
+        .co-reglas { display: flex; flex-direction: column; gap: 8px; }
+        .co-it { display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; border-radius: 10px; background: #ffffff; border: 1px solid var(--card-border); }
+        .co-it div { display: flex; flex-direction: column; gap: 1px; }
+        .co-it strong { font-size: 0.95rem; color: #27272a; }
+        .co-it span:not(.co-n) { font-size: 0.82rem; line-height: 1.3; color: var(--text-sub); }
+
+        /* Dónde vive cada color */
+        .dv-grid { display: grid; grid-template-columns: 1fr 440px; gap: 18px; align-items: start; }
+        .dv-lista { display: flex; flex-direction: column; gap: 8px; }
+        .dv-it { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1.5px solid var(--card-border); border-radius: 12px; background: #ffffff; font: inherit; text-align: left; cursor: pointer; }
+        .dv-it.activo { border-color: #E8590C; background: #E8590C; box-shadow: 0 6px 18px rgba(232, 89, 12, 0.3); }
+        .dv-it.activo strong, .dv-it.activo span:not(.dv-n) { color: #ffffff; }
+        .dv-it.activo .dv-n { background: #ffffff; color: #c2410c; }
+        .dv-n { flex-shrink: 0; min-width: 96px; padding: 4px 8px; border-radius: 999px; background: #fff1e6; font-size: 0.82rem; font-weight: 800; text-align: center; color: #c2410c; }
+        .dv-it div { display: flex; flex-direction: column; gap: 1px; }
+        .dv-it strong { font-size: 1.02rem; color: #27272a; }
+        .dv-it span:not(.dv-n) { font-size: 0.86rem; color: var(--text-sub); }
+        .dv-side { display: flex; flex-direction: column; gap: 12px; }
+        .dv-cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .dv-cifras div { display: flex; flex-direction: column; align-items: center; padding: 10px 6px; border-radius: 12px; background: #ffffff; border: 1px solid var(--card-border); }
+        .dv-cifras b { font-size: 1.7rem; color: var(--wine-base); }
+        .dv-cifras span { font-size: 0.82rem; color: var(--text-sub); }
+        .dv-nota { font-size: 0.85rem; color: var(--text-dim); text-align: center; }
+
+        /* Tipografía: «Aptos Demo» usa la Aptos instalada y, si el navegador no la ve, la copia local junto al index (excluida de git) */
+        @font-face { font-family: 'Aptos Demo'; font-weight: 400 600; src: local('Aptos'), local('Aptos-Regular'), url('aptos.ttf') format('truetype'); }
+        @font-face { font-family: 'Aptos Demo'; font-weight: 700 900; src: local('Aptos Bold'), local('Aptos-Bold'), url('aptos-bold.ttf') format('truetype'); }
+        /* Tipografía */
+        .ty-grid { display: grid; grid-template-columns: 1fr 440px; gap: 18px; align-items: start; }
+        .ty-demo { gap: 14px; }
+        .ty-card { display: flex; flex-direction: column; gap: 6px; font-family: 'Segoe UI', sans-serif; padding: 26px 30px; border-radius: 14px; background: #ffffff; border: 1.5px solid #ebe7e5; border-top: 5px solid #E8590C; }
+        .ty-card small { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #6b7a86; }
+        .ty-card b { font-size: 3.4rem; line-height: 1.05; color: #1f2933; }
+        .ty-card span { font-size: 1.05rem; color: #4a5763; }
+        .ty-side { display: flex; flex-direction: column; gap: 10px; }
+        .ty-it { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border-radius: 12px; background: #ffffff; border: 1px solid var(--card-border); }
+        .ty-it div { display: flex; flex-direction: column; gap: 2px; }
+        .ty-it strong { font-size: 1.02rem; color: #27272a; }
+        .ty-it span { font-size: 0.88rem; line-height: 1.35; color: var(--text-sub); }
+        .ty-dot { flex-shrink: 0; width: 14px; height: 14px; margin-top: 4px; border-radius: 50%; }
+        .ty-dot.ok { background: #2F9E44; }
+        .ty-dot.wa { background: #F2B705; }
+        .ty-dot.ko { background: #E03131; }
+
+        /* Juego · ¿Se lee o no se lee? */
+        .ct-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .ct-card { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1.5px solid var(--card-border); border-radius: 14px; background: #ffffff; font: inherit; text-align: left; cursor: pointer; }
+        .ct-n { position: absolute; top: -10px; left: -10px; display: grid; place-items: center; width: 28px; height: 28px; border: 2.5px solid #ffffff; border-radius: 50%; background: var(--wine-base); font-size: 0.9rem; font-weight: 800; color: #ffffff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+        .ct-m { display: flex; flex-direction: column; justify-content: center; height: 82px; padding: 0 14px; border-radius: 10px; font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+        .ct-m small { font-size: 0.8rem; font-weight: 600; }
+        .ct-d { font-size: 0.8rem; line-height: 1.3; color: var(--text-sub); }
+        .ct-r { display: none; align-items: center; justify-content: space-between; gap: 6px; padding: 5px 9px; border-radius: 8px; font-size: 0.82rem; font-weight: 800; }
+        .ct-r b { font-family: var(--font-mono); font-size: 0.95rem; }
+        .ct-card.ver .ct-r { display: flex; }
+        .ct-card.ver[data-ok="1"] { border-color: #2F9E44; }
+        .ct-card.ver[data-ok="0"] { border-color: #E03131; }
+        .ct-card.ver[data-ok="1"] .ct-r { background: #E6F6EA; color: #237A37; }
+        .ct-card.ver[data-ok="0"] .ct-r { background: #FCE8E8; color: #C0262D; }
+        .ct-card.ver[data-ok="1"] .ct-n { background: #2F9E44; }
+        .ct-card.ver[data-ok="0"] .ct-n { background: #E03131; }
+        .ct-pie { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+        .ct-cuenta { margin-right: auto; font-size: 1.05rem; font-weight: 800; color: #27272a; }
+        .ct-pie button { padding: 7px 16px; border: 1.5px solid var(--wine-base); border-radius: 10px; background: #ffffff; font: inherit; font-size: 0.95rem; font-weight: 800; color: var(--wine-base); cursor: pointer; }
+        .ct-pie .bj-todo { background: var(--wine-base); color: #ffffff; }
+
+        /* Tus dos versiones */
+        .vs-grid { display: grid; grid-template-columns: 1fr 1fr 360px; gap: 14px; align-items: start; }
+        .vs-fig { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+        .vs-fig figcaption { font-size: 0.95rem; color: var(--text-sub); text-align: center; }
+        .vs-fig figcaption b { color: #27272a; }
+        .vs-side { display: flex; flex-direction: column; gap: 10px; }
+        .vs-side .prompt-copy-text { font-size: 0.86rem; }
+    </style>
+</head>
+
+<body>
+
+
+    <!-- Top Progress Bar -->
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Cursor Spotlight -->
+    <div class="cursor-spotlight" id="spotlight"></div>
+
+    <main class="deck" id="deck">
+
+        <!-- ===================================================================
+             DECK CONTAINER (12 DIAPOSITIVAS • ESTILO E IDENTIDAD CORPORATIVA)
+             =================================================================== -->
+
+        <!-- ===================================================================
+             SLIDE 01: [PORTADA] ESTILO E IDENTIDAD CORPORATIVA
+             =================================================================== -->
+        <section class="slide active" data-slide="1" data-type="Portada">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Programa Oficial Datdata • 2026</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge">Clase 07 de 10</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div class="cover-grid">
+                    <div>
+                        <span class="badge purple" style="margin-bottom: 0.9rem;">Fase 2 • Diseño visual</span>
+                        <h1>Estilo e identidad <span class="wine-gradient">corporativa</span></h1>
+                        <p class="slide-subtitle">El mismo dashboard, con la marca de cualquier empresa: un manual de marca y un solo prompt, sin formatear visual por visual.</p>
+                        <div class="tag-group" style="margin-top: 1.4rem;">
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--wine-base); box-shadow: 0 0 8px var(--wine-base);"></span><span>Biblioteca de marcas</span></div>
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--accent-cyan); box-shadow: 0 0 8px var(--accent-cyan);"></span><span>Marca del cliente en un prompt</span></div>
+                            <div class="tag-card"><span class="tag-indicator" style="background: var(--accent-emerald); box-shadow: 0 0 8px var(--accent-emerald);"></span><span>Modo claro y oscuro</span></div>
+                        </div>
+                    </div>
+                    <figure class="cover-art">
+                        <svg viewBox="0 0 470 412" fill="none" aria-hidden="true">
+                            <circle cx="236" cy="206" r="190" fill="rgba(136, 19, 55, 0.045)" />
+                            <g transform="rotate(-6 147 138)">
+                                <rect x="34" y="58" width="226" height="160" rx="16" fill="#F6F4F3" stroke="#EBE7E5" stroke-width="2" />
+                                <rect x="34" y="58" width="226" height="26" rx="16" fill="#321C11" /><rect x="34" y="72" width="226" height="12" fill="#321C11" />
+                                <rect x="46" y="96" width="62" height="34" rx="7" fill="#FFFFFF" stroke="#EBE7E5" stroke-width="1.5" /><rect x="54" y="108" width="38" height="10" rx="3" fill="#E8590C" /><rect x="116" y="96" width="62" height="34" rx="7" fill="#FFFFFF" stroke="#EBE7E5" stroke-width="1.5" /><rect x="124" y="108" width="38" height="10" rx="3" fill="#2F9E44" /><rect x="186" y="96" width="62" height="34" rx="7" fill="#FFFFFF" stroke="#EBE7E5" stroke-width="1.5" /><rect x="194" y="108" width="38" height="10" rx="3" fill="#E8590C" />
+                                <rect x="46" y="140" width="202" height="66" rx="8" fill="#FFFFFF" stroke="#EBE7E5" stroke-width="1.5" />
+                                <path d="M58 192 C 94 168, 124 184, 154 158 S 214 162, 236 152" stroke="#E8590C" stroke-width="3.5" fill="none" stroke-linecap="round" />
+                              </g><g transform="rotate(0 235 182)">
+                                <rect x="122" y="102" width="226" height="160" rx="16" fill="#F5F7FA" stroke="#DDE3EB" stroke-width="2" />
+                                <rect x="122" y="102" width="226" height="26" rx="16" fill="#0B2E59" /><rect x="122" y="116" width="226" height="12" fill="#0B2E59" />
+                                <rect x="134" y="140" width="62" height="34" rx="7" fill="#FFFFFF" stroke="#DDE3EB" stroke-width="1.5" /><rect x="142" y="152" width="38" height="10" rx="3" fill="#0B2E59" /><rect x="204" y="140" width="62" height="34" rx="7" fill="#FFFFFF" stroke="#DDE3EB" stroke-width="1.5" /><rect x="212" y="152" width="38" height="10" rx="3" fill="#2F9E44" /><rect x="274" y="140" width="62" height="34" rx="7" fill="#FFFFFF" stroke="#DDE3EB" stroke-width="1.5" /><rect x="282" y="152" width="38" height="10" rx="3" fill="#0B2E59" />
+                                <rect x="134" y="184" width="202" height="66" rx="8" fill="#FFFFFF" stroke="#DDE3EB" stroke-width="1.5" />
+                                <path d="M146 236 C 182 212, 212 228, 242 202 S 302 206, 324 196" stroke="#0B2E59" stroke-width="3.5" fill="none" stroke-linecap="round" />
+                              </g><g transform="rotate(6 323 226)">
+                                <rect x="210" y="146" width="226" height="160" rx="16" fill="#15100D" stroke="#4A3B32" stroke-width="2" />
+                                <rect x="210" y="146" width="226" height="26" rx="16" fill="#321C11" /><rect x="210" y="160" width="226" height="12" fill="#321C11" />
+                                <rect x="222" y="184" width="62" height="34" rx="7" fill="#211915" stroke="#4A3B32" stroke-width="1.5" /><rect x="230" y="196" width="38" height="10" rx="3" fill="#E8590C" /><rect x="292" y="184" width="62" height="34" rx="7" fill="#211915" stroke="#4A3B32" stroke-width="1.5" /><rect x="300" y="196" width="38" height="10" rx="3" fill="#2F9E44" /><rect x="362" y="184" width="62" height="34" rx="7" fill="#211915" stroke="#4A3B32" stroke-width="1.5" /><rect x="370" y="196" width="38" height="10" rx="3" fill="#E8590C" />
+                                <rect x="222" y="228" width="202" height="66" rx="8" fill="#211915" stroke="#4A3B32" stroke-width="1.5" />
+                                <path d="M234 280 C 270 256, 300 272, 330 246 S 390 250, 412 240" stroke="#E8590C" stroke-width="3.5" fill="none" stroke-linecap="round" />
+                              </g>
+                            <path d="M432 40 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3 Z" fill="#fda4af" />
+                            <circle cx="420" cy="356" r="30" fill="#D97757" stroke="#ffffff" stroke-width="4" />
+                            <path d="M420 340 l4 11 l11 4 l-11 4 l-4 11 l-4 -11 l-11 -4 l11 -4 Z" fill="#ffffff" />
+                        </svg>
+                        <figcaption>Un dashboard, <strong>tres marcas</strong>.</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 02: [AGENDA] LA MARCA DE CUALQUIER EMPRESA EN TU DASHBOARD
+             =================================================================== -->
+        <section class="slide" data-slide="2" data-type="Agenda">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Agenda • Clase 07</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge ">Agenda</span>
+                    <span class="slide-number">02 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>La marca de cualquier empresa en tu <span class="wine-gradient">dashboard</span></h2>
+                    <p class="slide-subtitle">Sobre tu proyecto de la Clase 06: los números no cambian, cambia quién parece que lo hizo.</p>
+                </div>
+
+                <ol class="agenda cuatro">
+                    <li><span class="agenda-num">1</span><strong>Tu biblioteca de marcas</strong><span class="agenda-gain">Dos manuales en una carpeta</span></li>
+                    <li><span class="agenda-num">2</span><strong>La marca del cliente</strong><span class="agenda-gain">Todo el reporte en un prompt</span></li>
+                    <li><span class="agenda-num">3</span><strong>Modo oscuro</strong><span class="agenda-gain">Otra marca, otro modo</span></li>
+                    <li><span class="agenda-num">4</span><strong>Tus dos versiones</strong><span class="agenda-gain">Claro institucional y oscuro ejecutivo</span></li>
+                </ol>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Un reporte con la marca del cliente se discute; uno con colores al azar se cuestiona.</strong> En un comité, lo primero que se juzga es si el reporte parece de la empresa.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 03: [TALLER 1] TU BIBLIOTECA DE MARCAS
+             =================================================================== -->
+        <section class="slide" data-slide="3" data-type="Taller 1: Tu biblioteca de marcas">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 1 • Gobernanza de estilo</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">03 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 1 · Tu biblioteca de <span class="wine-gradient">marcas</span></h2>
+                    <p class="slide-subtitle">Abre tu .pbip de la Clase 06, guarda con Ctrl+S y, en un chat nuevo, lanza este prompt.</p>
+                </div>
+
+                <div class="taller-grid t1-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Quiero una biblioteca de marcas para mis reportes. En la carpeta de mi proyecto crea una carpeta «marcas» con dos manuales de marca. El primero, «tornillo-flojo.md», con la marca que mi reporte usa hoy: revisa sus colores y anota el color principal, los secundarios, los fondos, los textos, los bordes y la tipografía, y para qué se usa cada uno. El segundo, «banco-brujula.md», para mi cliente Banco Brújula: azul marino #0B2E59 como color principal, dorado #C9A227 como secundario, fondo de página #F5F7FA, tarjetas blancas, texto #1B2635, tipografía Segoe UI y bordes redondeados de 8 px. En los dos, deja fijos el verde, el amarillo y el rojo del semáforo. No cambies nada del reporte.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Solo escribe dos archivos: tu reporte no cambia.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Abre la carpeta «marcas»</strong><span>Junto a tu .pbip. Ábrelos con el Bloc de notas.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <div class="lib">
+                            <div class="lib-f"><span class="lib-ic">📁</span><b>marcas</b></div>
+                            <div class="lib-doc"><span class="lib-ic">📄</span><b>tornillo-flojo.md</b><span class="lib-sw"><i style="background:#321C11"></i><i style="background:#E8590C"></i><i style="background:#9AA5B1"></i><i style="background:#F6F4F3"></i><i style="background:#1F2933"></i></span></div><div class="lib-doc"><span class="lib-ic">📄</span><b>banco-brujula.md</b><span class="lib-sw"><i style="background:#0B2E59"></i><i style="background:#0B2E59"></i><i style="background:#C9A227"></i><i style="background:#F5F7FA"></i><i style="background:#1B2635"></i></span></div>
+                        </div>
+                        <p class="check-note">Prueba real, 3 minutos. La IA encontró 50 colores distintos en tu reporte y, como el azul marino del banco no se lee sobre fondo oscuro, propuso un azul más claro para ese modo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 04: [TEORÍA] ANATOMÍA DE UN MANUAL DE MARCA
+             Clic en un papel: se ilumina dónde se usa. Los botones cambian la marca de la maqueta.
+             =================================================================== -->
+        <section class="slide" data-slide="4" data-type="Teoría: Anatomía de un manual de marca">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Manual de marca</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">04 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Anatomía de un manual de <span class="wine-gradient">marca</span></h2>
+                    <p class="slide-subtitle">Ocho papeles, cada uno con un solo color. Haz clic en uno para ver dónde vive.</p>
+                </div>
+
+                <div class="an-grid">
+                    <div class="card an-demo">
+                        <div class="an-top"><span class="pv-t">Mismo dashboard</span><div class="sy-pick" role="group" data-grupo="an"><button type="button" class="mk-btn activo" data-m="tf">Tornillo Flojo</button><button type="button" class="mk-btn" data-m="bb">Banco Brújula</button></div></div>
+                        
+                        <div class="mk" id="mkAn" style="--hdr:#321C11;--hdrtxt:#C4B4AB;--navon:#E8590C;--navontxt:#FFFFFF;--pg:#F6F4F3;--card:#FFFFFF;--brd:#EBE7E5;--txt:#1F2933;--txt2:#6B7A86;--acc:#E8590C;--acctxt:#FFFFFF;--sec:#9AA5B1;--rad:12px;--okbg:#E6F6EA;--oktx:#237A37;--wabg:#FFF1D6;--watx:#9A5B00;--kobg:#FCE8E8;--kotx:#C0262D">
+                            <div class="mk-hdr" data-rol="hdr"><b>Ferretería Tornillo Flojo</b><span class="mk-nav"><i class="on" data-rol="acc">Cómo vamos</i><i>Categorías</i></span></div>
+                            <div class="mk-body" data-rol="pg">
+                                <div class="mk-bar"><em class="on" data-rol="acc">Año: 2026</em><em>Sucursal</em><em>Categoría</em><em>Canal</em></div>
+                                <div class="mk-kpis"><div class="mk-card" data-rol="card"><small data-rol="txt2">Ventas</small><b data-rol="txt">$26.7 M</b><u class="mk-s ok" data-rol="sem">▲ 5.4 %</u></div><div class="mk-card" data-rol="card"><small data-rol="txt2">Margen %</small><b data-rol="txt">27.3 %</b><u class="mk-s ko" data-rol="sem">▼ 0.4 pp</u></div><div class="mk-card" data-rol="card"><small data-rol="txt2">Ticket</small><b data-rol="txt">$2,422</b><u class="mk-s ok" data-rol="sem">▲ 2.1 %</u></div><div class="mk-card" data-rol="card"><small data-rol="txt2">Meta</small><b data-rol="txt">95.8 %</b><u class="mk-s wa" data-rol="sem">Cerca</u></div></div>
+                                <div class="mk-charts">
+                                    <div class="mk-card mk-ch" data-rol="card"><small data-rol="txt">Ventas por mes</small><svg viewBox="0 0 120 60" preserveAspectRatio="none"><polyline class="mk-l2" data-rol="sec" points="4,46 20,40 36,34 52,22 68,30 84,40 100,44 116,42" /><polyline class="mk-l1" data-rol="acc" points="4,50 20,38 36,30 52,12 68,26 84,46 100,38 116,40" /></svg></div>
+                                    <div class="mk-card mk-ch" data-rol="card"><small data-rol="txt">Meta por sucursal</small><span class="mk-bul"><span><em style="width:78%" data-rol="acc"></em><u class="mk-s ok" data-rol="sem">101 %</u></span><span><em style="width:70%" data-rol="acc"></em><u class="mk-s ok" data-rol="sem">101 %</u></span><span><em style="width:62%" data-rol="acc"></em><u class="mk-s ko" data-rol="sem">93 %</u></span><span><em style="width:54%" data-rol="acc"></em><u class="mk-s ko" data-rol="sem">93 %</u></span></span></div>
+                                    <div class="mk-card mk-ch" data-rol="card"><small data-rol="txt">Ventas por canal</small><span class="mk-cols"><em style="height:85%" data-rol="acc"></em><em style="height:40%" data-rol="acc"></em><em style="height:32%" data-rol="acc"></em><em style="height:14%" data-rol="acc"></em></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="an-roles" id="anRoles">
+                        <button type="button" class="an-rol" data-rol="acc"><i class="an-sw" data-sw="acc"></i><div><strong>Principal</strong><span>Series, botón activo, filtro elegido</span></div></button><button type="button" class="an-rol" data-rol="sec"><i class="an-sw" data-sw="sec"></i><div><strong>Secundario</strong><span>Segunda serie: el año anterior</span></div></button><button type="button" class="an-rol" data-rol="hdr"><i class="an-sw" data-sw="hdr"></i><div><strong>Encabezado</strong><span>Barra superior y navegador</span></div></button><button type="button" class="an-rol" data-rol="pg"><i class="an-sw" data-sw="pg"></i><div><strong>Fondo de página</strong><span>Detrás de todo</span></div></button><button type="button" class="an-rol" data-rol="card"><i class="an-sw" data-sw="card"></i><div><strong>Tarjetas</strong><span>Fondo de cada visual</span></div></button><button type="button" class="an-rol" data-rol="txt"><i class="an-sw" data-sw="txt"></i><div><strong>Texto</strong><span>Cifras y títulos</span></div></button><button type="button" class="an-rol" data-rol="txt2"><i class="an-sw" data-sw="txt2"></i><div><strong>Texto secundario</strong><span>Etiquetas y notas</span></div></button><button type="button" class="an-rol" data-rol="sem"><i class="an-sw" data-sw="sem"></i><div><strong>Semáforo</strong><span>Fijo: no cambia con la marca</span></div></button>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>El semáforo no es de la marca:</strong> verde, amarillo y rojo significan bien, cuidado y mal en cualquier empresa. Si el rojo se vuelve azul marino, el director ya no ve la alarma.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 05: [TALLER 2] LA MARCA DEL CLIENTE EN UN PROMPT
+             =================================================================== -->
+        <section class="slide" data-slide="5" data-type="Taller 2: La marca del cliente">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 2 • Transformación masiva</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">05 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 2 · La marca del cliente en un <span class="wine-gradient">prompt</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: es el taller más largo de la clase. Mientras trabaja, vemos dónde vive cada color.</p>
+                </div>
+
+                <div class="taller-grid t2-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Aplica a todo mi reporte la marca de marcas/banco-brujula.md, en modo claro: el encabezado y el navegador, los fondos, las tarjetas HTML, las gráficas Deneb, la barra de filtros, el filtro de meses y el tooltip. Conserva el verde, el amarillo y el rojo del semáforo, y no cambies datos, cálculos ni el acomodo de los visuales.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>La IA recarga tu reporte varias veces.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Si te pide guardar, hazlo con Ctrl+S</strong><span>Y dile que continúe.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="banco.png" alt="Página Cómo vamos con la marca Banco Brújula" />
+                        <p class="check-note">Prueba real, 13 minutos: cambió 35 visuales y 4 tarjetas HTML, sin dejar un solo naranja. El semáforo sigue en verde, amarillo y rojo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 06: [TEORÍA] DÓNDE VIVE CADA COLOR
+             Clic en cada lugar: aparece qué es y un ejemplo del código.
+             =================================================================== -->
+        <section class="slide" data-slide="6" data-type="Teoría: Dónde vive cada color">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Por qué un solo prompt</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">06 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Dónde vive cada <span class="wine-gradient">color</span></h2>
+                    <p class="slide-subtitle">Tu reporte usa 50 colores distintos, escritos a mano en cinco lugares. No hay un botón que los cambie todos.</p>
+                </div>
+
+                <div class="dv-grid">
+                    <div class="dv-lista" id="dvLista">
+                        <button type="button" class="dv-it activo" data-k="deneb"><span class="dv-n">6 gráficas</span><div><strong>Gráficas Deneb</strong><span>Dentro de la especificación de cada gráfica.</span></div><code hidden>"mark": { "type": "bar",<br>  "color": <b>"#E8590C"</b> }</code></button><button type="button" class="dv-it" data-k="html"><span class="dv-n">4 medidas</span><div><strong>Tarjetas HTML</strong><span>En el CSS que escribe cada medida DAX del modelo.</span></div><code hidden>"&lt;div style='border-top:4px solid <b>#E8590C</b>'&gt;"</code></button><button type="button" class="dv-it" data-k="obj"><span class="dv-n">29 visuales</span><div><strong>Filtros, navegador y visuales nativos</strong><span>En las propiedades de formato de cada visual.json.</span></div><code hidden>"accentColor": { "solid":<br>  { "color": <b>"'#E8590C'"</b> } }</code></button><button type="button" class="dv-it" data-k="pag"><span class="dv-n">3 páginas</span><div><strong>Fondos de página</strong><span>En el page.json de cada página.</span></div><code hidden>"background": { "color":<br>  <b>"'#F6F4F3'"</b> }</code></button><button type="button" class="dv-it" data-k="tema"><span class="dv-n">Vacío</span><div><strong>Tema del reporte</strong><span>El único lugar central, y tu reporte no lo usa: todo está escrito a mano.</span></div><code hidden>"dataColors": [ ]</code></button>
+                    </div>
+                    <div class="dv-side">
+                        <div class="card sy-code">
+                            <span class="pv-code-t" id="dvTit">Gráficas Deneb</span>
+                            <code id="dvCode"></code>
+                        </div>
+                        <div class="dv-cifras">
+                            <div><b>35</b><span>visuales</span></div>
+                            <div><b>4</b><span>medidas HTML</span></div>
+                            <div><b>301</b><span>colores cambiados</span></div>
+                        </div>
+                        <p class="dv-nota">Lo que cambió la IA en el Taller 2 de la prueba real.</p>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>A mano es una tarde; con un prompt, unos minutos.</strong> Y el manual de marca hace que la IA use siempre los mismos colores, no 50 parecidos.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 07: [TEORÍA] TIPOGRAFÍA CORPORATIVA
+             Botones: la tarjeta cambia de tipografía.
+             =================================================================== -->
+        <section class="slide" data-slide="7" data-type="Teoría: Tipografía corporativa">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Tipografía</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">07 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Tipografía <span class="wine-gradient">corporativa</span></h2>
+                    <p class="slide-subtitle">La letra también es marca. Pero en Power BI, una fuente solo se ve si existe en la computadora de quien abre el reporte.</p>
+                </div>
+
+                <div class="ty-grid">
+                    <div class="card ty-demo">
+                        <div class="an-top"><span class="pv-t">Misma tarjeta</span>
+                            <div class="sy-pick" role="group"><button type="button" class="ty-btn activo" data-f="Segoe UI">Segoe UI</button><button type="button" class="ty-btn" data-f="Aptos">Aptos</button><button type="button" class="ty-btn" data-f="Inter">Inter</button><button type="button" class="ty-btn" data-f="Montserrat">Montserrat</button></div>
+                        </div>
+                        <div class="ty-card" id="tyCard">
+                            <small>Ventas · 2026</small>
+                            <b>$26.7 M</b>
+                            <span>▲ 5.4 % contra 2025 · faltan $1.2 M para la meta</span>
+                        </div>
+                    </div>
+                    <div class="ty-side">
+                        <div class="ty-it"><span class="ty-dot ok"></span><div><strong>Segoe UI</strong><span>La de Windows y Power BI. Se ve igual en todas las computadoras. La opción segura.</span></div></div><div class="ty-it"><span class="ty-dot wa"></span><div><strong>Aptos</strong><span>La nueva de Microsoft Office. Viene en Office reciente; en otras computadoras puede no estar.</span></div></div><div class="ty-it"><span class="ty-dot ko"></span><div><strong>Inter y Montserrat</strong><span>Las favoritas de la web. Si no están instaladas, Power BI usa otra en su lugar.</span></div></div>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Regla práctica:</strong> si el manual pide una fuente rara, úsala en los títulos y deja Segoe UI en las cifras. Un número que cambia de letra entre computadoras se ve como un error.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 08: [JUEGO] ¿SE LEE O NO SE LEE?
+             El chat vota Sí o No en cada combinación; luego se revela el contraste.
+             =================================================================== -->
+        <section class="slide" data-slide="8" data-type="Juego: ¿Se lee o no se lee?">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Juego • Contraste</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Juego</span>
+                    <span class="slide-number">08 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>¿Se lee o no se <span class="wine-gradient">lee</span>?</h2>
+                    <p class="slide-subtitle">Vota en el chat <strong>Sí</strong> o <strong>No</strong> por cada tarjeta. Clic para revelar el contraste: el mínimo para texto es 4.5.</p>
+                </div>
+
+                <div class="ct-grid" id="ctGrid">
+                    <button type="button" class="ct-card" data-ok="1"><span class="ct-n">1</span><span class="ct-m" style="color:#1B2635;background:#FFFFFF">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Texto del banco sobre tarjeta blanca</span><span class="ct-r"><b>15.3 : 1</b>✓ Se lee</span></button><button type="button" class="ct-card" data-ok="0"><span class="ct-n">2</span><span class="ct-m" style="color:#C9A227;background:#FFFFFF">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Dorado del banco como texto sobre blanco</span><span class="ct-r"><b>2.4 : 1</b>✗ No se lee</span></button><button type="button" class="ct-card" data-ok="0"><span class="ct-n">3</span><span class="ct-m" style="color:#0B2E59;background:#131D2E">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Azul marino del banco sobre fondo oscuro</span><span class="ct-r"><b>1.3 : 1</b>✗ No se lee</span></button><button type="button" class="ct-card" data-ok="1"><span class="ct-n">4</span><span class="ct-m" style="color:#FFFFFF;background:#0B2E59">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Blanco sobre el azul marino</span><span class="ct-r"><b>13.6 : 1</b>✓ Se lee</span></button><button type="button" class="ct-card" data-ok="0"><span class="ct-n">5</span><span class="ct-m" style="color:#6B7A86;background:#F6F4F3">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Texto gris de tu reporte sobre su fondo</span><span class="ct-r"><b>4.0 : 1</b>✗ No se lee</span></button><button type="button" class="ct-card" data-ok="1"><span class="ct-n">6</span><span class="ct-m" style="color:#C9A227;background:#0B2E59">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Dorado sobre azul marino</span><span class="ct-r"><b>5.6 : 1</b>✓ Se lee</span></button><button type="button" class="ct-card" data-ok="0"><span class="ct-n">7</span><span class="ct-m" style="color:#E03131;background:#131D2E">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Rojo del semáforo sobre fondo oscuro</span><span class="ct-r"><b>3.7 : 1</b>✗ No se lee</span></button><button type="button" class="ct-card" data-ok="1"><span class="ct-n">8</span><span class="ct-m" style="color:#9AA8BC;background:#131D2E">$26.7 M<small>Ventas del año</small></span><span class="ct-d">Gris claro sobre fondo oscuro</span><span class="ct-r"><b>7.0 : 1</b>✓ Se lee</span></button>
+                </div>
+                <div class="ct-pie">
+                    <span class="ct-cuenta" id="ctCuenta">0 de 8 reveladas</span>
+                    <button type="button" class="bj-todo" id="ctTodo">Revelar todo</button>
+                    <button type="button" class="bj-reset" id="ctReset">Reiniciar</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 09: [TALLER 3] OTRA MARCA, MODO OSCURO
+             =================================================================== -->
+        <section class="slide" data-slide="9" data-type="Taller 3: Modo oscuro">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 3 • Claro y oscuro</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">09 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 3 · Otra marca, modo <span class="wine-gradient">oscuro</span></h2>
+                    <p class="slide-subtitle">Lánzalo ahora: tu ferretería regresa, en su versión ejecutiva oscura.</p>
+                </div>
+
+                <div class="taller-grid t2-grid">
+                    <div class="taller-main">
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Toma una captura de tu reporte del banco</strong><span>Con Windows + Shift + S. Es tu versión clara.</span></div></li>
+                        </ol>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Ahora aplica a todo mi reporte la marca de marcas/tornillo-flojo.md, pero en modo oscuro. Primero agrega a ese manual su versión oscura (fondo, tarjetas, textos y bordes), cuidando que todo se lea bien, y luego aplícala: encabezado, fondos, tarjetas HTML, gráficas Deneb, filtros y tooltip. Conserva el semáforo y no cambies datos, cálculos ni el acomodo.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">2</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Primero escribe la versión oscura en el manual y luego la aplica.</span></div></li>
+                        </ol>
+                    </div>
+
+                    <div class="check-card shot-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <img class="shot" src="oscuro.png" alt="Página Cómo vamos con la marca de la ferretería en modo oscuro" />
+                        <p class="check-note">Prueba real, de 10 a 15 minutos: escribió la versión oscura del manual, con el contraste de cada color, y la aplicó a todo el reporte.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 10: [TEORÍA] CLARO CONTRA OSCURO
+             Botones: la maqueta cambia de modo. Las cinco reglas son las que siguió la IA.
+             =================================================================== -->
+        <section class="slide" data-slide="10" data-type="Teoría: Claro contra oscuro">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Accesibilidad</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">10 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Claro contra <span class="wine-gradient">oscuro</span></h2>
+                    <p class="slide-subtitle">El modo oscuro no es invertir los colores: cada papel del manual necesita su propio tono.</p>
+                </div>
+
+                <div class="an-grid">
+                    <div class="card an-demo">
+                        <div class="an-top"><span class="pv-t">Tu ferretería</span><div class="sy-pick" role="group" data-grupo="co"><button type="button" class="mk-btn" data-m="tf">Tornillo Flojo</button><button type="button" class="mk-btn activo" data-m="to">Modo oscuro</button></div></div>
+                        
+                        <div class="mk" id="mkCo" style="--hdr:#321C11;--hdrtxt:#C4B4AB;--navon:#F3EDE9;--navontxt:#321C11;--pg:#15100D;--card:#211915;--brd:#4A3B32;--txt:#F3EDE9;--txt2:#B8AAA1;--acc:#E8590C;--acctxt:#FFFFFF;--sec:#8E99A4;--rad:12px;--okbg:#24311D;--oktx:#69DB7C;--wabg:#473512;--watx:#FFD43B;--kobg:#431D1A;--kotx:#FF8787">
+                            <div class="mk-hdr" data-rol="hdr"><b>Ferretería Tornillo Flojo</b><span class="mk-nav"><i class="on" data-rol="acc">Cómo vamos</i><i>Categorías</i></span></div>
+                            <div class="mk-body" data-rol="pg">
+                                <div class="mk-bar"><em class="on" data-rol="acc">Año: 2026</em><em>Sucursal</em><em>Categoría</em><em>Canal</em></div>
+                                <div class="mk-kpis"><div class="mk-card" data-rol="card"><small data-rol="txt2">Ventas</small><b data-rol="txt">$26.7 M</b><u class="mk-s ok" data-rol="sem">▲ 5.4 %</u></div><div class="mk-card" data-rol="card"><small data-rol="txt2">Margen %</small><b data-rol="txt">27.3 %</b><u class="mk-s ko" data-rol="sem">▼ 0.4 pp</u></div><div class="mk-card" data-rol="card"><small data-rol="txt2">Ticket</small><b data-rol="txt">$2,422</b><u class="mk-s ok" data-rol="sem">▲ 2.1 %</u></div><div class="mk-card" data-rol="card"><small data-rol="txt2">Meta</small><b data-rol="txt">95.8 %</b><u class="mk-s wa" data-rol="sem">Cerca</u></div></div>
+                                <div class="mk-charts">
+                                    <div class="mk-card mk-ch" data-rol="card"><small data-rol="txt">Ventas por mes</small><svg viewBox="0 0 120 60" preserveAspectRatio="none"><polyline class="mk-l2" data-rol="sec" points="4,46 20,40 36,34 52,22 68,30 84,40 100,44 116,42" /><polyline class="mk-l1" data-rol="acc" points="4,50 20,38 36,30 52,12 68,26 84,46 100,38 116,40" /></svg></div>
+                                    <div class="mk-card mk-ch" data-rol="card"><small data-rol="txt">Meta por sucursal</small><span class="mk-bul"><span><em style="width:78%" data-rol="acc"></em><u class="mk-s ok" data-rol="sem">101 %</u></span><span><em style="width:70%" data-rol="acc"></em><u class="mk-s ok" data-rol="sem">101 %</u></span><span><em style="width:62%" data-rol="acc"></em><u class="mk-s ko" data-rol="sem">93 %</u></span><span><em style="width:54%" data-rol="acc"></em><u class="mk-s ko" data-rol="sem">93 %</u></span></span></div>
+                                    <div class="mk-card mk-ch" data-rol="card"><small data-rol="txt">Ventas por canal</small><span class="mk-cols"><em style="height:85%" data-rol="acc"></em><em style="height:40%" data-rol="acc"></em><em style="height:32%" data-rol="acc"></em><em style="height:14%" data-rol="acc"></em></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="co-reglas">
+                        <div class="co-it"><span class="co-n">1</span><div><strong>Nada de negro puro</strong><span>El fondo es un café casi negro: #15100D, con un toque de la marca.</span></div></div><div class="co-it"><span class="co-n">2</span><div><strong>Nada de blanco puro</strong><span>El texto es #F3EDE9, casi blanco: cansa menos la vista.</span></div></div><div class="co-it"><span class="co-n">3</span><div><strong>El principal se revisa</strong><span>El naranja aguanta (4.8 : 1). El azul marino del banco no: habría que aclararlo.</span></div></div><div class="co-it"><span class="co-n">4</span><div><strong>Las sombras se vuelven bordes</strong><span>Sobre fondo oscuro una sombra no se ve: la IA reforzó los bordes.</span></div></div><div class="co-it"><span class="co-n">5</span><div><strong>El semáforo se aclara</strong><span>Mismo verde, amarillo y rojo; sus textos, más claros para leerse.</span></div></div>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>¿Cuál usar?</strong> El claro para imprimir, proyectar en sala iluminada y reportes institucionales. El oscuro para pantallas de monitoreo y presentaciones ejecutivas en sala oscura.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 11: [TALLER 4] TUS DOS VERSIONES Y TU BIBLIOTECA
+             =================================================================== -->
+        <section class="slide" data-slide="11" data-type="Taller 4: Tus dos versiones">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Taller 4 • Entregable</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Taller</span>
+                    <span class="slide-number">11 / 12</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Taller 4 · Tus dos versiones y tu <span class="wine-gradient">biblioteca</span></h2>
+                    <p class="slide-subtitle">El mismo dashboard con dos marcas y dos modos. Y una carpeta que sirve para cualquier proyecto.</p>
+                </div>
+
+                <div class="vs-grid">
+                    <figure class="vs-fig"><img class="shot" src="banco.png" alt="Versión clara institucional" /><figcaption><b>Claro institucional</b> · Banco Brújula</figcaption></figure>
+                    <figure class="vs-fig"><img class="shot" src="oscuro.png" alt="Versión oscura ejecutiva" /><figcaption><b>Oscuro ejecutivo</b> · Tornillo Flojo</figcaption></figure>
+                    <div class="vs-side">
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Guarda tus dos capturas</strong><span>Son el entregable de hoy para tu portafolio.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Copia la carpeta «marcas»</strong><span>A cualquier proyecto nuevo: la IA ya sabe vestirlo.</span></div></li>
+                        </ol>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Para tu siguiente cliente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">En mi carpeta «marcas», crea el manual de marca de [nombre del cliente]: color principal [#hex], secundario [#hex], fondo [#hex], texto [#hex] y tipografía [fuente], con su versión oscura. Deja fijo el semáforo y no cambies nada del reporte.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 12: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             =================================================================== -->
+        <section class="slide" data-slide="12" data-type="Cierre: Preguntas">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Cierre • Clase 07</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Cierre</span>
+                    <span class="slide-number">12 / 12</span>
+                </div>
+            </header>
+            <div class="slide-content">
+                <div class="closing-grid">
+                    <div class="closing-main">
+                        <svg class="closing-art" viewBox="0 0 300 150" fill="none" aria-hidden="true">
+                            <rect x="20" y="16" width="160" height="96" rx="26" fill="#881337" />
+                            <path d="M60 112 L48 140 L88 112 Z" fill="#881337" />
+                            <text x="100" y="86" text-anchor="middle" font-family="var(--font-sans)" font-size="62" font-weight="800" fill="#ffffff">?</text>
+                            <rect x="150" y="46" width="130" height="80" rx="24" fill="#ffffff" stroke="#D97757" stroke-width="4" />
+                            <path d="M244 126 L258 146 L222 126 Z" fill="#ffffff" stroke="#D97757" stroke-width="4" stroke-linejoin="round" />
+                            <line x1="223" y1="126" x2="243" y2="126" stroke="#ffffff" stroke-width="6" />
+                            <circle cx="190" cy="86" r="7" fill="#D97757" />
+                            <circle cx="215" cy="86" r="7" fill="#D97757" />
+                            <circle cx="240" cy="86" r="7" fill="#D97757" />
+                        </svg>
+                        <h1 class="closing-title"><span class="wine-gradient">¿Preguntas?</span></h1>
+                        <p class="slide-subtitle">Este es el espacio para tus dudas sobre tu biblioteca de marcas, el modo oscuro, la tipografía o lo que viene en el curso.</p>
+                        <button class="liga-btn" type="button" data-liga="https://docs.google.com/forms/d/e/1FAIpQLSc_g59kR8A76GaMcJUZL2p8mbzAT8ReXh_i3o2etDS9BuXWJw/viewform?usp=publish-editor" aria-label="Copiar liga">?</button>
+                    </div>
+
+                    <div class="card linkedin-card">
+                        <div class="linkedin-head">
+                            <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="8" fill="#0A66C2" /><text x="20" y="29" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff">in</text></svg>
+                            <div>
+                                <strong>Conecta conmigo</strong>
+                                <span>en LinkedIn</span>
+                            </div>
+                        </div>
+                        <svg class="qr" viewBox="-2 -2 41 41" aria-label="Código QR del perfil de LinkedIn" role="img">
+                            <rect x="-2" y="-2" width="41" height="41" fill="#ffffff" />
+                            <path fill="#1e1115" d="M0 0h7v1h-7zM8 0h1v1h-1zM12 0h2v1h-2zM16 0h1v1h-1zM18 0h2v1h-2zM24 0h1v1h-1zM30 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h6v1h-6zM19 1h1v1h-1zM21 1h2v1h-2zM25 1h1v1h-1zM28 1h1v1h-1zM30 1h1v1h-1zM36 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM8 2h2v1h-2zM11 2h3v1h-3zM16 2h2v1h-2zM21 2h1v1h-1zM23 2h3v1h-3zM28 2h1v1h-1zM30 2h1v1h-1zM32 2h3v1h-3zM36 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM9 3h1v1h-1zM12 3h1v1h-1zM17 3h3v1h-3zM21 3h2v1h-2zM25 3h2v1h-2zM30 3h1v1h-1zM32 3h3v1h-3zM36 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM9 4h2v1h-2zM15 4h3v1h-3zM22 4h1v1h-1zM24 4h3v1h-3zM30 4h1v1h-1zM32 4h3v1h-3zM36 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM10 5h3v1h-3zM20 5h1v1h-1zM24 5h1v1h-1zM26 5h1v1h-1zM30 5h1v1h-1zM36 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h1v1h-1zM20 6h1v1h-1zM22 6h1v1h-1zM24 6h1v1h-1zM26 6h1v1h-1zM28 6h1v1h-1zM30 6h7v1h-7zM10 7h2v1h-2zM18 7h2v1h-2zM22 7h1v1h-1zM24 7h1v1h-1zM27 7h2v1h-2zM0 8h1v1h-1zM2 8h1v1h-1zM6 8h2v1h-2zM11 8h1v1h-1zM16 8h4v1h-4zM31 8h1v1h-1zM34 8h1v1h-1zM36 8h1v1h-1zM0 9h3v1h-3zM4 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM11 9h1v1h-1zM16 9h1v1h-1zM18 9h1v1h-1zM21 9h1v1h-1zM23 9h1v1h-1zM27 9h2v1h-2zM30 9h2v1h-2zM33 9h4v1h-4zM1 10h2v1h-2zM5 10h3v1h-3zM9 10h2v1h-2zM12 10h3v1h-3zM16 10h1v1h-1zM18 10h2v1h-2zM21 10h3v1h-3zM25 10h1v1h-1zM27 10h1v1h-1zM30 10h1v1h-1zM32 10h1v1h-1zM36 10h1v1h-1zM0 11h1v1h-1zM3 11h2v1h-2zM7 11h2v1h-2zM11 11h1v1h-1zM13 11h4v1h-4zM18 11h1v1h-1zM22 11h3v1h-3zM26 11h1v1h-1zM29 11h2v1h-2zM0 12h1v1h-1zM3 12h1v1h-1zM5 12h2v1h-2zM9 12h6v1h-6zM16 12h1v1h-1zM19 12h2v1h-2zM23 12h2v1h-2zM27 12h2v1h-2zM30 12h1v1h-1zM33 12h1v1h-1zM36 12h1v1h-1zM2 13h2v1h-2zM5 13h1v1h-1zM9 13h1v1h-1zM12 13h6v1h-6zM19 13h2v1h-2zM23 13h3v1h-3zM27 13h5v1h-5zM33 13h1v1h-1zM36 13h1v1h-1zM0 14h4v1h-4zM6 14h1v1h-1zM8 14h2v1h-2zM12 14h1v1h-1zM14 14h2v1h-2zM19 14h2v1h-2zM22 14h2v1h-2zM27 14h1v1h-1zM33 14h2v1h-2zM36 14h1v1h-1zM0 15h1v1h-1zM2 15h1v1h-1zM5 15h1v1h-1zM7 15h1v1h-1zM9 15h1v1h-1zM11 15h1v1h-1zM15 15h1v1h-1zM17 15h1v1h-1zM19 15h2v1h-2zM23 15h2v1h-2zM26 15h1v1h-1zM30 15h4v1h-4zM2 16h1v1h-1zM4 16h6v1h-6zM11 16h1v1h-1zM13 16h1v1h-1zM15 16h1v1h-1zM17 16h1v1h-1zM20 16h1v1h-1zM22 16h1v1h-1zM28 16h1v1h-1zM30 16h2v1h-2zM36 16h1v1h-1zM1 17h2v1h-2zM7 17h3v1h-3zM14 17h1v1h-1zM20 17h4v1h-4zM26 17h3v1h-3zM30 17h2v1h-2zM33 17h4v1h-4zM0 18h1v1h-1zM2 18h5v1h-5zM9 18h3v1h-3zM15 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM23 18h1v1h-1zM25 18h1v1h-1zM27 18h1v1h-1zM30 18h2v1h-2zM34 18h1v1h-1zM36 18h1v1h-1zM0 19h4v1h-4zM5 19h1v1h-1zM8 19h3v1h-3zM12 19h3v1h-3zM18 19h3v1h-3zM23 19h2v1h-2zM28 19h6v1h-6zM0 20h9v1h-9zM12 20h1v1h-1zM14 20h3v1h-3zM20 20h1v1h-1zM22 20h3v1h-3zM28 20h1v1h-1zM30 20h2v1h-2zM33 20h1v1h-1zM35 20h1v1h-1zM0 21h1v1h-1zM3 21h3v1h-3zM8 21h1v1h-1zM10 21h1v1h-1zM14 21h3v1h-3zM19 21h2v1h-2zM23 21h2v1h-2zM27 21h4v1h-4zM36 21h1v1h-1zM0 22h1v1h-1zM3 22h1v1h-1zM5 22h3v1h-3zM10 22h3v1h-3zM15 22h1v1h-1zM17 22h3v1h-3zM21 22h1v1h-1zM23 22h1v1h-1zM26 22h3v1h-3zM30 22h1v1h-1zM33 22h2v1h-2zM36 22h1v1h-1zM2 23h1v1h-1zM5 23h1v1h-1zM18 23h1v1h-1zM22 23h2v1h-2zM28 23h1v1h-1zM31 23h3v1h-3zM36 23h1v1h-1zM0 24h1v1h-1zM3 24h1v1h-1zM6 24h2v1h-2zM10 24h3v1h-3zM16 24h5v1h-5zM22 24h2v1h-2zM28 24h1v1h-1zM30 24h2v1h-2zM35 24h2v1h-2zM5 25h1v1h-1zM8 25h3v1h-3zM13 25h2v1h-2zM16 25h3v1h-3zM21 25h3v1h-3zM25 25h1v1h-1zM27 25h1v1h-1zM30 25h2v1h-2zM34 25h1v1h-1zM36 25h1v1h-1zM0 26h2v1h-2zM4 26h1v1h-1zM6 26h6v1h-6zM14 26h1v1h-1zM16 26h1v1h-1zM19 26h2v1h-2zM23 26h1v1h-1zM25 26h4v1h-4zM30 26h2v1h-2zM33 26h2v1h-2zM36 26h1v1h-1zM2 27h1v1h-1zM4 27h2v1h-2zM7 27h3v1h-3zM12 27h2v1h-2zM15 27h2v1h-2zM18 27h1v1h-1zM22 27h1v1h-1zM24 27h1v1h-1zM26 27h2v1h-2zM29 27h2v1h-2zM33 27h1v1h-1zM35 27h1v1h-1zM0 28h2v1h-2zM3 28h1v1h-1zM6 28h1v1h-1zM8 28h4v1h-4zM13 28h1v1h-1zM16 28h1v1h-1zM18 28h1v1h-1zM20 28h1v1h-1zM24 28h1v1h-1zM28 28h6v1h-6zM35 28h1v1h-1zM8 29h1v1h-1zM10 29h1v1h-1zM12 29h1v1h-1zM14 29h4v1h-4zM19 29h2v1h-2zM23 29h2v1h-2zM28 29h1v1h-1zM32 29h1v1h-1zM35 29h2v1h-2zM0 30h7v1h-7zM8 30h1v1h-1zM10 30h3v1h-3zM14 30h3v1h-3zM19 30h2v1h-2zM22 30h3v1h-3zM28 30h1v1h-1zM30 30h1v1h-1zM32 30h1v1h-1zM36 30h1v1h-1zM0 31h1v1h-1zM6 31h1v1h-1zM9 31h4v1h-4zM15 31h1v1h-1zM17 31h1v1h-1zM19 31h1v1h-1zM22 31h3v1h-3zM26 31h3v1h-3zM32 31h1v1h-1zM35 31h1v1h-1zM0 32h1v1h-1zM2 32h3v1h-3zM6 32h1v1h-1zM9 32h4v1h-4zM15 32h1v1h-1zM17 32h1v1h-1zM19 32h1v1h-1zM24 32h1v1h-1zM27 32h6v1h-6zM35 32h2v1h-2zM0 33h1v1h-1zM2 33h3v1h-3zM6 33h1v1h-1zM9 33h3v1h-3zM14 33h1v1h-1zM17 33h1v1h-1zM19 33h1v1h-1zM23 33h1v1h-1zM25 33h1v1h-1zM28 33h1v1h-1zM32 33h2v1h-2zM0 34h1v1h-1zM2 34h3v1h-3zM6 34h1v1h-1zM8 34h1v1h-1zM12 34h1v1h-1zM15 34h1v1h-1zM17 34h1v1h-1zM19 34h2v1h-2zM23 34h1v1h-1zM29 34h1v1h-1zM31 34h2v1h-2zM34 34h1v1h-1zM36 34h1v1h-1zM0 35h1v1h-1zM6 35h1v1h-1zM10 35h1v1h-1zM13 35h2v1h-2zM18 35h2v1h-2zM27 35h3v1h-3zM32 35h2v1h-2zM0 36h7v1h-7zM8 36h2v1h-2zM12 36h1v1h-1zM14 36h2v1h-2zM19 36h1v1h-1zM23 36h2v1h-2zM26 36h1v1h-1zM28 36h1v1h-1zM30 36h2v1h-2zM36 36h1v1h-1z" />
+                        </svg>
+                        <span class="linkedin-url">linkedin.com/in/<br>francisco-ricardo-hernandez-astorga-7709b53b8</span>
+                    </div>
+                </div>
+
+                <div class="next-class">
+                    <span class="badge purple">Próxima clase</span>
+                    <span><strong>Clase 08</strong> · Sistemas analíticos multipágina: de una pantalla a un reporte ejecutivo, comercial y operativo con navegación.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===================================================================
+         BOTTOM NAVIGATION DOCK
+         =================================================================== -->
+    <nav class="nav-dock" id="navDock">
+        <button class="nav-btn" id="prevBtn" title="Diapositiva Anterior (Flecha Izquierda)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+
+        <span class="nav-counter" id="navCounter">01 / 12</span>
+
+        <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <div class="nav-divider"></div>
+
+        <button class="nav-btn" id="overviewBtn" title="Ver Todas las Diapositivas (Tecla 'O')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </button>
+
+        <button class="nav-btn" id="fullscreenBtn" title="Pantalla Completa (Tecla 'F')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+        </button>
+    </nav>
+
+    <!-- ===================================================================
+         OVERVIEW MODAL ('O' KEY)
+         =================================================================== -->
+    <div class="overview-modal" id="overviewModal">
+        <div class="overview-header">
+            <div>
+                <h2 style="font-size:1.6rem; color:#fff;">Índice General de Diapositivas</h2>
+                <p style="color:#94a3b8; font-size:0.9rem;">Haz clic en cualquier tarjeta para navegar directamente.</p>
+            </div>
+            <button class="nav-btn" id="closeOverviewBtn" style="color:#fff; background:rgba(255,255,255,0.1);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="overview-grid" id="overviewGrid"></div>
+    </div>
+
+    <!-- ===================================================================
+         SCRIPTS & CONTROLES INTERACTIVOS
+         =================================================================== -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const navCounter = document.getElementById('navCounter');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const deck = document.getElementById('deck');
+        const navDock = document.getElementById('navDock');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const overviewBtn = document.getElementById('overviewBtn');
+        const overviewModal = document.getElementById('overviewModal');
+        const closeOverviewBtn = document.getElementById('closeOverviewBtn');
+        const overviewGrid = document.getElementById('overviewGrid');
+        const spotlight = document.getElementById('spotlight');
+
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        // Actualizar Diapositiva
+        function updateSlide(newIndex) {
+            if (newIndex < 0) newIndex = 0;
+            if (newIndex >= totalSlides) newIndex = totalSlides - 1;
+
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = newIndex;
+            slides[currentSlideIndex].classList.add('active');
+
+            const progressPct = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPct}%`;
+
+            const currentFormatted = String(currentSlideIndex + 1).padStart(2, '0');
+            const totalFormatted = String(totalSlides).padStart(2, '0');
+            navCounter.textContent = `${currentFormatted} / ${totalFormatted}`;
+
+            prevBtn.style.opacity = currentSlideIndex === 0 ? '0.35' : '1';
+            nextBtn.style.opacity = currentSlideIndex === totalSlides - 1 ? '0.35' : '1';
+
+            // Guardar la diapositiva en la URL (#4) para que recargar no regrese a la portada
+            try {
+                history.replaceState(null, '', `#${currentSlideIndex + 1}`);
+            } catch (err) { /* algunos navegadores lo bloquean en file:// */ }
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                updateSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                updateSlide(currentSlideIndex - 1);
+            }
+        }
+
+        // Lienzo fijo 1280×720 escalado para llenar la ventana (ver .deck en el CSS).
+        // `zoom` mantiene el texto nítido; con transform: scale se vería borroso.
+        function fitStage() {
+            const scale = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+            deck.style.zoom = scale;
+        }
+        window.addEventListener('resize', fitStage);
+        fitStage();
+
+        // Pantalla Completa
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
+            }
+        }
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+        // Overview Modal
+        function buildOverviewGrid() {
+            overviewGrid.innerHTML = '';
+            slides.forEach((slide, index) => {
+                const title = slide.querySelector('h1, h2')?.innerText || `Diapositiva ${index + 1}`;
+                const type = slide.getAttribute('data-type') || 'Contenido';
+                const card = document.createElement('div');
+                card.className = 'overview-card';
+                card.innerHTML = `
+                    <span class="num">${String(index + 1).padStart(2, '0')}</span>
+                    <span class="type">${type}</span>
+                    <span class="name">${title}</span>
+                `;
+                card.addEventListener('click', () => {
+                    updateSlide(index);
+                    overviewModal.classList.remove('open');
+                });
+                overviewGrid.appendChild(card);
+            });
+        }
+
+        overviewBtn.addEventListener('click', () => {
+            buildOverviewGrid();
+            overviewModal.classList.add('open');
+        });
+
+        closeOverviewBtn.addEventListener('click', () => overviewModal.classList.remove('open'));
+        overviewModal.addEventListener('click', (e) => {
+            if (e.target === overviewModal) overviewModal.classList.remove('open');
+        });
+
+        // Controles de Teclado
+        window.addEventListener('keydown', (e) => {
+            if (overviewModal.classList.contains('open')) {
+                if (e.key === 'Escape' || e.key === 'o' || e.key === 'O') {
+                    overviewModal.classList.remove('open');
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'o' || e.key === 'O') {
+                buildOverviewGrid();
+                overviewModal.classList.add('open');
+            } else if (e.key === 'Home') {
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                updateSlide(totalSlides - 1);
+            }
+        });
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        // Barra de navegación: solo aparece con el ratón cerca del borde inferior
+        window.addEventListener('mousemove', (e) => {
+            const nearBottom = e.clientY > window.innerHeight - 110;
+            document.body.classList.toggle('dock-visible', nearBottom || navDock.matches(':hover'));
+        });
+        document.addEventListener('mouseleave', () => document.body.classList.remove('dock-visible'));
+
+        // Spotlight Cursor
+        window.addEventListener('mousemove', (e) => {
+            if (spotlight) {
+                spotlight.style.opacity = '1';
+                spotlight.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            }
+        });
+        document.addEventListener('mouseleave', () => {
+            if (spotlight) spotlight.style.opacity = '0';
+        });
+
+        // ===================================================================
+        // TALLERES: COPIAR PROMPTS
+        // ===================================================================
+        document.querySelectorAll('.copy-prompt-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const texto = btn.closest('.prompt-copy').querySelector('.prompt-copy-text').textContent.trim();
+                const avisar = (ok) => {
+                    btn.textContent = ok ? 'Copiado ✓' : 'Selecciona y Ctrl+C';
+                    btn.classList.toggle('copiado', ok);
+                    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2000);
+                };
+                // Respaldo para file:// o navegadores sin permiso de portapapeles
+                const respaldo = () => {
+                    const area = document.createElement('textarea');
+                    area.value = texto;
+                    document.body.appendChild(area);
+                    area.select();
+                    let ok = false;
+                    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                    area.remove();
+                    avisar(ok);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(texto).then(() => avisar(true), respaldo);
+                } else {
+                    respaldo();
+                }
+                btn.blur();
+            });
+        });
+
+        // ===================================================================
+        // REVELAR RESPUESTAS (talleres)
+        // ===================================================================
+        document.querySelectorAll('.reveal-btn[data-target]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                document.getElementById(btn.dataset.target).classList.add('revealed');
+                btn.blur();
+            });
+        });
+
+
+
+        // ===================================================================
+        // CLASE 07 · DEMOSTRACIONES
+        // ===================================================================
+        (function () {
+            const MARCAS = {"tf":{"hdr":"#321C11","hdrtxt":"#C4B4AB","navon":"#E8590C","navontxt":"#FFFFFF","pg":"#F6F4F3","card":"#FFFFFF","brd":"#EBE7E5","txt":"#1F2933","txt2":"#6B7A86","acc":"#E8590C","acctxt":"#FFFFFF","sec":"#9AA5B1","rad":"12px","okbg":"#E6F6EA","oktx":"#237A37","wabg":"#FFF1D6","watx":"#9A5B00","kobg":"#FCE8E8","kotx":"#C0262D"},"bb":{"hdr":"#0B2E59","hdrtxt":"#B7C4D6","navon":"#FFFFFF","navontxt":"#0B2E59","pg":"#F5F7FA","card":"#FFFFFF","brd":"#DDE3EB","txt":"#1B2635","txt2":"#5A6B80","acc":"#0B2E59","acctxt":"#FFFFFF","sec":"#C9A227","rad":"8px","okbg":"#E6F6EA","oktx":"#237A37","wabg":"#FFF1D6","watx":"#9A5B00","kobg":"#FCE8E8","kotx":"#C0262D"},"to":{"hdr":"#321C11","hdrtxt":"#C4B4AB","navon":"#F3EDE9","navontxt":"#321C11","pg":"#15100D","card":"#211915","brd":"#4A3B32","txt":"#F3EDE9","txt2":"#B8AAA1","acc":"#E8590C","acctxt":"#FFFFFF","sec":"#8E99A4","rad":"12px","okbg":"#24311D","oktx":"#69DB7C","wabg":"#473512","watx":"#FFD43B","kobg":"#431D1A","kotx":"#FF8787"}};
+            const pintar = (mk, m) => Object.entries(MARCAS[m]).forEach(([k, v]) => mk.style.setProperty('--' + k, v));
+
+            // Botones de marca: recolorean su maqueta y las muestras del manual
+            document.querySelectorAll('.sy-pick[data-grupo]').forEach((g) => {
+                const mk = g.closest('.card').querySelector('.mk');
+                g.querySelectorAll('.mk-btn').forEach((b) => b.addEventListener('click', () => {
+                    g.querySelectorAll('.mk-btn').forEach((x) => x.classList.toggle('activo', x === b));
+                    pintar(mk, b.dataset.m);
+                    if (g.dataset.grupo === 'an') anMuestras(b.dataset.m);
+                    b.blur();
+                }));
+            });
+
+            // Anatomía: cada papel ilumina las piezas que pinta
+            const mkAn = document.getElementById('mkAn');
+            const anMuestras = (m) => document.querySelectorAll('#anRoles .an-sw').forEach((i) => { i.style.background = MARCAS[m][i.dataset.sw] || ''; });
+            anMuestras('tf');
+            document.querySelectorAll('.an-rol').forEach((b) => b.addEventListener('click', () => {
+                const on = b.classList.contains('activo');
+                document.querySelectorAll('.an-rol').forEach((x) => x.classList.toggle('activo', !on && x === b));
+                mkAn.classList.toggle('foco', !on);
+                mkAn.querySelectorAll('[data-rol]').forEach((p) => p.classList.toggle('lit', !on && p.dataset.rol === b.dataset.rol));
+                b.blur();
+            }));
+
+            // Dónde vive cada color
+            const dvPintar = (b) => {
+                document.querySelectorAll('.dv-it').forEach((x) => x.classList.toggle('activo', x === b));
+                document.getElementById('dvTit').textContent = b.querySelector('strong').textContent;
+                document.getElementById('dvCode').innerHTML = b.querySelector('code').innerHTML;
+            };
+            document.querySelectorAll('.dv-it').forEach((b) => b.addEventListener('click', () => { dvPintar(b); b.blur(); }));
+            dvPintar(document.querySelector('.dv-it'));
+
+            // Tipografía
+            document.querySelectorAll('.ty-btn').forEach((b) => b.addEventListener('click', () => {
+                document.querySelectorAll('.ty-btn').forEach((x) => x.classList.toggle('activo', x === b));
+                document.getElementById('tyCard').style.fontFamily = "'" + (b.dataset.f === 'Aptos' ? 'Aptos Demo' : b.dataset.f) + "', 'Segoe UI', sans-serif";
+                b.blur();
+            }));
+
+            // Juego de contraste
+            const ctCuenta = () => { document.getElementById('ctCuenta').textContent = document.querySelectorAll('.ct-card.ver').length + ' de 8 reveladas'; };
+            document.querySelectorAll('.ct-card').forEach((c) => c.addEventListener('click', () => { c.classList.toggle('ver'); ctCuenta(); c.blur(); }));
+            document.getElementById('ctTodo').addEventListener('click', (e) => { document.querySelectorAll('.ct-card').forEach((c) => c.classList.add('ver')); ctCuenta(); e.currentTarget.blur(); });
+            document.getElementById('ctReset').addEventListener('click', (e) => { document.querySelectorAll('.ct-card').forEach((c) => c.classList.remove('ver')); ctCuenta(); e.currentTarget.blur(); });
+
+            // Botón «?» del cierre: copia la liga guardada en data-liga
+            document.querySelectorAll('.liga-btn').forEach((b) => b.addEventListener('click', () => {
+                const liga = b.dataset.liga;
+                const listo = () => { b.textContent = '✓'; b.classList.add('copiado'); setTimeout(() => { b.textContent = '?'; b.classList.remove('copiado'); }, 1500); };
+                const respaldo = () => { const a = document.createElement('textarea'); a.value = liga; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch (e) {} a.remove(); listo(); };
+                if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(liga).then(listo, respaldo); else respaldo();
+                b.blur();
+            }));
+        })();
+
+        // Inicializar en la diapositiva de la URL (#4) o en la portada
+        function slideFromHash() {
+            const n = parseInt(location.hash.slice(1), 10);
+            return Number.isInteger(n) ? n - 1 : 0;
+        }
+        window.addEventListener('hashchange', () => updateSlide(slideFromHash()));
+        updateSlide(slideFromHash());
+    </script>
+</body>
+
+</html>
