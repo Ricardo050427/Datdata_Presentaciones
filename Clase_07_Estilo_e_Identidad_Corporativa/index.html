@@ -2361,6 +2361,15 @@
         .sy-code code b { color: #c2410c; }
 
         /* Biblioteca (Taller 1) */
+        .dl-btn { display: inline-block; margin-top: 4px; padding: 6px 14px; border-radius: 10px; background: var(--wine-base); font-size: 0.92rem; font-weight: 800; color: #ffffff !important; text-decoration: none; }
+        .dl-btn:hover { background: var(--wine-bright); }
+        .shot.web { border-color: #dde3eb; }
+        .lib-flecha { align-self: center; font-size: 0.9rem; line-height: 1; color: var(--accent-emerald); }
+        #datosCanal { white-space: pre; tab-size: 16; font-size: 0.9rem; line-height: 1.45; }
+        .tm-graf { display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 10px; background: #ffffff; border: 1px solid #dde3eb; }
+        .tm-graf span { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 8px; }
+        .tm-graf small { font-family: 'Segoe UI', sans-serif; font-size: 0.8rem; color: #1B2635; text-align: right; }
+        .tm-graf em { display: block; height: 14px; border-radius: 3px; }
         .lib { display: flex; flex-direction: column; gap: 8px; padding: 12px; border-radius: 10px; background: #ffffff; border: 1px solid var(--accent-emerald-border); }
         .lib-f, .lib-doc { display: flex; align-items: center; gap: 8px; font-size: 1rem; color: #27272a; }
         .lib-doc { margin-left: 26px; }
@@ -2463,6 +2472,43 @@
         .ty-dot.wa { background: #F2B705; }
         .ty-dot.ko { background: #E03131; }
 
+        /* Artefactos de Claude */
+        .af-grid { display: grid; grid-template-columns: 1fr 420px; gap: 18px; align-items: start; }
+        .af-demo { display: grid; grid-template-columns: 220px 1fr; gap: 10px; padding: 12px; background: #fbf9f8; }
+        .af-chat { display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 10px; background: #ffffff; border: 1px solid var(--card-border); }
+        .af-burb { padding: 7px 10px; border-radius: 10px; font-size: 0.82rem; line-height: 1.35; }
+        .af-burb.yo { align-self: flex-end; background: #f1ece9; color: #27272a; }
+        .af-burb.cl { background: #ffffff; border: 1px solid #e8e2de; color: #3f3f46; }
+        .af-panel { display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 10px; background: #ffffff; border: 1px solid var(--card-border); }
+        .af-bar { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; }
+        .af-bar b { margin-right: auto; color: #27272a; }
+        .af-bar span { padding: 3px 9px; border-radius: 7px; border: 1px solid #e4e4e7; color: #52525b; font-weight: 700; }
+        .af-vista { display: flex; flex-direction: column; gap: 8px; padding: 10px; border-radius: 8px; background: #F6F4F3; border: 1px solid #EBE7E5; }
+        .af-sw { display: flex; gap: 5px; }
+        .af-sw i { width: 34px; height: 22px; border-radius: 5px; }
+        .af-kp { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .af-kp span { display: flex; flex-direction: column; padding: 6px 8px; border-radius: 7px; background: #ffffff; border: 1px solid #EBE7E5; border-top: 3px solid #E8590C; }
+        .af-kp small { font-size: 0.62rem; font-weight: 700; color: #6B7A86; }
+        .af-kp b { font-size: 0.95rem; color: #1F2933; }
+        .af-br { display: flex; flex-direction: column; gap: 5px; padding: 8px; border-radius: 7px; background: #ffffff; border: 1px solid #EBE7E5; }
+        .af-br em { display: block; height: 9px; border-radius: 2px; background: #E8590C; }
+        .af-demo [data-z] { transition: opacity 0.25s ease, box-shadow 0.25s ease; }
+        .af-demo:not([data-p="0"]) [data-z]:not(.lit):not(:has(.lit)) { opacity: 0.25; }
+        .af-demo [data-z].lit { box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px #e11d48; }
+        .af-pasos { display: flex; flex-direction: column; gap: 7px; }
+        .af-paso { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border: 1.5px solid var(--card-border); border-radius: 10px; background: #ffffff; font: inherit; text-align: left; cursor: pointer; }
+        .af-paso.activo { border-color: #e11d48; background: #fff1f2; }
+        .af-paso div { display: flex; flex-direction: column; gap: 1px; }
+        .af-paso strong { font-size: 0.95rem; color: #27272a; }
+        .af-paso span:not(.co-n) { font-size: 0.82rem; line-height: 1.3; color: var(--text-sub); }
+        .aq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+        .aq-tipos { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+        .aq-it { display: flex; flex-direction: column; gap: 3px; padding: 12px 14px; border-radius: 12px; background: #ffffff; border: 1px solid var(--card-border); }
+        .aq-it strong { font-size: 1rem; color: #27272a; }
+        .aq-it span { font-size: 0.86rem; line-height: 1.35; color: var(--text-sub); }
+        .aq-fig { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+        .aq-fig figcaption { font-size: 0.85rem; line-height: 1.35; color: var(--text-dim); }
+
         /* Juego · ¿Se lee o no se lee? */
         .ct-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
         .ct-card { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 10px; border: 1.5px solid var(--card-border); border-radius: 14px; background: #ffffff; font: inherit; text-align: left; cursor: pointer; }
@@ -2508,7 +2554,7 @@
     <main class="deck" id="deck">
 
         <!-- ===================================================================
-             DECK CONTAINER (12 DIAPOSITIVAS • ESTILO E IDENTIDAD CORPORATIVA)
+             DECK CONTAINER (15 DIAPOSITIVAS • ESTILO E IDENTIDAD CORPORATIVA)
              =================================================================== -->
 
         <!-- ===================================================================
@@ -2580,7 +2626,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge ">Agenda</span>
-                    <span class="slide-number">02 / 12</span>
+                    <span class="slide-number">02 / 15</span>
                 </div>
             </header>
 
@@ -2591,10 +2637,10 @@
                 </div>
 
                 <ol class="agenda cuatro">
-                    <li><span class="agenda-num">1</span><strong>Tu biblioteca de marcas</strong><span class="agenda-gain">Dos manuales en una carpeta</span></li>
+                    <li><span class="agenda-num">1</span><strong>Tu biblioteca de marcas</strong><span class="agenda-gain">La marca sale de una imagen</span></li>
                     <li><span class="agenda-num">2</span><strong>La marca del cliente</strong><span class="agenda-gain">Todo el reporte en un prompt</span></li>
                     <li><span class="agenda-num">3</span><strong>Modo oscuro</strong><span class="agenda-gain">Otra marca, otro modo</span></li>
-                    <li><span class="agenda-num">4</span><strong>Tus dos versiones</strong><span class="agenda-gain">Claro institucional y oscuro ejecutivo</span></li>
+                    <li><span class="agenda-num">4</span><strong>Tu tema de Power BI</strong><span class="agenda-gain">Todo visual nuevo nace con la marca</span></li>
                 </ol>
                 
                 <div class="rule-callout">
@@ -2615,38 +2661,42 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">03 / 12</span>
+                    <span class="slide-number">03 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
                     <h2>Taller 1 · Tu biblioteca de <span class="wine-gradient">marcas</span></h2>
-                    <p class="slide-subtitle">Abre tu .pbip de la Clase 06, guarda con Ctrl+S y, en un chat nuevo, lanza este prompt.</p>
+                    <p class="slide-subtitle">Tu cliente no tiene manual de marca: solo su página web. La IA lo escribe a partir de una captura.</p>
                 </div>
 
                 <div class="taller-grid t1-grid">
                     <div class="taller-main">
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Abre tu .pbip de la Clase 06 y descarga la página del cliente</strong><span><a class="dl-btn" href="banco-brujula-web.png" download="banco-brujula-web.png">⬇ Descargar la página de Banco Brújula</a></span></div></li>
+                        </ol>
                         <div class="prompt-copy">
                             <div class="prompt-copy-head">
-                                <span>Copia y pega en tu agente</span>
+                                <span>En un chat nuevo, copia y pega</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text">Quiero una biblioteca de marcas para mis reportes. En la carpeta de mi proyecto crea una carpeta «marcas» con dos manuales de marca. El primero, «tornillo-flojo.md», con la marca que mi reporte usa hoy: revisa sus colores y anota el color principal, los secundarios, los fondos, los textos, los bordes y la tipografía, y para qué se usa cada uno. El segundo, «banco-brujula.md», para mi cliente Banco Brújula: azul marino #0B2E59 como color principal, dorado #C9A227 como secundario, fondo de página #F5F7FA, tarjetas blancas, texto #1B2635, tipografía Segoe UI y bordes redondeados de 8 px. En los dos, deja fijos el verde, el amarillo y el rojo del semáforo. No cambies nada del reporte.</p>
+                            <p class="prompt-copy-text">Quiero una biblioteca de marcas para mis reportes. En la carpeta de mi proyecto crea una carpeta «marcas» con dos manuales de marca. El primero, «tornillo-flojo.md», con la marca que mi reporte usa hoy: revisa sus colores y anota el color principal, los secundarios, los fondos, los textos, los bordes y la tipografía, y para qué se usa cada uno. El segundo, «banco-brujula.md», para mi cliente Banco Brújula: no tengo su manual de marca, solo esta captura de su página web; saca de ahí su color principal, el secundario, los fondos, los textos, los bordes, la tipografía y el redondeo de las esquinas. En los dos, deja fijos el verde, el amarillo y el rojo del semáforo. No cambies nada del reporte.</p>
                         </div>
                         <ol class="step-list">
-                            <li><span class="step-n">1</span><div><strong>Pega el prompt y no toques Power BI</strong><span>Solo escribe dos archivos: tu reporte no cambia.</span></div></li>
-                            <li><span class="step-n">2</span><div><strong>Abre la carpeta «marcas»</strong><span>Junto a tu .pbip. Ábrelos con el Bloc de notas.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Arrastra la imagen al chat y lanza el prompt</strong><span>O escribe dónde la guardaste. Tu reporte no cambia.</span></div></li>
                         </ol>
                     </div>
 
                     <div class="check-card">
-                        <span class="check-title">Lo que debes ver</span>
+                        <span class="check-title">De una imagen a un manual</span>
+                        <img class="shot web" src="banco-brujula-web.png" alt="Página web de Banco Brújula" />
+                        <span class="lib-flecha">▼</span>
                         <div class="lib">
                             <div class="lib-f"><span class="lib-ic">📁</span><b>marcas</b></div>
                             <div class="lib-doc"><span class="lib-ic">📄</span><b>tornillo-flojo.md</b><span class="lib-sw"><i style="background:#321C11"></i><i style="background:#E8590C"></i><i style="background:#9AA5B1"></i><i style="background:#F6F4F3"></i><i style="background:#1F2933"></i></span></div><div class="lib-doc"><span class="lib-ic">📄</span><b>banco-brujula.md</b><span class="lib-sw"><i style="background:#0B2E59"></i><i style="background:#0B2E59"></i><i style="background:#C9A227"></i><i style="background:#F5F7FA"></i><i style="background:#1B2635"></i></span></div>
                         </div>
-                        <p class="check-note">Prueba real, 3 minutos. La IA encontró 50 colores distintos en tu reporte y, como el azul marino del banco no se lee sobre fondo oscuro, propuso un azul más claro para ese modo.</p>
+                        <p class="check-note">Prueba real, 2 minutos. La IA leyó los píxeles de la captura y sacó los colores exactos del banco, hasta el redondeo de 8 px de sus tarjetas. En tu reporte encontró 50 colores distintos.</p>
                     </div>
                 </div>
             </div>
@@ -2664,7 +2714,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">04 / 12</span>
+                    <span class="slide-number">04 / 15</span>
                 </div>
             </header>
 
@@ -2714,7 +2764,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">05 / 12</span>
+                    <span class="slide-number">05 / 15</span>
                 </div>
             </header>
 
@@ -2760,7 +2810,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">06 / 12</span>
+                    <span class="slide-number">06 / 15</span>
                 </div>
             </header>
 
@@ -2807,7 +2857,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">07 / 12</span>
+                    <span class="slide-number">07 / 15</span>
                 </div>
             </header>
 
@@ -2841,10 +2891,98 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 08: [JUEGO] ¿SE LEE O NO SE LEE?
+             SLIDE 08: [TEORÍA] CÓMO FUNCIONA UN ARTEFACTO
+             Clic en cada paso: se ilumina la parte de la pantalla que le corresponde.
+             =================================================================== -->
+        <section class="slide" data-slide="8" data-type="Teoría: Cómo funciona un artefacto">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Artefactos de Claude</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">08 / 15</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Cómo funciona un <span class="wine-gradient">artefacto</span></h2>
+                    <p class="slide-subtitle">Cuando le pides a Claude algo que se ve, no te lo describe: lo construye en un panel junto al chat.</p>
+                </div>
+
+                <div class="af-grid">
+                    <div class="card af-demo" id="afDemo" data-p="0">
+                        <div class="af-chat" data-z="1 4">
+                            <span class="af-burb yo">Propón una paleta para mi ferretería, con un tablero de muestra.</span>
+                            <span class="af-burb cl">Listo: tres propuestas, cada una con su tablero y su modo oscuro.</span>
+                            <span class="af-burb yo">Hazla más sobria.</span>
+                        </div>
+                        <div class="af-panel" data-z="2 3 4">
+                            <div class="af-bar"><b>Tres paletas</b><span data-z="4">Versión 3 ▾</span><span data-z="2">Código</span><span data-z="5">Compartir</span></div>
+                            <div class="af-vista" data-z="3">
+                                <div class="af-sw"><i style="background:#E8590C"></i><i style="background:#321C11"></i><i style="background:#F6F4F3"></i><i style="background:#1F2933"></i></div>
+                                <div class="af-kp"><span><small>KPI</small><b>$26.7 M</b></span><span><small>KPI</small><b>27.3 %</b></span><span><small>KPI</small><b>95.8 %</b></span></div>
+                                <div class="af-br"><em style="width:100%"></em><em style="width:39%"></em><em style="width:30%"></em><em style="width:12%"></em></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="af-pasos" id="afPasos">
+                        <button type="button" class="af-paso" data-p="1"><span class="co-n">1</span><div><strong>Pides algo que se ve</strong><span>Una página, una gráfica, un diagrama, una paleta.</span></div></button><button type="button" class="af-paso" data-p="2"><span class="co-n">2</span><div><strong>Claude escribe el código</strong><span>HTML, CSS y JavaScript, como una página web pequeña.</span></div></button><button type="button" class="af-paso" data-p="3"><span class="co-n">3</span><div><strong>El panel lo ejecuta</strong><span>Funciona de verdad: botones, interruptores, cálculos.</span></div></button><button type="button" class="af-paso" data-p="4"><span class="co-n">4</span><div><strong>Pides cambios y nace otra versión</strong><span>Cada cambio se guarda; puedes volver a la anterior.</span></div></button><button type="button" class="af-paso" data-p="5"><span class="co-n">5</span><div><strong>Lo compartes con una liga</strong><span>Quien la abre lo usa sin instalar nada.</span></div></button>
+                    </div>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>Lo que no hace:</strong> vive aislado. No ve tus archivos ni tu Power BI: trabaja con lo que le escribes, pegas o adjuntas. Aplicar la marca al reporte sigue siendo trabajo de tu agente.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 09: [TEORÍA] QUÉ PUEDES CREAR CON UN ARTEFACTO
+             =================================================================== -->
+        <section class="slide" data-slide="9" data-type="Teoría: Qué puedes crear">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Teoría • Artefactos de Claude</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge purple">Teoría</span>
+                    <span class="slide-number">09 / 15</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Qué puedes crear con un <span class="wine-gradient">artefacto</span></h2>
+                    <p class="slide-subtitle">Seis tipos de artefacto, y lo que cada uno aporta cuando trabajas una marca.</p>
+                </div>
+
+                <div class="aq-grid">
+                    <div class="aq-tipos">
+                        <div class="aq-it"><strong>Páginas web</strong><span>Una guía de marca para mandarle al cliente.</span></div><div class="aq-it"><strong>Apps interactivas</strong><span>Un comparador de paletas con botón claro y oscuro.</span></div><div class="aq-it"><strong>Documentos</strong><span>El manual de marca en Markdown, listo para «marcas».</span></div><div class="aq-it"><strong>Gráficas</strong><span>El tablero de muestra con los colores de la propuesta.</span></div><div class="aq-it"><strong>Diagramas</strong><span>El mapa de qué color va en cada parte del reporte.</span></div><div class="aq-it"><strong>Imágenes SVG</strong><span>Íconos y un logotipo sencillo para el encabezado.</span></div>
+                    </div>
+                    <figure class="aq-fig">
+                        <img class="shot" src="artefacto.png" alt="Artefacto con tres propuestas de paleta para Tornillo Flojo" />
+                        <figcaption>Ejemplo real: tres paletas para la ferretería, cada una con su tablero de muestra, su modo oscuro, su contraste y su manual.</figcaption>
+                    </figure>
+                </div>
+                
+                <div class="rule-callout">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="2.4" style="flex-shrink:0;"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>
+                    <span><strong>El orden que conviene:</strong> en el artefacto se explora y se aprueba con el cliente, porque cambia en segundos. En Power BI se aplica una sola vez, porque tarda minutos.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 10: [JUEGO] ¿SE LEE O NO SE LEE?
              El chat vota Sí o No en cada combinación; luego se revela el contraste.
              =================================================================== -->
-        <section class="slide" data-slide="8" data-type="Juego: ¿Se lee o no se lee?">
+        <section class="slide" data-slide="10" data-type="Juego: ¿Se lee o no se lee?">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2852,7 +2990,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Juego</span>
-                    <span class="slide-number">08 / 12</span>
+                    <span class="slide-number">10 / 15</span>
                 </div>
             </header>
 
@@ -2874,9 +3012,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 09: [TALLER 3] OTRA MARCA, MODO OSCURO
+             SLIDE 11: [TALLER 3] OTRA MARCA, MODO OSCURO
              =================================================================== -->
-        <section class="slide" data-slide="9" data-type="Taller 3: Modo oscuro">
+        <section class="slide" data-slide="11" data-type="Taller 3: Modo oscuro">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2884,7 +3022,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">09 / 12</span>
+                    <span class="slide-number">11 / 15</span>
                 </div>
             </header>
 
@@ -2921,10 +3059,10 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 10: [TEORÍA] CLARO CONTRA OSCURO
+             SLIDE 12: [TEORÍA] CLARO CONTRA OSCURO
              Botones: la maqueta cambia de modo. Las cinco reglas son las que siguió la IA.
              =================================================================== -->
-        <section class="slide" data-slide="10" data-type="Teoría: Claro contra oscuro">
+        <section class="slide" data-slide="12" data-type="Teoría: Claro contra oscuro">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -2932,7 +3070,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Teoría</span>
-                    <span class="slide-number">10 / 12</span>
+                    <span class="slide-number">12 / 15</span>
                 </div>
             </header>
 
@@ -2972,23 +3110,84 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 11: [TALLER 4] TUS DOS VERSIONES Y TU BIBLIOTECA
+             SLIDE 13: [TALLER 4] TU TEMA DE POWER BI
              =================================================================== -->
-        <section class="slide" data-slide="11" data-type="Taller 4: Tus dos versiones">
+        <section class="slide" data-slide="13" data-type="Taller 4: Tu tema de Power BI">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
-                    <span class="header-brand-title">Taller 4 • Entregable</span>
+                    <span class="header-brand-title">Taller 4 • Tema de Power BI</span>
                 </div>
                 <div class="badge-group">
                     <span class="badge gold">Taller</span>
-                    <span class="slide-number">11 / 12</span>
+                    <span class="slide-number">13 / 15</span>
                 </div>
             </header>
 
             <div class="slide-content">
                 <div>
-                    <h2>Taller 4 · Tus dos versiones y tu <span class="wine-gradient">biblioteca</span></h2>
+                    <h2>Taller 4 · Tu tema de <span class="wine-gradient">Power BI</span></h2>
+                    <p class="slide-subtitle">El lugar central que tu reporte tenía vacío. Con el tema, todo visual nuevo nace con la marca, sin IA.</p>
+                </div>
+
+                <div class="taller-grid t2-grid">
+                    <div class="taller-main">
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Copia y pega en tu agente</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text">Convierte cada manual de mi carpeta «marcas» en un tema de Power BI: un archivo .json por marca, junto a su manual, con los colores de datos, los fondos, los textos, la tipografía y el estilo de los visuales nativos. No cambies nada del reporte.</p>
+                        </div>
+                        <ol class="step-list">
+                            <li><span class="step-n">1</span><div><strong>Abre un archivo nuevo de Power BI</strong><span>Archivo → Nuevo. Tu reporte del curso no se toca.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Importa el tema del banco</strong><span>Vista → Temas → Buscar temas → marcas\banco-brujula.json.</span></div></li>
+                            <li><span class="step-n">3</span><div><strong>Pega estos datos y haz una gráfica de barras</strong><span>Inicio → Especificar datos → Ctrl+V → Cargar.</span></div></li>
+                        </ol>
+                        <div class="prompt-copy">
+                            <div class="prompt-copy-head">
+                                <span>Datos para pegar</span>
+                                <button class="copy-prompt-btn" type="button">Copiar</button>
+                            </div>
+                            <p class="prompt-copy-text" id="datosCanal">Canal	Ventas
+Mostrador	14819550
+WhatsApp	5709453
+Venta en obra	4461844
+Sitio web	1758112</p>
+                        </div>
+                    </div>
+
+                    <div class="check-card">
+                        <span class="check-title">Lo que debes ver</span>
+                        <div class="lib">
+                            <div class="lib-f"><span class="lib-ic">📁</span><b>marcas</b></div>
+                            <div class="lib-doc"><span class="lib-ic">📄</span><b>tornillo-flojo.md</b></div><div class="lib-doc"><span class="lib-ic">🎨</span><b>tornillo-flojo.json</b></div><div class="lib-doc"><span class="lib-ic">📄</span><b>banco-brujula.md</b></div><div class="lib-doc"><span class="lib-ic">🎨</span><b>banco-brujula.json</b></div>
+                        </div>
+                        <div class="tm-graf"><span><small>Mostrador</small><em style="width:100%;background:#0B2E59"></em></span><span><small>WhatsApp</small><em style="width:39%;background:#0B2E59"></em></span><span><small>Venta en obra</small><em style="width:30%;background:#0B2E59"></em></span><span><small>Sitio web</small><em style="width:12%;background:#0B2E59"></em></span></div>
+                        <p class="check-note">Prueba real, poco más de 1 minuto: dos temas con 8 colores de datos, tipografía y estilo para tarjetas, tablas, segmentadores y botones.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================================================
+             SLIDE 14: [ENTREGABLE] TUS DOS VERSIONES Y TU BIBLIOTECA
+             =================================================================== -->
+        <section class="slide" data-slide="14" data-type="Entregable: Tus dos versiones">
+            <header class="slide-header">
+                <div class="header-brand">
+                    <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
+                    <span class="header-brand-title">Entregable • Portafolio</span>
+                </div>
+                <div class="badge-group">
+                    <span class="badge gold">Entregable</span>
+                    <span class="slide-number">14 / 15</span>
+                </div>
+            </header>
+
+            <div class="slide-content">
+                <div>
+                    <h2>Tus dos versiones y tu <span class="wine-gradient">biblioteca</span></h2>
                     <p class="slide-subtitle">El mismo dashboard con dos marcas y dos modos. Y una carpeta que sirve para cualquier proyecto.</p>
                 </div>
 
@@ -2998,14 +3197,14 @@
                     <div class="vs-side">
                         <ol class="step-list">
                             <li><span class="step-n">1</span><div><strong>Guarda tus dos capturas</strong><span>Son el entregable de hoy para tu portafolio.</span></div></li>
-                            <li><span class="step-n">2</span><div><strong>Copia la carpeta «marcas»</strong><span>A cualquier proyecto nuevo: la IA ya sabe vestirlo.</span></div></li>
+                            <li><span class="step-n">2</span><div><strong>Copia la carpeta «marcas»</strong><span>A cualquier proyecto nuevo: manuales y temas listos.</span></div></li>
                         </ol>
                         <div class="prompt-copy">
                             <div class="prompt-copy-head">
                                 <span>Para tu siguiente cliente</span>
                                 <button class="copy-prompt-btn" type="button">Copiar</button>
                             </div>
-                            <p class="prompt-copy-text">En mi carpeta «marcas», crea el manual de marca de [nombre del cliente]: color principal [#hex], secundario [#hex], fondo [#hex], texto [#hex] y tipografía [fuente], con su versión oscura. Deja fijo el semáforo y no cambies nada del reporte.</p>
+                            <p class="prompt-copy-text">Te paso el logotipo o una captura de la página web de [nombre del cliente]. En mi carpeta «marcas», crea su manual de marca con su versión oscura y su tema de Power BI. Deja fijo el semáforo y no cambies nada del reporte.</p>
                         </div>
                     </div>
                 </div>
@@ -3013,9 +3212,9 @@
         </section>
 
         <!-- ===================================================================
-             SLIDE 12: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
+             SLIDE 15: [CIERRE] PREGUNTAS Y PRÓXIMA CLASE
              =================================================================== -->
-        <section class="slide" data-slide="12" data-type="Cierre: Preguntas">
+        <section class="slide" data-slide="15" data-type="Cierre: Preguntas">
             <header class="slide-header">
                 <div class="header-brand">
                     <img src="logo.png" alt="Datdata Logo" onerror="this.src='../../03_Assets/logo.png'" />
@@ -3023,7 +3222,7 @@
                 </div>
                 <div class="badge-group">
                     <span class="badge purple">Cierre</span>
-                    <span class="slide-number">12 / 12</span>
+                    <span class="slide-number">15 / 15</span>
                 </div>
             </header>
             <div class="slide-content">
@@ -3078,7 +3277,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         </button>
 
-        <span class="nav-counter" id="navCounter">01 / 12</span>
+        <span class="nav-counter" id="navCounter">01 / 15</span>
 
         <button class="nav-btn" id="nextBtn" title="Siguiente Diapositiva (Flecha Derecha / Espacio)">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
@@ -3348,6 +3547,16 @@
             };
             document.querySelectorAll('.dv-it').forEach((b) => b.addEventListener('click', () => { dvPintar(b); b.blur(); }));
             dvPintar(document.querySelector('.dv-it'));
+
+            // Cómo funciona un artefacto: cada paso ilumina las partes con su número en data-z
+            const afDemo = document.getElementById('afDemo');
+            document.querySelectorAll('.af-paso').forEach((b) => b.addEventListener('click', () => {
+                const on = b.classList.contains('activo');
+                document.querySelectorAll('.af-paso').forEach((x) => x.classList.toggle('activo', !on && x === b));
+                afDemo.dataset.p = on ? '0' : b.dataset.p;
+                afDemo.querySelectorAll('[data-z]').forEach((z) => z.classList.toggle('lit', !on && z.dataset.z.split(' ').includes(b.dataset.p) && !z.querySelector('[data-z~="' + b.dataset.p + '"]')));
+                b.blur();
+            }));
 
             // Tipografía
             document.querySelectorAll('.ty-btn').forEach((b) => b.addEventListener('click', () => {
